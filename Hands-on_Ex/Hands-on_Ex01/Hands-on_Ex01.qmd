@@ -17,7 +17,6 @@ pacman::p_load(tidyverse)
 
 ```{r}
 exam_data <- read_csv("data/Exam_data.csv")
-
 ```
 
 # Plotting a simple bar chart
@@ -27,5 +26,60 @@ exam_data <- read_csv("data/Exam_data.csv")
 # echo: false
 
 ggplot(data = exam_data,
-       aes(x = RACE)) + geom_bar()
+       aes(x = RACE)) + geom_bar() + coord_flip()
+```
+
+# Plotting a histogram
+
+```{r}
+ggplot(data=exam_data, aes(x = MATHS, fill = GENDER)) +
+  geom_histogram(bins=20, 
+         color="grey30") +
+  ggtitle("Distribution of Maths scores")
+
+```
+
+
+# Plotting a boxplot
+
+```{r}
+ggplot(data=exam_data, 
+       aes(y = MATHS, 
+           x= GENDER)) +
+  geom_boxplot(notch=TRUE)
+```
+
+# Plotting a scatterplot
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x= MATHS, y=ENGLISH)) +
+  geom_point() +
+  geom_smooth(method=lm, 
+             linewidth=0.5)
+```
+
+# Plotting Facets (Trellis plot)
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x= MATHS)) +
+  geom_histogram(bins=20) +
+    facet_wrap(~ CLASS)
+```
+
+# Plotting a line graph (English Vs Science Scores by class)
+
+```{r}
+
+exam_long <- exam_data %>%
+  pivot_longer(cols = c(SCIENCE, ENGLISH),
+               names_to = "Subject",
+               values_to = "Score")
+
+ggplot(data = exam_long, 
+       aes(x = CLASS, y = Score, color = Subject, group = Subject)) +
+  geom_line() +
+  labs(title = "Science and English Scores by Class")
+
 ```
