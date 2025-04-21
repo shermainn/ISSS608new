@@ -39,20 +39,76 @@
     "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html",
     "title": "Hands-on Exercise 2",
     "section": "",
-    "text": "In this exercise, I will be learning on how to:"
+    "text": "In this exercise, I will be learning on how to:\n\nControl the placement of annotation on a graph using functions provided in ggrepel package\nCreate professional publication quality figures using functions provided in ggthemes and hrbrthemes packages\nPlot composite figures by combining ggplot2 graphs using patchwork package"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#install-and-load-required-libraries",
     "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#install-and-load-required-libraries",
     "title": "Hands-on Exercise 2",
-    "section": "Install and Load required libraries",
-    "text": "Install and Load required libraries\nCode chunk below is used to check if all 4 R packages (ggrepel, ggthemes, hrbrthemes & patchwork) are installed and loaded onto the environment.\n\npacman::p_load(ggrepel, patchwork, \n               ggthemes, hrbrthemes,\n               tidyverse)"
+    "section": "2.1. Install and Load required libraries",
+    "text": "2.1. Install and Load required libraries\nCode chunk below is used to check if all 4 R packages (ggrepel, ggthemes, hrbrthemes & patchwork) are installed and loaded onto the environment.\n\npacman::p_load(ggrepel, patchwork, \n               ggthemes, hrbrthemes,\n               tidyverse)"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#import-data",
     "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#import-data",
     "title": "Hands-on Exercise 2",
-    "section": "Import data",
-    "text": "Import data\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
+    "section": "2.2. Import data",
+    "text": "2.2. Import data\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#boxplot",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#boxplot",
+    "title": "Hands-on Exercise 2",
+    "section": "7.1. Boxplot",
+    "text": "7.1. Boxplot"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#violin-plot",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#violin-plot",
+    "title": "Hands-on Exercise 2",
+    "section": "7.2. Violin Plot",
+    "text": "7.2. Violin Plot"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#notched-box-plot",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#notched-box-plot",
+    "title": "Hands-on Exercise 2",
+    "section": "7.3. Notched Box Plot",
+    "text": "7.3. Notched Box Plot"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#dot-plot",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#dot-plot",
+    "title": "Hands-on Exercise 2",
+    "section": "7.4. Dot Plot",
+    "text": "7.4. Dot Plot"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#pie-chart-and-bar-chart",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#pie-chart-and-bar-chart",
+    "title": "Hands-on Exercise 2",
+    "section": "7.5. Pie Chart and Bar Chart",
+    "text": "7.5. Pie Chart and Bar Chart"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#raincloud-plot",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#raincloud-plot",
+    "title": "Hands-on Exercise 2",
+    "section": "7.6. Raincloud Plot",
+    "text": "7.6. Raincloud Plot"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#diverging-stacked-bar-chart",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#diverging-stacked-bar-chart",
+    "title": "Hands-on Exercise 2",
+    "section": "7.7. Diverging Stacked Bar Chart",
+    "text": "7.7. Diverging Stacked Bar Chart"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#packed-bars",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#packed-bars",
+    "title": "Hands-on Exercise 2",
+    "section": "7.8. Packed Bars",
+    "text": "7.8. Packed Bars"
   }
 ]
