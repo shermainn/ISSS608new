@@ -2,3 +2,29 @@
 title: "Hands-on Exercise 2"
 author: "Shermainn"
 ---
+
+In this exercise, I will be learning on how to:
+
+1.  Control the placement of annotation on a graph using functions provided in ggrepel package
+2.  Create professional publication quality figures using functions provided in ggthemes and hrbrthemes packages
+3.  Plot composite figures by combining ggplot2 graphs using patchwork package
+
+# Getting Started
+
+## Install and Load required libraries
+
+Code chunk below is used to check if all 4 R packages (ggrepel, ggthemes, hrbrthemes & patchwork) are installed and loaded onto the environment.
+
+```{r}
+pacman::p_load(ggrepel, patchwork, 
+               ggthemes, hrbrthemes,
+               tidyverse) 
+```
+
+## Import data
+
+```{r}
+exam_data <- read_csv("data/Exam_data.csv")
+```
+
+# Graph 1
