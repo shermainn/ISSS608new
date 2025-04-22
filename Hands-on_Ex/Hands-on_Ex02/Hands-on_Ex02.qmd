@@ -313,13 +313,13 @@ ggplot(exam_long, aes(x = Subject, y = Score, fill = Subject)) +
   theme(legend.position = "none") 
 ```
 
-### Top 5% of students (using ggrepel)
+### Students that scored more than 90 in each subject (using ggrepel)
 
-From the results, it is seen that there are no students that scored more than 90 in Math but there are 5 students and 3 students that scored above 90 for English and Science respectively. It is also shown that there are more female students (4) who scored 90 as compared to male students (only 1) in English and there is more male students (2) that scored more than 90 in Science as compared to female students (only 1).
+From the results, it is seen that there are 17 students from each gender that scored more than 90 in Math but there are 5 students and 3 students that scored above 90 for English and Science respectively. It is also shown that there are more female students (4) who scored 90 as compared to male students (only 1) in English and there is more male students (2) that scored more than 90 in Science as compared to female students (only 1).
 
 ```{r}
 exam_long <- exam_data %>%
-  pivot_longer(cols = c(ENGLISH, MATHS, SCIENCE),
+  pivot_longer(cols = c(ENGLISH),
                names_to = "Subject",
                values_to = "Score")
 
@@ -327,7 +327,7 @@ exam_long <- exam_data %>%
 highlight_data <- exam_long %>%
   filter(Score > 90)
 
-ggplot(exam_long, aes(x = Subject, y = Score, fill = GENDER)) +
+e2 <- ggplot(exam_long, aes(x = Subject, y = Score, fill = GENDER)) +
   geom_violin(trim = FALSE, alpha = 0.7, position = position_dodge(width = 0.9)) +
   geom_jitter(
     aes(color = GENDER),
@@ -347,21 +347,133 @@ ggplot(exam_long, aes(x = Subject, y = Score, fill = GENDER)) +
     label.padding = 0.3,     # Padding inside the box
     label.size = 0.3,        # Thickness of the box border
     fill = "white",          # Background color of the label
-    max.overlaps = 30,
+    max.overlaps = 60,
     show.legend = FALSE
   ) +
   labs(
-    title = "Score Distribution students based on Gender",
-    subtitle = "Labels shown for students who scored above 90",
+    title = "English Scores based on Gender",
+    subtitle = "Labels for students who scored above 90",
     x = "Subject",
     y = "Score"
   ) 
+e2#
+```
+
+```{r}
+exam_long <- exam_data %>%
+  pivot_longer(cols = c(MATHS),
+               names_to = "Subject",
+               values_to = "Score")
+
+
+highlight_data <- exam_long %>%
+  filter(Score > 90)
+
+m2 <- ggplot(exam_long, aes(x = Subject, y = Score, fill = GENDER)) +
+  geom_violin(trim = FALSE, alpha = 0.7, position = position_dodge(width = 0.9)) +
+  geom_jitter(
+    aes(color = GENDER),
+    alpha = 0.3,
+    size = 1,
+    position = position_jitterdodge(jitter.width = 0.15, dodge.width = 0.9)
+  )  +
+
+  # Add ggrepel labels for top scorers
+  geom_label_repel(
+    data = highlight_data,
+    aes(label = ID, color = GENDER),
+    position = position_jitterdodge(jitter.width = 0.15, dodge.width = 0.9),
+    fontface = "bold",
+    size = 3,
+    box.padding = 0.4,
+    label.padding = 0.3,     # Padding inside the box
+    label.size = 0.3,        # Thickness of the box border
+    fill = "white",          # Background color of the label
+    max.overlaps = 60,
+    show.legend = FALSE
+  ) +
+  labs(
+    title = "Math Scores based on Gender",
+    subtitle = "Labels for students who scored above 90",
+    x = "Subject",
+    y = "Score"
+  ) 
+m2#
+```
+
+```{r}
+exam_long <- exam_data %>%
+  pivot_longer(cols = c(SCIENCE),
+               names_to = "Subject",
+               values_to = "Score")
+
+
+highlight_data <- exam_long %>%
+  filter(Score > 90)
+
+s2 <- ggplot(exam_long, aes(x = Subject, y = Score, fill = GENDER)) +
+  geom_violin(trim = FALSE, alpha = 0.7, position = position_dodge(width = 0.9)) +
+  geom_jitter(
+    aes(color = GENDER),
+    alpha = 0.3,
+    size = 1,
+    position = position_jitterdodge(jitter.width = 0.15, dodge.width = 0.9)
+  )  +
+
+  # Add ggrepel labels for top scorers
+  geom_label_repel(
+    data = highlight_data,
+    aes(label = ID, color = GENDER),
+    position = position_jitterdodge(jitter.width = 0.15, dodge.width = 0.9),
+    fontface = "bold",
+    size = 3,
+    box.padding = 0.4,
+    label.padding = 0.3,     # Padding inside the box
+    label.size = 0.3,        # Thickness of the box border
+    fill = "white",          # Background color of the label
+    max.overlaps = 60,
+    show.legend = FALSE
+  ) +
+  labs(
+    title = "Science Scores based on Gender",
+    subtitle = "Labels for students who scored above 90",
+    x = "Subject",
+    y = "Score"
+  ) 
+s2#
+```
+
+### Patchwork of students that scored more than 90 in each subject
+
+```{r}
+((s2 / e2) |  m2) 
 ```
 :::
 
 ## 7.3. Dot Plot
 
+I will be plotting a dot plot to compare the results between the female and male students who scored well (above 80) in English.
+
+```{r}
+high_english <- exam_data[exam_data$ENGLISH > 80, ]
+ggplot(high_english, aes(x = GENDER, y = ENGLISH)) +
+  geom_dotplot(
+    binaxis = 'y', 
+    stackdir = 'center', 
+    dotsize = 0.7, 
+    binwidth = 1,
+    fill = "dodgerblue") +
+  labs(title = "Students Scoring Above 80 in English by Gender",
+       x = "Gender",
+       y = "English Score") +
+  theme_minimal()
+```
+
 ## 7.4. Pie Chart and Bar Chart
+
+```{r}
+
+```
 
 ## 7.5. Raincloud Plot
 
