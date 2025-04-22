@@ -464,12 +464,11 @@ e3 <- ggplot(high_english, aes(x = GENDER, y = ENGLISH)) +
     binaxis = 'y', 
     stackdir = 'center', 
     dotsize = 0.7, 
-    binwidth = 1,
-    fill = "dodgerblue") +
+    binwidth = 1) +
   labs(title = "Students Scoring Above 80",
        x = "Gender",
        y = "English Score") +
-  theme_minimal()
+  theme_excel()
 e3#
 ```
 
@@ -480,12 +479,11 @@ m3 <- ggplot(high_math, aes(x = GENDER, y = MATHS)) +
     binaxis = 'y', 
     stackdir = 'center', 
     dotsize = 0.7, 
-    binwidth = 1,
-    fill = "dodgerblue") +
+    binwidth = 1) +
   labs(title = "Students Scoring Above 80",
        x = "Gender",
        y = "Math Score") +
-  theme_minimal()
+  theme_excel()
 m3#
 ```
 
@@ -498,8 +496,33 @@ e3 + m3
 
 ## 7.4. Pie Chart and Bar Chart
 
-```{r}
+Pie Chart: Number of Students based on Gender
 
+```{r}
+gender_df <- as.data.frame(table(exam_data$GENDER))
+colnames(gender_df) <- c("Gender", "Count")
+
+ggplot(gender_df, aes(x = "", y = Count, fill = Gender)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar(theta = "y") +
+  theme_void() +
+  labs(title = "Gender Distribution")
+```
+
+Bar Chart: Average English Score by Gender
+
+```{r}
+avg_english <- exam_data %>%
+  group_by(GENDER) %>%
+  summarise(Avg_English = mean(ENGLISH))
+
+# Plot
+ggplot(avg_english, aes(x = GENDER, y = Avg_English, fill = GENDER)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average English Score by Gender",
+       x = "Gender",
+       y = "Average Score") +
+  theme_minimal()
 ```
 
 ## 7.5. Raincloud Plot
