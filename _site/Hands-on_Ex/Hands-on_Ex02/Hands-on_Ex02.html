@@ -215,16 +215,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>1. Overview</h1>
 <p>In this exercise, I will be learning on how to:</p>
 <ol type="1">
-<li>Control the placement of annotation on a graph using functions provided in ggrepel package</li>
-<li>Create professional publication quality figures using functions provided in ggthemes and hrbrthemes packages</li>
-<li>Plot composite figures by combining ggplot2 graphs using patchwork package</li>
+<li>Control the placement of annotation on a graph using functions provided in <code>ggrepel</code> package</li>
+<li>Create professional publication quality figures using functions provided in <code>ggthemes</code> and <code>hrbrthemes</code> packages</li>
+<li>Plot composite figures by combining ggplot2 graphs using <code>patchwork</code> package</li>
 </ol>
 </section>
 <section id="getting-started" class="level1">
 <h1>2. Getting Started</h1>
 <section id="install-and-load-required-libraries" class="level2">
 <h2 class="anchored" data-anchor-id="install-and-load-required-libraries">2.1. Install and Load required libraries</h2>
-<p>Code chunk below is used to check if all 4 R packages (ggrepel, ggthemes, hrbrthemes &amp; patchwork) are installed and loaded onto the environment.</p>
+<p>Code chunk below is used to check if all 4 R packages (<code>ggrepel</code>, <code>ggthemes</code>, <code>hrbrthemes</code> &amp; patchwork) are installed and loaded onto the environment.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(ggrepel, patchwork, </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               ggthemes, hrbrthemes,</span>
@@ -352,7 +352,7 @@ increasing max.overlaps</code></pre>
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: ggrepel: 228 unlabeled data points (too many overlaps). Consider
+<pre><code>Warning: ggrepel: 229 unlabeled data points (too many overlaps). Consider
 increasing max.overlaps</code></pre>
 </div>
 <div class="cell-output-display">
@@ -595,9 +595,6 @@ increasing max.overlaps</code></pre>
 </div>
 </div>
 </div>
-<section id="section" class="level1">
-<h1></h1>
-</section>
 </div>
 </div>
 </div>
@@ -906,7 +903,7 @@ increasing max.overlaps</code></pre>
 <section id="pie-chart-and-bar-chart" class="level2">
 <h2 class="anchored" data-anchor-id="pie-chart-and-bar-chart">7.4. Pie Chart and Bar Chart</h2>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true">Pie Chart: Number of Students based on Gender for English</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false">Bar Chart: Average English Score by Gender</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-3" role="tab" aria-controls="tabset-8-3" aria-selected="false">Patchwork (</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-4" role="tab" aria-controls="tabset-8-4" aria-selected="false">Patchwork (using insert): English score by Gender</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true">Pie Chart: Number of Students based on Gender for English</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false">Bar Chart: Average English Score by Gender</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-3" role="tab" aria-controls="tabset-8-3" aria-selected="false">Patchwork (using “/”,“|”,“()” to combine 3 plots)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-4" role="tab" aria-controls="tabset-8-4" aria-selected="false">Patchwork (using insert): English score by Gender</a></li></ul>
 <div class="tab-content">
 <div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
 <div class="cell">
