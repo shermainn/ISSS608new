@@ -452,7 +452,7 @@ s2#
 
 ## 7.3. Dot Plot
 
-I will be plotting a dot plot to compare the results between the female and male students who scored well (above 80) in English and Math. Based on using the `plus sign patchwork`package, I am able to clearly see the number of students that scored above 80 and based on the figure, it can be observed that Math has more students that scored above 80. The number of dots represent the number of students that scored above 80 for each subject respectively.
+I will be plotting a dot plot to compare the results between the female and male students who scored well (above 80) in English and Math. Based on using the `+ sign patchwork`package, I am able to clearly see the number of students that scored above 80 and based on the figure, it can be observed that Math has more students that scored above 80. The number of dots represent the number of students that scored above 80 for each subject respectively.
 
 ::: panel-tabset
 ### **Default Dot Plots**
