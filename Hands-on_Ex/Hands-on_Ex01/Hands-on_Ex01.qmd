@@ -39,7 +39,6 @@ ggplot(data=exam_data, aes(x = MATHS, fill = GENDER)) +
 
 ```
 
-
 # Plotting a boxplot
 
 ```{r}

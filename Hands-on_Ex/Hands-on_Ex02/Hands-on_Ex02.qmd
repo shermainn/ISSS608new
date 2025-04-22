@@ -135,47 +135,43 @@ ggplot(data=exam_data,
 
 # 5. hrbrthemes
 
-This package provides a base theme that focuses on typographic elements including labels (axis label) and fonts (font size). In addition, the second goal centers around productivity for a production workflow.
-
-::: panel-tabset
-Default
-
-```{r}
-ggplot(data=exam_data, 
-             aes(x = MATHS)) +
-  geom_histogram(bins=20, 
-                 boundary = 100,
-                 color="grey25", 
-                 fill="grey90") +
-  ggtitle("Distribution of Maths scores") +
-  theme_ipsum()
-```
-
-With hrbrthemes
-
-```{r}
-ggplot(data=exam_data, 
-             aes(x = MATHS)) +
-  geom_histogram(bins=20, 
-                 boundary = 100,
-                 color="grey25", 
-                 fill="grey90") +
-  ggtitle("Distribution of Maths scores") +
-  theme_ipsum(axis_title_size = 18,
-              base_size = 15,
-              grid = "Y")
-```
-
-From the code chunk above:
+This package provides a base theme that focuses on typographic elements including labels (axis label) and fonts (font size). In addition, the second goal centers around productivity for a production workflow. From the code chunk below:
 
 -   `axis_title_size` - increase font size of axis
 
 -   `base_size` - increase default axis label
 
--   `grid` - remove x-axis gridlines
+-   `grid` - remove x-axis grid-lines
 
-# 
-:::
+-   ::: panel-tabset
+    Default
+
+    ```{r}
+    ggplot(data=exam_data, 
+                 aes(x = MATHS)) +
+      geom_histogram(bins=20, 
+                     boundary = 100,
+                     color="grey25", 
+                     fill="grey90") +
+      ggtitle("Distribution of Maths scores") +
+      theme_ipsum()
+    ```
+
+    With hrbrthemes
+
+    ```{r}
+    ggplot(data=exam_data, 
+                 aes(x = MATHS)) +
+      geom_histogram(bins=20, 
+                     boundary = 100,
+                     color="grey25", 
+                     fill="grey90") +
+      ggtitle("Distribution of Maths scores") +
+      theme_ipsum(axis_title_size = 18,
+                  base_size = 15,
+                  grid = "Y")
+    ```
+    :::
 
 # 6. patchwork
 
@@ -267,18 +263,108 @@ patchwork & theme_economist()
 
 # 7. Additional Plots
 
-## 7.1. Boxplot
+## 7.1. Notched Boxplot
+
+Using Patchwork, I will using a notched boxplot to find the sample mean of the distribution of English scores and Math scores based on gender (female and male). From using the patchwork package, I am able to see the box-plot diagrams side by side which is much easier to make comparisons and the boxplot diagrams allow me to determine that the mean scores for Math between both genders are similar whereas for English scores, females have a higher mean score as compared to males. I added in ggtheme (`theme_excel()`) so that the diagram is visually more readable.
+
+::: panel-tabset
+### Notched Boxplot of English and Math Scores
+
+```{r}
+m1 <- ggplot(data=exam_data, 
+       aes(y = MATHS, 
+           x= GENDER)) +
+  geom_boxplot(notch=TRUE)
+e1 <- ggplot(data=exam_data, 
+       aes(y = ENGLISH, 
+           x= GENDER)) +
+  geom_boxplot(notch=TRUE) 
+e1#
+```
+
+### Patchwork of English and Math scores
+
+```{r}
+patchwork <- m1 + e1 
+patchwork & theme_excel()
+```
+:::
 
 ## 7.2. Violin Plot
 
-## 7.3. Notched Box Plot
+To compare the different scores between English, Science and Math among the different students, I used a violin plot to compare them. To find out the number of students that scored a higher score of above 90, we will be using ggrepel to find out the number of students that score that.
 
-## 7.4. Dot Plot
+::: panel-tabset
+### Default violin plot by gender and subjects
 
-## 7.5. Pie Chart and Bar Chart
+```{r}
+exam_long <- exam_data %>%
+  pivot_longer(cols = c(ENGLISH, MATHS, SCIENCE),
+               names_to = "Subject",
+               values_to = "Score")
 
-## 7.6. Raincloud Plot
+ggplot(exam_long, aes(x = Subject, y = Score, fill = Subject)) +
+  geom_violin(trim = FALSE, alpha = 0.7) +
+  geom_jitter(width = 0.1, alpha = 0.3, size = 1, color = "black") +
+  facet_wrap(~GENDER) +
+  labs(title = "Score Distribution by Students",
+       x = "Subject",
+       y = "Score") +
+  theme(legend.position = "none") 
+```
 
-## 7.7. Diverging Stacked Bar Chart
+### Top 5% of students (using ggrepel)
 
-## 7.8. Packed Bars
+From the results, it is seen that there are no students that scored more than 90 in Math but there are 5 students and 3 students that scored above 90 for English and Science respectively. It is also shown that there are more female students (4) who scored 90 as compared to male students (only 1) in English and there is more male students (2) that scored more than 90 in Science as compared to female students (only 1).
+
+```{r}
+exam_long <- exam_data %>%
+  pivot_longer(cols = c(ENGLISH, MATHS, SCIENCE),
+               names_to = "Subject",
+               values_to = "Score")
+
+
+highlight_data <- exam_long %>%
+  filter(Score > 90)
+
+ggplot(exam_long, aes(x = Subject, y = Score, fill = GENDER)) +
+  geom_violin(trim = FALSE, alpha = 0.7, position = position_dodge(width = 0.9)) +
+  geom_jitter(
+    aes(color = GENDER),
+    alpha = 0.3,
+    size = 1,
+    position = position_jitterdodge(jitter.width = 0.15, dodge.width = 0.9)
+  )  +
+
+  # Add ggrepel labels for top scorers
+  geom_label_repel(
+    data = highlight_data,
+    aes(label = ID, color = GENDER),
+    position = position_jitterdodge(jitter.width = 0.15, dodge.width = 0.9),
+    fontface = "bold",
+    size = 3,
+    box.padding = 0.4,
+    label.padding = 0.3,     # Padding inside the box
+    label.size = 0.3,        # Thickness of the box border
+    fill = "white",          # Background color of the label
+    max.overlaps = 30,
+    show.legend = FALSE
+  ) +
+  labs(
+    title = "Score Distribution students based on Gender",
+    subtitle = "Labels shown for students who scored above 90",
+    x = "Subject",
+    y = "Score"
+  ) 
+```
+:::
+
+## 7.3. Dot Plot
+
+## 7.4. Pie Chart and Bar Chart
+
+## 7.5. Raincloud Plot
+
+## 7.6. Diverging Stacked Bar Chart
+
+## 7.7. Packed Bars
