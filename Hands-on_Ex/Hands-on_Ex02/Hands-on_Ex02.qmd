@@ -292,7 +292,7 @@ patchwork & theme_excel()
 
 ## 7.2. Violin Plot
 
-To compare the different scores between English, Science and Math among the different students, I used a violin plot to compare them. To find out the number of students that scored a higher score of above 90, we will be using ggrepel to find out the number of students that score that.
+To compare the different scores between English, Science and Math among the different students, I used a violin plot to compare them. To find out the number of students that scored a higher score of above 90, we will be using `ggrepel` to find out the number of students that score that.
 
 ::: panel-tabset
 ### Default violin plot by gender and subjects
@@ -452,22 +452,49 @@ s2#
 
 ## 7.3. Dot Plot
 
-I will be plotting a dot plot to compare the results between the female and male students who scored well (above 80) in English.
+I will be plotting a dot plot to compare the results between the female and male students who scored well (above 80) in English and Math. Based on using the `plus sign patchwork`package, I am able to clearly see the number of students that scored above 80 and based on the figure, it can be observed that Math has more students that scored above 80. The number of dots represent the number of students that scored above 80 for each subject respectively.
+
+::: panel-tabset
+### **Default Dot Plots**
 
 ```{r}
 high_english <- exam_data[exam_data$ENGLISH > 80, ]
-ggplot(high_english, aes(x = GENDER, y = ENGLISH)) +
+e3 <- ggplot(high_english, aes(x = GENDER, y = ENGLISH)) +
   geom_dotplot(
     binaxis = 'y', 
     stackdir = 'center', 
     dotsize = 0.7, 
     binwidth = 1,
     fill = "dodgerblue") +
-  labs(title = "Students Scoring Above 80 in English by Gender",
+  labs(title = "Students Scoring Above 80",
        x = "Gender",
        y = "English Score") +
   theme_minimal()
+e3#
 ```
+
+```{r}
+high_math <- exam_data[exam_data$MATHS > 80, ]
+m3 <- ggplot(high_math, aes(x = GENDER, y = MATHS)) +
+  geom_dotplot(
+    binaxis = 'y', 
+    stackdir = 'center', 
+    dotsize = 0.7, 
+    binwidth = 1,
+    fill = "dodgerblue") +
+  labs(title = "Students Scoring Above 80",
+       x = "Gender",
+       y = "Math Score") +
+  theme_minimal()
+m3#
+```
+
+### patchwork (using + sign)
+
+```{r}
+e3 + m3
+```
+:::
 
 ## 7.4. Pie Chart and Bar Chart
 
