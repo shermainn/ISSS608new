@@ -496,20 +496,28 @@ e3 + m3
 
 ## 7.4. Pie Chart and Bar Chart
 
-Pie Chart: Number of Students based on Gender
+::: panel-tabset
+### Pie Chart: Number of Students based on Gender for English
 
 ```{r}
-gender_df <- as.data.frame(table(exam_data$GENDER))
-colnames(gender_df) <- c("Gender", "Count")
 
-ggplot(gender_df, aes(x = "", y = Count, fill = Gender)) +
+gender_counts <- exam_data %>%
+  group_by(GENDER) %>%
+  summarise(Count = n())
+
+p1 <- ggplot(gender_counts, aes(x = "", y = Count, fill = GENDER)) +
   geom_bar(stat = "identity", width = 1) +
-  coord_polar(theta = "y") +
-  theme_void() +
-  labs(title = "Gender Distribution")
+  coord_polar(theta = "y") +  # This transforms the bar chart to a pie chart
+  theme_void() +  # Removes axes and background
+  labs(title = "Number of Students in English") +
+  theme(
+    plot.title = element_text(size = 9),
+    plot.background = element_rect(fill = "white")
+  )
+p1#
 ```
 
-Bar Chart: Average English Score by Gender
+### Bar Chart: Average English Score by Gender
 
 ```{r}
 avg_english <- exam_data %>%
@@ -517,13 +525,65 @@ avg_english <- exam_data %>%
   summarise(Avg_English = mean(ENGLISH))
 
 # Plot
-ggplot(avg_english, aes(x = GENDER, y = Avg_English, fill = GENDER)) +
+a1 <- ggplot(avg_english, aes(x = GENDER, y = Avg_English)) +
   geom_bar(stat = "identity") +
   labs(title = "Average English Score by Gender",
        x = "Gender",
        y = "Average Score") +
-  theme_minimal()
+  theme_excel()
+a1#
 ```
+
+```{r}
+avg_maths <- exam_data %>%
+  group_by(GENDER) %>%
+  summarise(Avg_Maths = mean(MATHS))
+
+# Plot
+a2 <- ggplot(avg_maths, aes(x = GENDER, y = Avg_Maths)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Maths Score by Gender",
+       x = "Gender",
+       y = "Average Score") +
+  theme_excel()
+a2#
+```
+
+```{r}
+avg_science <- exam_data %>%
+  group_by(GENDER) %>%
+  summarise(Avg_Science = mean(SCIENCE))
+
+# Plot
+a3 <- ggplot(avg_science, aes(x = GENDER, y = Avg_Science)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Science Score by Gender",
+       x = "Gender",
+       y = "Average Score") +
+  theme_excel()
+a3#
+```
+
+### Patchwork (using "/","\|","()" to combine 3 plots)
+
+```{r}
+a1/a2|a3
+
+```
+
+### Patchwork (using insert): English score by Gender
+
+```{r}
+
+
+a1 + inset_element(p1, 
+                   left = 0.7,    
+                   bottom = 0,    
+                   right = 1,     
+                   top = 0.3)     
+
+```
+:::
 
 ## 7.5. Raincloud Plot
 
