@@ -147,6 +147,10 @@ This package provides a base theme that focuses on typographic elements includin
     Default
 
     ```{r}
+
+    library(ggplot2)
+    library(hrbrthemes)
+
     ggplot(data=exam_data, 
                  aes(x = MATHS)) +
       geom_histogram(bins=20, 

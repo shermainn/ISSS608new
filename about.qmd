@@ -2,8 +2,6 @@
 title: "About"
 ---
 
-About this site
+Hi! My Name is Shermainn and I am a Masters' degree student from Singapore Management University in IT Business majoring in Financial Technology and Analytics. I love trying new foods and travelling to new places.
 
-```{r}
-1 + 1
-```
+![](images/FullSizeRender.jpeg)
