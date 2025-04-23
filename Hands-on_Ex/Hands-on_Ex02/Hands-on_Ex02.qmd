@@ -15,7 +15,7 @@ In this exercise, I will be learning on how to:
 
 ## 2.1. Install and Load required libraries
 
-Code chunk below is used to check if all 4 R packages (`ggrepel`, `ggthemes`, `hrbrthemes` & patchwork) are installed and loaded onto the environment.
+Code chunk below is used to check if all 4 R packages (`ggrepel`, `ggthemes`, `hrbrthemes` & `patchwork`) are installed and loaded onto the environment.
 
 ```{r}
 pacman::p_load(ggrepel, patchwork, 
@@ -144,9 +144,9 @@ This package provides a base theme that focuses on typographic elements includin
 -   `grid` - remove x-axis grid-lines
 
 ::: panel-tabset
-Default
+### Default
 
-```{r}
+```{r, warning=FALSE}
 ggplot(data=exam_data, 
              aes(x = MATHS)) +
   geom_histogram(bins=20, 
@@ -154,12 +154,12 @@ ggplot(data=exam_data,
                  color="grey25", 
                  fill="grey90") +
   ggtitle("Distribution of Maths scores") +
-  theme_ipsum(base_family = "sans")
+  theme_ipsum()
 ```
 
-With hrbrthemes
+### With hrbrthemes
 
-```{r}
+```{r, warning=FALSE}
 ggplot(data=exam_data, 
              aes(x = MATHS)) +
   geom_histogram(bins=20, 
@@ -170,7 +170,7 @@ ggplot(data=exam_data,
   theme_ipsum(axis_title_size = 18,
               base_size = 15,
               grid = "Y", 
-              base_family = "sans")
+              base_family = "Roboto Condensed")
 ```
 :::
 
