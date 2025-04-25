@@ -3,3 +3,24 @@ title: "ISSS608new"
 ---
 
 Welcome to **ISSS608 Visual Analytics and Applications**. In this website, you will find my coursework prepared for this course.
+
+## 🔥 Latest Hands-on Exercise
+
+<a class="quarto-grid-link" href="https://isss608-sherm.netlify.app/hands-on_ex/hands-on_ex02/hands-on_ex02" data-original-href="https://isss608-sherm.netlify.app/hands-on_ex/hands-on_ex02/hands-on_ex02">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img src="https://isss608-sherm.netlify.app/hands-on_ex/hands-on_ex02/Hands-on_Ex02_files/figure-html/unnamed-chunk-30-1.png" style="height: 150px;" class="thumbnail-image card-img"></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+HandsOnEx2
+</h5>
+<div class="card-text listing-description">
+Hands-on Exercise 2 teaches me how to use 4 different types of packages: ggrepel, ggthemes, hrbrthemes & patchwork. 
+</div>
+<div class="card-attribution card-text-small start">
+<div class="listing-author">
+Shermainn
+</div>
+</div>
+</div>
+</div>
+</a>

@@ -1,6 +1,7 @@
 ---
 title: "Hands-on Exercise 1"
 date: 2025-04-19
+categories: ["Hands-on Exercise"]
 author: "Shermainn"
 ---
 

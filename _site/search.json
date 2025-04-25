@@ -138,5 +138,26 @@
     "title": "Hands-on_Ex03",
     "section": "1.2.2 Import Data",
     "text": "1.2.2 Import Data\nImport data worksheet from GlobalPopulation Excel workbook."
+  },
+  {
+    "objectID": "index.html#latest-post",
+    "href": "index.html#latest-post",
+    "title": "ISSS608new",
+    "section": "📰 Latest Post",
+    "text": "📰 Latest Post\nlisting: type: default contents: posts sort: “date desc” limit: 1"
+  },
+  {
+    "objectID": "index.html#latest-hands-on-exercise",
+    "href": "index.html#latest-hands-on-exercise",
+    "title": "ISSS608new",
+    "section": "🔥 Latest Hands-on Exercise",
+    "text": "🔥 Latest Hands-on Exercise\n\n\n\n\n\n\n\nHandsOnEx2\n\n\nHands-on Exercise 2 teaches me how to use 4 different types of packages: ggrepel, ggthemes, hrbrthemes & patchwork.\n\n\n\nShermainn"
+  },
+  {
+    "objectID": "index.html#test-listing",
+    "href": "index.html#test-listing",
+    "title": "ISSS608new",
+    "section": "🔍 Test Listing",
+    "text": "🔍 Test Listing\nlisting: contents: ."
   }
 ]
