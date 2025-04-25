@@ -1,0 +1,65 @@
+---
+title: "Hands-on_Ex03"
+---
+
+# 1. Overview
+
+1.  I will be learning how to create interactive data visualization by using functions provided by `ggiraph` and `plotlyr` packages.
+2.  I will also be learning how to create animated data visualization by using `gganimate` and `plotly r` packages. In addition, I will be able to reshape data using `tidyr` package, and (ii) process, wrangle and transform data by using `dplyr` package.
+
+# 1.1 Getting Started
+
+## 1.1.1. Install & Launch R packages
+
+Install and Launch the following R packages:
+
+-   [**ggiraph**](https://davidgohel.github.io/ggiraph/) for making ‘ggplot’ graphics interactive.
+
+-   [**plotly**](https://plotly.com/r/), R library for plotting interactive statistical graphs.
+
+-   [**DT**](https://rstudio.github.io/DT/) provides an R interface to the JavaScript library [DataTables](https://datatables.net/) that create interactive table on html page.
+
+-   [**tidyverse**](https://www.tidyverse.org/), a family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.
+
+-   [**patchwork**](https://patchwork.data-imaginist.com/) for combining multiple ggplot2 graphs into one figure.
+
+```{r}
+
+```
+
+## 1.1.2. Import Data
+
+The code chunk below `read_csv()` of **readr** package will import the `Exam_data.csv` and save as **`exam_data`** as a tibble data frame.
+
+```{r}
+exam_data <- read_csv("chap03/data/Exam_data.csv")
+```
+
+# 1.2 Getting Started
+
+## 1.2.1. Install and launch R packages
+
+Install and Launch the following R packages:
+
+-   [**plotly**](https://plotly.com/r/), R library for plotting interactive statistical graphs.
+
+-   [**gganimate**](https://gganimate.com/), an ggplot extension for creating animated statistical graphs.
+
+-   [**gifski**](https://cran.r-project.org/web/packages/gifski/index.html) converts video frames to GIF animations using pngquant’s fancy features for efficient cross-frame palettes and temporal dithering. It produces animated GIFs that use thousands of colors per frame.
+
+-   [**gapminder**](https://cran.r-project.org/web/packages/gapminder/index.html): An excerpt of the data available at Gapminder.org. We just want to use its *country_colors* scheme.
+
+-   [**tidyverse**](https://www.tidyverse.org/), a family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.
+
+```{r}
+pacman::p_load(readxl, gifski, gapminder,
+               plotly, gganimate, tidyverse)
+```
+
+## 1.2.2 Import Data
+
+Import data worksheet from GlobalPopulation Excel workbook.
+
+```{r}
+
+```
