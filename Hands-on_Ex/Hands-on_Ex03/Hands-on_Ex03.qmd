@@ -32,7 +32,7 @@ Install and Launch the following R packages:
 The code chunk below `read_csv()` of **readr** package will import the `Exam_data.csv` and save as **`exam_data`** as a tibble data frame.
 
 ```{r}
-exam_data <- read_csv("chap03/data/Exam_data.csv")
+
 ```
 
 # 1.2 Getting Started

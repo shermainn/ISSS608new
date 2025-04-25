@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -101,7 +135,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html">
  <span class="dropdown-text">Hands-on Exercise 2</span></a>
   </li>  
-        <li class="dropdown-header">Hands-on Exercise 3</li>
+        <li>
+    <a class="dropdown-item" href="../../Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html">
+ <span class="dropdown-text">Hands-on Exercise 3</span></a>
+  </li>  
         <li class="dropdown-header">Hands-on Exercise 4</li>
         <li class="dropdown-header">Hands-on Exercise 5</li>
         <li class="dropdown-header">Hands-on Exercise 6</li>
@@ -159,8 +196,24 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">1. Overview</a></li>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">1.1 Getting Started</a>
+  <ul class="collapse">
+  <li><a href="#install-launch-r-packages" id="toc-install-launch-r-packages" class="nav-link" data-scroll-target="#install-launch-r-packages">1.1.1. Install &amp; Launch R packages</a></li>
+  <li><a href="#import-data" id="toc-import-data" class="nav-link" data-scroll-target="#import-data">1.1.2. Import Data</a></li>
+  </ul></li>
+  <li><a href="#getting-started-1" id="toc-getting-started-1" class="nav-link" data-scroll-target="#getting-started-1">1.2 Getting Started</a>
+  <ul class="collapse">
+  <li><a href="#install-and-launch-r-packages" id="toc-install-and-launch-r-packages" class="nav-link" data-scroll-target="#install-and-launch-r-packages">1.2.1. Install and launch R packages</a></li>
+  <li><a href="#import-data-1" id="toc-import-data-1" class="nav-link" data-scroll-target="#import-data-1">1.2.2 Import Data</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -184,8 +237,55 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="overview" class="level1">
+<h1>1. Overview</h1>
+<ol type="1">
+<li>I will be learning how to create interactive data visualization by using functions provided by <code>ggiraph</code> and <code>plotlyr</code> packages.</li>
+<li>I will also be learning how to create animated data visualization by using <code>gganimate</code> and <code>plotly r</code> packages. In addition, I will be able to reshape data using <code>tidyr</code> package, and (ii) process, wrangle and transform data by using <code>dplyr</code> package.</li>
+</ol>
+</section>
+<section id="getting-started" class="level1">
+<h1>1.1 Getting Started</h1>
+<section id="install-launch-r-packages" class="level2">
+<h2 class="anchored" data-anchor-id="install-launch-r-packages">1.1.1. Install &amp; Launch R packages</h2>
+<p>Install and Launch the following R packages:</p>
+<ul>
+<li><p><a href="https://davidgohel.github.io/ggiraph/"><strong>ggiraph</strong></a> for making ‘ggplot’ graphics interactive.</p></li>
+<li><p><a href="https://plotly.com/r/"><strong>plotly</strong></a>, R library for plotting interactive statistical graphs.</p></li>
+<li><p><a href="https://rstudio.github.io/DT/"><strong>DT</strong></a> provides an R interface to the JavaScript library <a href="https://datatables.net/">DataTables</a> that create interactive table on html page.</p></li>
+<li><p><a href="https://www.tidyverse.org/"><strong>tidyverse</strong></a>, a family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.</p></li>
+<li><p><a href="https://patchwork.data-imaginist.com/"><strong>patchwork</strong></a> for combining multiple ggplot2 graphs into one figure.</p></li>
+</ul>
+</section>
+<section id="import-data" class="level2">
+<h2 class="anchored" data-anchor-id="import-data">1.1.2. Import Data</h2>
+<p>The code chunk below <code>read_csv()</code> of <strong>readr</strong> package will import the <code>Exam_data.csv</code> and save as <strong><code>exam_data</code></strong> as a tibble data frame.</p>
+</section>
+</section>
+<section id="getting-started-1" class="level1">
+<h1>1.2 Getting Started</h1>
+<section id="install-and-launch-r-packages" class="level2">
+<h2 class="anchored" data-anchor-id="install-and-launch-r-packages">1.2.1. Install and launch R packages</h2>
+<p>Install and Launch the following R packages:</p>
+<ul>
+<li><p><a href="https://plotly.com/r/"><strong>plotly</strong></a>, R library for plotting interactive statistical graphs.</p></li>
+<li><p><a href="https://gganimate.com/"><strong>gganimate</strong></a>, an ggplot extension for creating animated statistical graphs.</p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/gifski/index.html"><strong>gifski</strong></a> converts video frames to GIF animations using pngquant’s fancy features for efficient cross-frame palettes and temporal dithering. It produces animated GIFs that use thousands of colors per frame.</p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/gapminder/index.html"><strong>gapminder</strong></a>: An excerpt of the data available at Gapminder.org. We just want to use its <em>country_colors</em> scheme.</p></li>
+<li><p><a href="https://www.tidyverse.org/"><strong>tidyverse</strong></a>, a family of modern R packages specially designed to support data science, analysis and communication task including creating static statistical graphs.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(readxl, gifski, gapminder,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               plotly, gganimate, tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="import-data-1" class="level2">
+<h2 class="anchored" data-anchor-id="import-data-1">1.2.2 Import Data</h2>
+<p>Import data worksheet from GlobalPopulation Excel workbook.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
