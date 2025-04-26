@@ -1,6 +1,7 @@
 ---
 title: "Hands-on Exercise 1"
 date: 2025-04-19
+date-modified: 2025-04-26
 categories: ["Hands-on Exercise"]
 author: "Shermainn"
 ---
@@ -84,3 +85,11 @@ ggplot(data = exam_long,
   labs(title = "Science and English Scores by Class")
 
 ```
+
+# Additional Plots
+
+1.  Age-sex Pyramid
+
+2.  Pareto Chart
+
+3.  Trellis Display
