@@ -23,7 +23,7 @@ HandsOnEx2
 </h5>
 
 ::: {.card-text .listing-description}
-Hands-on Exercise 2 teaches me how to use 4 different types of packages: ggrepel, ggthemes, hrbrthemes & patchwork.
+Hands-on Exercise 2 teaches me how to use 4 different types of R packages: ggrepel, ggthemes, hrbrthemes & patchwork.
 :::
 
 :::: {.card-attribution .card-text-small .start}
