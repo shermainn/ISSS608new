@@ -4,6 +4,11 @@ date: 2025-04-19
 date-modified: 2025-04-26
 categories: ["Hands-on Exercise"]
 author: "Shermainn"
+execute: 
+  eval: true
+  echo: true
+  warning: false
+  freeze: true
 ---
 
 # Getting Started

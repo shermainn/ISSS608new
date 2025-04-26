@@ -4,6 +4,10 @@ date: 2025-04-23
 date-modified: "last-modified"
 categories: ["Hands-on Exercise"]
 author: "Shermainn"
+execute: 
+  eval: true
+  echo: true
+  warning: false
 ---
 
 # 1. Overview
