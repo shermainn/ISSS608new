@@ -95,7 +95,7 @@ There are two steps that are needed (Step 1 and 2),
 3.  Customize tooltip style
 4.  Display statistics on tooltip
 
-::: {panel-tabset}
+::: panel-tabset
 ### Step 1: Basic graph
 
 ```{r}
@@ -200,7 +200,7 @@ girafe(ggobj = gg_point,
 
 The code chunk below shows the hover effect that `data_id` can shown as one of the interactive features of ggiraph.
 
-::: {panel:tabset}
+::: panel-tabset
 ### Default
 
 ```{r}
@@ -218,7 +218,6 @@ girafe(
   width_svg = 6,                        
   height_svg = 6*0.618                  
 )  
-p#
 ```
 
 ### Hover effect
