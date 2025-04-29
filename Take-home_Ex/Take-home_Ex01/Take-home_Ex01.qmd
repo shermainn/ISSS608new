@@ -1,0 +1,12 @@
+---
+title: "Take-home_Ex01"
+author: "Shermainn"
+date: 2025-04-29
+date-modified: "last-modified"
+categories: ["Hands-on Exercise"]
+author: "Shermainn"
+execute: 
+  eval: true
+  echo: true
+  warning: false
+---
