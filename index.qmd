@@ -18,12 +18,12 @@ Welcome to **ISSS608 Visual Analytics and Applications**. In this website, you w
 :::::: {.card-body .post-contents}
 <h5 class="no-anchor card-title listing-title">
 
-HandsOnEx2
+HandsOnEx3
 
 </h5>
 
 ::: {.card-text .listing-description}
-Hands-on Exercise 2 teaches me how to use 4 different types of R packages: ggrepel, ggthemes, hrbrthemes & patchwork.
+Hands-on Exercise 3
 :::
 
 :::: {.card-attribution .card-text-small .start}
