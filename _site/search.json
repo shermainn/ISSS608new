@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "ISSS608new",
+    "section": "",
+    "text": "Welcome to ISSS608 Visual Analytics and Applications. In this website, you will find my coursework prepared for this course."
+  },
+  {
+    "objectID": "index.html#latest-hands-on-exercise",
+    "href": "index.html#latest-hands-on-exercise",
+    "title": "ISSS608new",
+    "section": "🔥 Latest Hands-on Exercise",
+    "text": "🔥 Latest Hands-on Exercise\n\n\n\n\n\n\n\nHandsOnEx2\n\n\nHands-on Exercise 2 teaches me how to use 4 different types of R packages: ggrepel, ggthemes, hrbrthemes & patchwork.\n\n\n\nShermainn"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html",
+    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html",
+    "title": "In-class_Ex02",
+    "section": "",
+    "text": "Recap:\n\n# add in the following to not have truncated words on figures into your Hands-on Exercises\n\n##| echo: false \n##| fig-height: 12\n##| fig-width: 7\n\n#ggtitle(stringr::str_wrap(\"This is a very long sentence and this should make it become two lines instead of it being cut off\"))  ## add this into your title in your ggplot"
+  }
+]

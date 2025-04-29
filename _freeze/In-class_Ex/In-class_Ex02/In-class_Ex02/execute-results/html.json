@@ -1,0 +1,15 @@
+{
+  "hash": "5aeddbc537c702b16e71a9f6a11d5dee",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"In-class_Ex02\"\ndate: 2025-04-26\ndate-modified: \"last-modified\"\nauthor: \"Shermainn\"\nexecute: \n  eval: true\n  echo: true\n  warning: false\n  freeze: true\n---\n\n\n\n\n\n# Recap:\n\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# add in the following to not have truncated words on figures into your Hands-on Exercises\n\n##| echo: false \n##| fig-height: 12\n##| fig-width: 7\n\n#ggtitle(stringr::str_wrap(\"This is a very long sentence and this should make it become two lines instead of it being cut off\"))  ## add this into your title in your ggplot\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

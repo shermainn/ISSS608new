@@ -15,9 +15,9 @@ execute:
 ```{r}
 # add in the following to not have truncated words on figures into your Hands-on Exercises
 
-#| echo: false 
-#| fig-height: 12
-#| fig-width: 7
+##| echo: false 
+##| fig-height: 12
+##| fig-width: 7
 
-ggtitle(stringr::str_wrap("This is a very long sentence and this should make it become two lines instead of it being cut off"))  ## add this into your title in your ggplot
+#ggtitle(stringr::str_wrap("This is a very long sentence and this should make it become two lines instead of it being cut off"))  ## add this into your title in your ggplot
 ```
