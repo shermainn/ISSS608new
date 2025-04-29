@@ -1,5 +1,13 @@
 ---
 title: "Hands-on_Ex03"
+date: 2025-04-29
+date-modified: "last-modified"
+categories: ["Hands-on Exercise"]
+author: "Shermainn"
+execute: 
+  eval: true
+  echo: true
+  warning: false
 ---
 
 # 1. Overview
@@ -24,7 +32,8 @@ Install and Launch the following R packages:
 -   [**patchwork**](https://patchwork.data-imaginist.com/) for combining multiple ggplot2 graphs into one figure.
 
 ```{r}
-
+pacman::p_load(ggiraph, plotly, 
+               patchwork, DT, tidyverse)
 ```
 
 ## 1.1.2. Import Data
@@ -32,7 +41,7 @@ Install and Launch the following R packages:
 The code chunk below `read_csv()` of **readr** package will import the `Exam_data.csv` and save as **`exam_data`** as a tibble data frame.
 
 ```{r}
-
+exam_data <- read_csv("data/Exam_data.csv")
 ```
 
 # 1.2 Getting Started
@@ -61,5 +70,8 @@ pacman::p_load(readxl, gifski, gapminder,
 Import data worksheet from GlobalPopulation Excel workbook.
 
 ```{r}
-
+col <- c("Country", "Continent")
+globalPop <- read_xls("data/GlobalPopulation.xls", sheet="Data")%>%
+  mutate_each_(funs(factor(.)), col) %>%
+  mutate(Year = as.integer(Year))
 ```
