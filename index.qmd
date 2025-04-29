@@ -6,12 +6,12 @@ Welcome to **ISSS608 Visual Analytics and Applications**. In this website, you w
 
 ## 🔥 Latest Hands-on Exercise
 
-<a class="quarto-grid-link" href="https://isss608-sherm.netlify.app/hands-on_ex/hands-on_ex02/hands-on_ex02" data-original-href="https://isss608-sherm.netlify.app/hands-on_ex/hands-on_ex02/hands-on_ex02">
+<a class="quarto-grid-link" href="https://isss608-sherm.netlify.app/hands-on_ex/hands-on_ex03/hands-on_ex03" data-original-href="https://isss608-sherm.netlify.app/hands-on_ex/hands-on_ex03/hands-on_ex03">
 
 ::::::: {.quarto-grid-item .card .h-100 .card-left}
 <p class="card-img-top">
 
-<img src="https://isss608-sherm.netlify.app/hands-on_ex/hands-on_ex02/Hands-on_Ex02_files/figure-html/unnamed-chunk-30-1.png" class="thumbnail-image card-img" style="height: 150px;"/>
+<img src="C:\shermainn\Background_image.jpg" class="thumbnail-image card-img" style="height: 150px;"/>
 
 </p>
 
