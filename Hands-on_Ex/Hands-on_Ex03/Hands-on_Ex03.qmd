@@ -541,15 +541,15 @@ From this visualization type, we need to understand some key concepts and termin
 gganimate brings your static ggplot2 plots to life, turning them into animations. Some key components to note are explained simply below:\
 Imagine you're animating a bouncing ball with `ggplot2`:
 
--    `transition_time()` decides *when and where the ball moves* (frame by frame).
+-   `transition_time()` decides *when and where the ball moves* (frame by frame).
 
--    `view_follow()` makes the camera follow the ball.
+-   `view_follow()` makes the camera follow the ball.
 
--    `shadow_mark()` shows the ball's trail as it bounces.
+-   `shadow_mark()` shows the ball's trail as it bounces.
 
--    `enter_bounce()` makes the ball bounce into view.
+-   `enter_bounce()` makes the ball bounce into view.
 
--    `ease_aes()` makes the motion look smooth and natural — not robotic.
+-   `ease_aes()` makes the motion look smooth and natural — not robotic.
 
 ### 3.2.1 Static bubble plots
 
