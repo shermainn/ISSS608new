@@ -702,7 +702,7 @@ anim_save("hdb_animation.gif", animated_plot)
 
 ### HDB by flat type & Area - gganimate - Great example
 
-```{r}
+```{r, echo=FALSE, eval=FALSE}
 
 ### Load Libraries ###
 library(tidyverse)
@@ -781,9 +781,8 @@ animated_map <- base_map +
   ease_aes('sine-in-out')
 
 ### Render and Save Animation ###
-animate(animated_map, width = 800, height = 600, fps = 10, duration = 8)
-anim_save("singapore_hdb_animation.gif")
-
+animate(animated_map, nframes = 40, width = 800, height = 600, fps = 10, duration = 8)
+anim_save("singapore_hdb_animation.gif", animated_map)
 
 ```
 :::
