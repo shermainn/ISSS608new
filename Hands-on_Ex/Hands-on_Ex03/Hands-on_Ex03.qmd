@@ -700,10 +700,10 @@ animated_plot <- ggplot(hdb_tidy) +
   theme_minimal() +
   labs(title = "Number of HDB Flats by Planning Area", x = "Planning Area", y = "Number of Flats", fill = "Flat Type") +
   transition_states(flat_type, transition_length = 2, state_length = 1) +
-  transition_time(time) +
   ease_aes('linear') +
   shadow_mark(alpha = 0.3)
 
-
+animate(animated_plot, nframes = 100)
+anim_save("hdb_animation.gif", animated_plot)
 ```
 :::
