@@ -557,7 +557,8 @@ Imagine you're animating a bouncing ball with `ggplot2`:
 
 -   `ease_aes()` is used to control easing of aesthetics. The default is `linear`. Other methods are: quadratic, cubic, quartic, quintic, sine, circular, exponential, elastic, back, and bounce.
 
-Default static bubble plot
+::: panel-tabset
+### Default static bubble plot
 
 ```{r}
 ggplot(globalPop, aes(x = Old, y = Young, 
@@ -572,7 +573,7 @@ ggplot(globalPop, aes(x = Old, y = Young,
        y = '% Young') 
 ```
 
-Animated bubble plot
+### Animated bubble plot
 
 ```{r}
 ggplot(globalPop, aes(x = Old, y = Young, 
@@ -588,12 +589,14 @@ ggplot(globalPop, aes(x = Old, y = Young,
   transition_time(Year) +       
   ease_aes('linear')          
 ```
+:::
 
 ### 3.2.2 plotly Methods
 
 In **Plotly R** package, both `ggplotly()` and `plot_ly()` support key frame animations through the `frame` argument/aesthetic. They also support an `ids` argument/aesthetic to ensure smooth transitions between objects with the same id (which helps facilitate object constancy).
 
-ggplotly()
+::: panel-tabset
+### ggplotly()
 
 ```{r}
 
@@ -634,7 +637,7 @@ subplot(g1_plotly,g2_plotly, nrows = 1, shareX = TRUE, shareY = TRUE) %>% layout
 
 ```
 
-plot_ly()
+### plot_ly()
 
 ```{r}
 bp <- globalPop %>%
@@ -652,3 +655,5 @@ bp <- globalPop %>%
   layout(showlegend = FALSE)
 bp
 ```
+:::
+
