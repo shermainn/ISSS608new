@@ -405,10 +405,7 @@ subplot(ggplotly(p1),
 
 ## 2.1.3 crosstalk Methods
 
-Crosstalk is an add-on to the htmlwidgets package. It extends htmlwidgets with a set of classes, functions and conventions for implementing cross-widgets interactions (currently, linked brushing and filtering).
-
-::: panel-tabset
-### 2.1.3.1 Interactive Data Table: DT package
+Crosstalk is an add-on to the htmlwidgets package. It extends htmlwidgets with a set of classes, functions and conventions for implementing cross-widgets interactions (currently, linked brushing and filtering). ::: panel-tabset \### 2.1.3.1 Interactive Data Table: DT package
 
 -   A wrapper of JavaScript Library DataTables
 
@@ -441,143 +438,6 @@ gg <- highlight(ggplotly(p),
 crosstalk::bscols(gg, DT::datatable(d), widths = 5)
 ```
 
-### 
-:::
-
-# 4. Additional Plot: Interactive map of Singapore with ggiraph
-
-Based on the example shown in Hands-on Exercise 3, I created a interactive map of Singapore as well as the geospatial data of Singaporean residents by planning area in 2024 using data from [Data Gov SG](https://data.gov.sg/datasets/d_6d6fd6505f23d7fb90dec567afd555bb/view) and [Singstat](https://www.singstat.gov.sg/find-data/search-by-theme/population/geographic-distribution/latest-data).
-
-Below shows the code chunk I used based on the data sets found.
-
-::: panel-tabset
-### Code Chunk
-
-```{r}
-#| fig_width: 12
-#| fig-height: 7
-#| echo: false
-
-
-library("ggplot2")
-library("ggiraph")
-library("ggthemes")
-library("sf")
-library("readxl")
-library("dplyr")
-library("mapproj")
-library("maps")
-library(janitor)
-
-singapore_map <- st_read("C:/Users/user1/Downloads/MasterPlan2014PlanningAreaBoundaryWebSHP/MP14_PLNG_AREA_WEB_PL.shp")
-
-excel_sheets("C:/Users/user1/Downloads/geospatial-data2024/Singapore Residents by Planning Area, Subzone, Single Year of Age and Sex, Jun 2024.xlsx")
-
-pop_data <- read_excel("C:/Users/user1/Downloads/geospatial-data2024/Singapore Residents by Planning Area, Subzone, Single Year of Age and Sex, Jun 2024.xlsx", sheet = "2024", skip = 1)
-
-head(pop_data)
-names(pop_data)
-names(singapore_map)
-
-pop_data <- clean_names(pop_data)
-
-pop_data$x2024 <- as.numeric(pop_data$x2024)
-
-pop_summary <- pop_data %>%
-  group_by(planning_area) %>%
-  summarise(resident_population = sum(x2024, na.rm = TRUE))
-
-head(pop_summary)
-
-singapore_map <- left_join(singapore_map, pop_summary, by = c("PLN_AREA_N" = "planning_area"))
-```
-
-### Map of Singapore
-
-```{r}
-ggplot(singapore_map) +
-  geom_sf(aes(fill = resident_population), color = "white") +
-  scale_fill_viridis_c(option = "plasma") +
-  theme_minimal() +
-  labs(title = "Singapore Population by Planning Area (2024)", fill = "Population")
-```
-
-### Interactive Map of Singapore (by area)
-
-I added in tooltip for the hovering effect in combination with ggiraph so that you can see population size by area.
-
-```{r}
-#Area data
-singapore_map$area_km2 <- as.numeric(singapore_map$SHAPE_Area) / 1e6
-
-singapore_map$area_cat <- ntile(singapore_map$area_km2, 5)
-singapore_map$area_cat <- factor(singapore_map$area_cat)
-
-#Tooltip
-singapore_map$tooltip <- paste0(
-  singapore_map$PLN_AREA_N, " — ",
-  round(singapore_map$area_km2, 2), " km²"
-)
-#ggiraph
-gg <- ggplot(data = singapore_map) +
-  geom_sf_interactive(
-    aes(fill = area_cat, tooltip = tooltip),
-    color = "white"
-  ) +
-  scale_fill_brewer(palette = "Blues") +
-  theme_minimal() +
-  labs(fill = "Area Size (quintiles)",title = "Singapore Population by Planning Area (2024)")
-
-girafe(ggobj = gg)
-
-```
-
-### HDB by flat type - gganimate
-
-Data sets taken from Gov.tech.sg (from previous plot) and [housingmap.sg](https://www.housingmap.sg/hdb-database/). To determine the number of HDB flats in Singapore, I tried using a bar plot graph and animate it to show the different types of flats (e.g. 1-room, 2-room, 3-room, 4-room and 5-room)
-
-```{r}
-library(tidyr)
-library(dplyr)
-library(gganimate)
-library(ggplot2)
-
-# Rename only the important columns
-colnames(hdb_data) <- c("planning_area", "total_hdb", "one_two_room", 
-                        "three_room", "four_room", "five_executive_room")
-
-hdb_data_clean <- hdb_data %>%
-  select(planning_area, total_hdb, one_two_room, three_room, four_room, five_executive_room) %>%
-  filter(!is.na(planning_area))  # Remove rows with missing planning_area
-
-hdb_tidy <- hdb_data_clean %>%
-  pivot_longer(
-    cols = starts_with("one_two_room"):starts_with("five_executive_room"),  # Long format for the flat types
-    names_to = "flat_type",
-    values_to = "hdb_flats"
-  ) %>%
-  mutate(
-    hdb_flats = as.numeric(hdb_flats),  # Ensure that the flat values are numeric
-    planning_area = toupper(trimws(planning_area))  # Clean the planning area names (if necessary)
-  ) %>%
-  filter(!is.na(hdb_flats))  # Remove rows with missing flat counts
-
-ggplot(hdb_tidy) +
-  geom_bar(aes(x = planning_area, y = hdb_flats, fill = flat_type), stat = "identity", position = "dodge") +
-  coord_flip() +
-  theme_minimal() +
-  labs(title = "Number of HDB Flats by Planning Area", x = "Planning Area", y = "Number of Flats", fill = "Flat Type")
-
-
-animated_plot <- ggplot(hdb_tidy) +
-  geom_bar(aes(x = planning_area, y = hdb_flats, fill = flat_type), stat = "identity", position = "dodge") +
-  coord_flip() +
-  theme_minimal() +
-  labs(title = "Number of HDB Flats by Planning Area", x = "Planning Area", y = "Number of Flats", fill = "Flat Type") +
-  transition_states(flat_type, transition_length = 2, state_length = 1)  # Animation over flat types (adjust accordingly)
-
-animate(animated_plot, nframes = 100, height = 500, width = 800)
-```
 :::
 
 # 3. Animated Data Visualization
@@ -704,5 +564,146 @@ bp <- globalPop %>%
           ) %>%
   layout(showlegend = FALSE)
 bp
+```
+:::
+
+# 4. Additional Plot: Interactive map of Singapore with ggiraph
+
+Based on the example shown in Hands-on Exercise 3, I created a interactive map of Singapore as well as the geospatial data of Singaporean residents by planning area in 2024 using data from [Data Gov SG](https://data.gov.sg/datasets/d_6d6fd6505f23d7fb90dec567afd555bb/view) and [Singstat](https://www.singstat.gov.sg/find-data/search-by-theme/population/geographic-distribution/latest-data).
+
+Below shows the code chunk I used based on the data sets found.
+
+::: panel-tabset
+### Code Chunk
+
+```{r}
+#| fig_width: 12
+#| fig-height: 7
+#| echo: false
+
+
+library("ggplot2")
+library("ggiraph")
+library("ggthemes")
+library("sf")
+library("readxl")
+library("dplyr")
+library("mapproj")
+library("maps")
+library(janitor)
+
+singapore_map <- st_read("C:/Users/user1/Downloads/MasterPlan2014PlanningAreaBoundaryWebSHP/MP14_PLNG_AREA_WEB_PL.shp")
+
+excel_sheets("C:/Users/user1/Downloads/geospatial-data2024/Singapore Residents by Planning Area, Subzone, Single Year of Age and Sex, Jun 2024.xlsx")
+
+pop_data <- read_excel("C:/Users/user1/Downloads/geospatial-data2024/Singapore Residents by Planning Area, Subzone, Single Year of Age and Sex, Jun 2024.xlsx", sheet = "2024", skip = 1)
+
+head(pop_data)
+names(pop_data)
+names(singapore_map)
+
+pop_data <- clean_names(pop_data)
+
+pop_data$x2024 <- as.numeric(pop_data$x2024)
+
+pop_summary <- pop_data %>%
+  group_by(planning_area) %>%
+  summarise(resident_population = sum(x2024, na.rm = TRUE))
+
+head(pop_summary)
+
+singapore_map <- left_join(singapore_map, pop_summary, by = c("PLN_AREA_N" = "planning_area"))
+```
+
+### Map of Singapore
+
+```{r}
+ggplot(singapore_map) +
+  geom_sf(aes(fill = resident_population), color = "white") +
+  scale_fill_viridis_c(option = "plasma") +
+  theme_minimal() +
+  labs(title = "Singapore Population by Planning Area (2024)", fill = "Population")
+```
+
+### Interactive Map of Singapore (by area)
+
+I added in tooltip for the hovering effect in combination with ggiraph so that you can see population size by area.
+
+```{r}
+#Area data
+singapore_map$area_km2 <- as.numeric(singapore_map$SHAPE_Area) / 1e6
+
+singapore_map$area_cat <- ntile(singapore_map$area_km2, 5)
+singapore_map$area_cat <- factor(singapore_map$area_cat)
+
+#Tooltip
+singapore_map$tooltip <- paste0(
+  singapore_map$PLN_AREA_N, " — ",
+  round(singapore_map$area_km2, 2), " km²"
+)
+#ggiraph
+gg <- ggplot(data = singapore_map) +
+  geom_sf_interactive(
+    aes(fill = area_cat, tooltip = tooltip),
+    color = "white"
+  ) +
+  scale_fill_brewer(palette = "Blues") +
+  theme_minimal() +
+  labs(fill = "Area Size (quintiles)",title = "Singapore Population by Planning Area (2024)")
+
+girafe(ggobj = gg)
+
+```
+
+### HDB by flat type - gganimate
+
+Data sets taken from Gov.tech.sg (from previous plot) and [housingmap.sg](https://www.housingmap.sg/hdb-database/). To determine the number of HDB flats in Singapore, I tried using a bar plot graph and animate it to show the different types of flats (e.g. 1-room, 2-room, 3-room, 4-room and 5-room)
+
+```{r}
+library(tidyr)
+library(dplyr)
+library(gganimate)
+library(ggplot2)
+
+hdb_data <- read_excel("C:/shermainn/ISSS608new/Hands-on_Ex/Hands-on_Ex03/data/hestod2022e1.xlsx") 
+
+# Rename only the important columns
+colnames(hdb_data) <- c("planning_area", "total_hdb", "one_two_room", 
+                        "three_room", "four_room", "five_executive_room")
+
+hdb_data_clean <- hdb_data %>%
+  select(planning_area, total_hdb, one_two_room, three_room, four_room, five_executive_room) %>%
+  filter(!is.na(planning_area))  # Remove rows with missing planning_area
+
+hdb_tidy <- hdb_data_clean %>%
+  pivot_longer(
+    cols = starts_with("one_two_room"):starts_with("five_executive_room"),  # Long format for the flat types
+    names_to = "flat_type",
+    values_to = "hdb_flats"
+  ) %>%
+  mutate(
+    hdb_flats = as.numeric(hdb_flats),  # Ensure that the flat values are numeric
+    planning_area = toupper(trimws(planning_area))  # Clean the planning area names (if necessary)
+  ) %>%
+  filter(!is.na(hdb_flats))  # Remove rows with missing flat counts
+
+ggplot(hdb_tidy) +
+  geom_bar(aes(x = planning_area, y = hdb_flats, fill = flat_type), stat = "identity", position = "dodge") +
+  coord_flip() +
+  theme_minimal() +
+  labs(title = "Number of HDB Flats by Planning Area", x = "Planning Area", y = "Number of Flats", fill = "Flat Type")
+
+
+animated_plot <- ggplot(hdb_tidy) +
+  geom_bar(aes(x = planning_area, y = hdb_flats, fill = flat_type), stat = "identity", position = "dodge") +
+  coord_flip() +
+  theme_minimal() +
+  labs(title = "Number of HDB Flats by Planning Area", x = "Planning Area", y = "Number of Flats", fill = "Flat Type") +
+  transition_states(flat_type, transition_length = 2, state_length = 1) +
+  transition_time(time) +
+  ease_aes('linear') +
+  shadow_mark(alpha = 0.3)
+
+
 ```
 :::
