@@ -444,7 +444,11 @@ crosstalk::bscols(gg, DT::datatable(d), widths = 5)
 ### 
 :::
 
-# 2.2 Additional Plot: Interactive map of Singapore with ggiraph
+# 4. Additional Plot: Interactive map of Singapore with ggiraph
+
+Based on the example shown in Hands-on Exercise 3, I created a interactive map of Singapore as well as the geospatial data of Singaporean residents by planning area in 2024 using data from [Data Gov SG](https://data.gov.sg/datasets/d_6d6fd6505f23d7fb90dec567afd555bb/view) and [Singstat](https://www.singstat.gov.sg/find-data/search-by-theme/population/geographic-distribution/latest-data).
+
+Below shows the code chunk I used based on the data sets found.
 
 ::: panel-tabset
 ### Code Chunk
@@ -500,6 +504,8 @@ ggplot(singapore_map) +
 
 ### Interactive Map of Singapore (by area)
 
+I added in tooltip for the hovering effect in combination with ggiraph so that you can see population size by area.
+
 ```{r}
 #Area data
 singapore_map$area_km2 <- as.numeric(singapore_map$SHAPE_Area) / 1e6
@@ -524,6 +530,53 @@ gg <- ggplot(data = singapore_map) +
 
 girafe(ggobj = gg)
 
+```
+
+### HDB by flat type - gganimate
+
+Data sets taken from Gov.tech.sg (from previous plot) and [housingmap.sg](https://www.housingmap.sg/hdb-database/). To determine the number of HDB flats in Singapore, I tried using a bar plot graph and animate it to show the different types of flats (e.g. 1-room, 2-room, 3-room, 4-room and 5-room)
+
+```{r}
+library(tidyr)
+library(dplyr)
+library(gganimate)
+library(ggplot2)
+
+# Rename only the important columns
+colnames(hdb_data) <- c("planning_area", "total_hdb", "one_two_room", 
+                        "three_room", "four_room", "five_executive_room")
+
+hdb_data_clean <- hdb_data %>%
+  select(planning_area, total_hdb, one_two_room, three_room, four_room, five_executive_room) %>%
+  filter(!is.na(planning_area))  # Remove rows with missing planning_area
+
+hdb_tidy <- hdb_data_clean %>%
+  pivot_longer(
+    cols = starts_with("one_two_room"):starts_with("five_executive_room"),  # Long format for the flat types
+    names_to = "flat_type",
+    values_to = "hdb_flats"
+  ) %>%
+  mutate(
+    hdb_flats = as.numeric(hdb_flats),  # Ensure that the flat values are numeric
+    planning_area = toupper(trimws(planning_area))  # Clean the planning area names (if necessary)
+  ) %>%
+  filter(!is.na(hdb_flats))  # Remove rows with missing flat counts
+
+ggplot(hdb_tidy) +
+  geom_bar(aes(x = planning_area, y = hdb_flats, fill = flat_type), stat = "identity", position = "dodge") +
+  coord_flip() +
+  theme_minimal() +
+  labs(title = "Number of HDB Flats by Planning Area", x = "Planning Area", y = "Number of Flats", fill = "Flat Type")
+
+
+animated_plot <- ggplot(hdb_tidy) +
+  geom_bar(aes(x = planning_area, y = hdb_flats, fill = flat_type), stat = "identity", position = "dodge") +
+  coord_flip() +
+  theme_minimal() +
+  labs(title = "Number of HDB Flats by Planning Area", x = "Planning Area", y = "Number of Flats", fill = "Flat Type") +
+  transition_states(flat_type, transition_length = 2, state_length = 1)  # Animation over flat types (adjust accordingly)
+
+animate(animated_plot, nframes = 100, height = 500, width = 800)
 ```
 :::
 
