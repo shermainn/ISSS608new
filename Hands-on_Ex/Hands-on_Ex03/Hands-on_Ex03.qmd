@@ -592,11 +592,11 @@ library("mapproj")
 library("maps")
 library(janitor)
 
-singapore_map <- st_read("C:/Users/user1/Downloads/MasterPlan2014PlanningAreaBoundaryWebSHP/MP14_PLNG_AREA_WEB_PL.shp")
+singapore_map <- st_read("C:/shermainn/ISSS608new/Hands-on_Ex/Hands-on_Ex03/data/MasterPlan2014PlanningAreaBoundaryWebSHP/MP14_PLNG_AREA_WEB_PL.shp")
 
-excel_sheets("C:/Users/user1/Downloads/geospatial-data2024/Singapore Residents by Planning Area, Subzone, Single Year of Age and Sex, Jun 2024.xlsx")
+excel_sheets("C:/shermainn/ISSS608new/Hands-on_Ex/Hands-on_Ex03/data/Singapore Residents by Planning Area, Subzone, Single Year of Age and Sex, Jun 2024.xlsx")
 
-pop_data <- read_excel("C:/Users/user1/Downloads/geospatial-data2024/Singapore Residents by Planning Area, Subzone, Single Year of Age and Sex, Jun 2024.xlsx", sheet = "2024", skip = 1)
+pop_data <- read_excel("C:/shermainn/ISSS608new/Hands-on_Ex/Hands-on_Ex03/data/Singapore Residents by Planning Area, Subzone, Single Year of Age and Sex, Jun 2024.xlsx", sheet = "2024", skip = 1)
 
 head(pop_data)
 names(pop_data)
@@ -655,7 +655,7 @@ girafe(ggobj = gg)
 
 ```
 
-### HDB by flat type - gganimate
+### HDB by flat type - gganimate (Bar Graph) - Not great example
 
 Data sets taken from Gov.tech.sg (from previous plot) and [housingmap.sg](https://www.housingmap.sg/hdb-database/). To determine the number of HDB flats in Singapore, I tried using a bar plot graph and animate it to show the different types of flats (e.g. 1-room, 2-room, 3-room, 4-room and 5-room)
 
@@ -687,13 +687,6 @@ hdb_tidy <- hdb_data_clean %>%
   ) %>%
   filter(!is.na(hdb_flats))  # Remove rows with missing flat counts
 
-ggplot(hdb_tidy) +
-  geom_bar(aes(x = planning_area, y = hdb_flats, fill = flat_type), stat = "identity", position = "dodge") +
-  coord_flip() +
-  theme_minimal() +
-  labs(title = "Number of HDB Flats by Planning Area", x = "Planning Area", y = "Number of Flats", fill = "Flat Type")
-
-
 animated_plot <- ggplot(hdb_tidy) +
   geom_bar(aes(x = planning_area, y = hdb_flats, fill = flat_type), stat = "identity", position = "dodge") +
   coord_flip() +
@@ -705,5 +698,92 @@ animated_plot <- ggplot(hdb_tidy) +
 
 animate(animated_plot, nframes = 100)
 anim_save("hdb_animation.gif", animated_plot)
+```
+
+### HDB by flat type & Area - gganimate - Great example
+
+```{r}
+
+### Load Libraries ###
+library(tidyverse)
+library(readxl)
+library(janitor)
+library(sf)
+library(gganimate)
+library(viridis)
+library(ggiraph)
+
+### Load Singapore Planning Area Map ###
+singapore_map <- st_read("C:/shermainn/ISSS608new/Hands-on_Ex/Hands-on_Ex03/data/MasterPlan2014PlanningAreaBoundaryWebSHP/MP14_PLNG_AREA_WEB_PL.shp")
+
+### Load Population Data ###
+pop_data <- read_excel(
+  "C:/shermainn/ISSS608new/Hands-on_Ex/Hands-on_Ex03/data/Singapore Residents by Planning Area, Subzone, Single Year of Age and Sex, Jun 2024.xlsx",
+  sheet = "2024",
+  skip = 1
+) %>% clean_names()
+
+pop_data$x2024 <- as.numeric(pop_data$x2024)
+
+pop_summary <- pop_data %>%
+  group_by(planning_area) %>%
+  summarise(resident_population = sum(x2024, na.rm = TRUE))
+
+singapore_map <- left_join(singapore_map, pop_summary, by = c("PLN_AREA_N" = "planning_area"))
+
+### Area and Tooltip for Base Map ###
+singapore_map$area_km2 <- as.numeric(singapore_map$SHAPE_Area) / 1e6
+singapore_map$area_cat <- factor(ntile(singapore_map$area_km2, 5))
+
+singapore_map$tooltip <- paste0(
+  singapore_map$PLN_AREA_N, " — ",
+  round(singapore_map$area_km2, 2), " km²"
+)
+
+### Load HDB Flats Data ###
+flats_data <- read_excel("C:/shermainn/ISSS608new/Hands-on_Ex/Hands-on_Ex03/data/new_hdb_data.xlsx") %>%
+  clean_names()
+
+### Prepare Long Format for Animation ###
+flats_long <- flats_data %>%
+  pivot_longer(
+    cols = c(x1_2_room_flats, x3_room_flats, x4_room_flats, x5_and_above_flats),
+    names_to = "flat_type",
+    values_to = "count"
+  ) %>%
+  filter(!is.na(latitude), !is.na(longitude))
+
+### Convert to sf and Match CRS ###
+flats_sf <- st_as_sf(flats_long, coords = c("longitude", "latitude"), crs = 4326)
+flats_sf <- st_transform(flats_sf, st_crs(singapore_map))
+
+### Base Map with Planning Area ###
+base_map <- ggplot(data = singapore_map) +
+  geom_sf(fill = "gray95", color = "white") +
+  theme_minimal()
+
+### Animated Overlay of HDB Flat Types ###
+animated_map <- base_map +
+  geom_sf(
+    data = flats_sf,
+    aes(size = count, color = flat_type),
+    alpha = 0.7
+  ) +
+  scale_size_continuous(range = c(2, 10)) +
+  scale_color_brewer(palette = "Dark2") +
+  labs(
+    title = "Singapore HDB Flats by Type",
+    subtitle = 'Flat Type: {closest_state}',
+    size = "Flat Count",
+    color = "Flat Type"
+  ) +
+  transition_states(flat_type, transition_length = 2, state_length = 1) +
+  ease_aes('sine-in-out')
+
+### Render and Save Animation ###
+animate(animated_map, width = 800, height = 600, fps = 10, duration = 8)
+anim_save("singapore_hdb_animation.gif")
+
+
 ```
 :::
