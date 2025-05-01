@@ -187,5 +187,110 @@
     "title": "ISSS608new",
     "section": "🔥 Latest Hands-on Exercise",
     "text": "🔥 Latest Hands-on Exercise\n\n\n\n\n\n\n\nHandsOnEx3\n\n\nHands-on Exercise 3\n\n\n\nShermainn"
+  },
+  {
+    "objectID": "index.html#latest-take-home-exercise",
+    "href": "index.html#latest-take-home-exercise",
+    "title": "ISSS608new",
+    "section": "🔥 Latest Take-home Exercise",
+    "text": "🔥 Latest Take-home Exercise\n\n\n\n\n\n\n\nTakehomeEx01\n\n\nTake-home Exercise 1\n\n\n\nShermainn"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html",
+    "title": "Take-home_Ex01",
+    "section": "",
+    "text": "The Department of Statistics (DOS) Singapore is the national authority responsible for the collection, compilation, analysis and dissemination of official statistics in Singapore. As part of the Ministry of Trade and Industry, DOS plays a pivotal role in supporting evidence-based policy-making and planning by providing timely and reliable demographic, social and economic statistics.\nIn the context of population studies, DOS regularly published detailed data sets that inform stakeholders on trends in age structure, gender distribution, geographical dispersion and population growth. This would help to analyze population structures, identifying spatial disparities and tracking demographic shifts across time and regions.\nThe DOS data set taken in 2024 consisted resident population (age and sex) of the planning regions based on the main area and sub-zones.\n\n\n\nThe data used for this exercise is Singapore Residents by Planning Area / Subzone, Single Year of Age and Sex, June 2024 which can be retrieved from Department of Statistics, Singapore (DOS) Population Trends tab.\n\n\n\nImage of DOS data\n\n\nSupplementary materials used complementary with data set:\n\nFacilities of\n\n\n\n\nAs a graphical editor of the media company, the task is to prepare data visualization for the article on demographic structures and distribution of Singapore in 2024.\nUsing the DOS data set above, this post aims to use appropriate tidyverse family of packages (dplr, tidyr), exploratory data analysis (EDA) and ggplot2 functions and its extensions to uncover:\n\nDependency Burden: the regions that have a high dependency ratio (high proportion of young and elderly) to find out if there are sufficient facilities (e.g. childcare centers and eldercare facilities)\nUrban Planning and Housing Needs: the aging communities in Singapore based on the geographical regions using the subzone-level data"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#background",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#background",
+    "title": "Take-home_Ex01",
+    "section": "",
+    "text": "The Department of Statistics (DOS) Singapore is the national authority responsible for the collection, compilation, analysis and dissemination of official statistics in Singapore. As part of the Ministry of Trade and Industry, DOS plays a pivotal role in supporting evidence-based policy-making and planning by providing timely and reliable demographic, social and economic statistics.\nIn the context of population studies, DOS regularly published detailed data sets that inform stakeholders on trends in age structure, gender distribution, geographical dispersion and population growth. This would help to analyze population structures, identifying spatial disparities and tracking demographic shifts across time and regions.\nThe DOS data set taken in 2024 consisted resident population (age and sex) of the planning regions based on the main area and sub-zones."
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#data",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#data",
+    "title": "Take-home_Ex01",
+    "section": "",
+    "text": "The data used for this exercise is Singapore Residents by Planning Area / Subzone, Single Year of Age and Sex, June 2024 which can be retrieved from Department of Statistics, Singapore (DOS) Population Trends tab.\n\n\n\nImage of DOS data\n\n\nSupplementary materials used complementary with data set:\n\nFacilities of"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#task",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#task",
+    "title": "Take-home_Ex01",
+    "section": "",
+    "text": "As a graphical editor of the media company, the task is to prepare data visualization for the article on demographic structures and distribution of Singapore in 2024.\nUsing the DOS data set above, this post aims to use appropriate tidyverse family of packages (dplr, tidyr), exploratory data analysis (EDA) and ggplot2 functions and its extensions to uncover:\n\nDependency Burden: the regions that have a high dependency ratio (high proportion of young and elderly) to find out if there are sufficient facilities (e.g. childcare centers and eldercare facilities)\nUrban Planning and Housing Needs: the aging communities in Singapore based on the geographical regions using the subzone-level data"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#variable-selection",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#variable-selection",
+    "title": "Take-home_Ex01",
+    "section": "4.1 Variable Selection",
+    "text": "4.1 Variable Selection\nBased on the excel spreadsheet, Singapore Residents by Planning Area / Subzone, Single Year of Age and Sex, June 2024, I will be categorizing the data set into what was shown above in the flowchart. The ages of the population will be divided into 3 categories: Young (0-17 years), Working adults (18-64), Elderly (65+). The genders will be divided into female and male. As for the planning areas, there are 55 planning areas (main zones) and 346 subzones.\nBelow are the list of variables retained for this study which are grouped into 2 categories of Age and Planning areas.\n\n\n\n\n\n\n\n\n\nCategory\nDescription\nType\nEncoding Scheme\n\n\n\n\nAge\nDependency Burden\nNUM\nYoung (0-17)\nWorking Adults (18-64)\nElderly (65+)\n\n\nPlanning areas\nUrban Planning and Housing Needs\nNUM\nMain zones\nSubzones"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#handling-of-missing-values",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#handling-of-missing-values",
+    "title": "Take-home_Ex01",
+    "section": "4.2 Handling of missing values",
+    "text": "4.2 Handling of missing values"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#recoding-categorical-variables",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#recoding-categorical-variables",
+    "title": "Take-home_Ex01",
+    "section": "4.2 Recoding Categorical Variables",
+    "text": "4.2 Recoding Categorical Variables\n\nAge groupsMain zones and subzones\n\n\nIn order to have a consistent data set to analyze the population age groups, data is cleaned by filter() to set new values into 3 age groups:\n\nYoung of 0 - 17 years\nWorking Adults of 18 - 64 years\nand Elderly of 65 years and above\n\nThe values are all within the new column namely Age_Group.\n\n\nThe data set is then further categorized by main zones and subzones by using filter()to remove the totals in columns of Age, Sex, Subzone and ‘-’ in Population as they are repeated values or null values. The values are then all renamed Planning_Area, Subzone, and Total_Population.\n\nlibrary(readxl)\nlibrary(dplyr)\n\n# Load the data\npopdata &lt;- read_excel(\"C:\\\\shermainn\\\\ISSS608new\\\\Take-home_Ex\\\\Take-home_Ex01\\\\data\\\\respopagesex2024e.xlsx\")\n\n# Clean and process\npopdata_cleaned &lt;- popdata %&gt;%\n  rename(\n    Planning_Area = `Planning Area`,\n    Population = `2024`\n  ) %&gt;%\n  filter(Sex != \"Total\", Age != \"Total\", Subzone != \"Total\") %&gt;%\n  mutate(\n    Population = na_if(Population, \"-\"),            \n    Age = as.numeric(Age),\n    Population = as.numeric(Population),\n    Age_Group = case_when(\n      Age &gt;= 0 & Age &lt;= 17 ~ \"Young (0-17)\",\n      Age &gt;= 18 & Age &lt;= 64 ~ \"Working Adults (18-64)\",\n      Age &gt;= 65 ~ \"Elderly (65+)\",\n      TRUE ~ NA_character_\n    )\n  ) %&gt;%\n  filter(!is.na(Age_Group)) %&gt;%\n  group_by(Planning_Area, Subzone, Age_Group) %&gt;%\n  summarise(Total_Population = sum(Population, na.rm = TRUE), .groups = \"drop\")\n\n# View results\nhead(popdata_cleaned)\n\n# A tibble: 6 × 4\n  Planning_Area Subzone                Age_Group              Total_Population\n  &lt;chr&gt;         &lt;chr&gt;                  &lt;chr&gt;                             &lt;dbl&gt;\n1 Ang Mo Kio    Ang Mo Kio Town Centre Elderly (65+)                       880\n2 Ang Mo Kio    Ang Mo Kio Town Centre Working Adults (18-64)             3170\n3 Ang Mo Kio    Ang Mo Kio Town Centre Young (0-17)                        830\n4 Ang Mo Kio    Cheng San              Elderly (65+)                      6580\n5 Ang Mo Kio    Cheng San              Working Adults (18-64)            16940\n6 Ang Mo Kio    Cheng San              Young (0-17)                       3350"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#data-type-conversion",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#data-type-conversion",
+    "title": "Take-home_Ex01",
+    "section": "4.4 Data Type Conversion",
+    "text": "4.4 Data Type Conversion"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#variable-creation",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#variable-creation",
+    "title": "Take-home_Ex01",
+    "section": "4.5 Variable Creation",
+    "text": "4.5 Variable Creation"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#target-variables",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#target-variables",
+    "title": "Take-home_Ex01",
+    "section": "5.1 Target Variables",
+    "text": "5.1 Target Variables"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#comparison-distribution",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#comparison-distribution",
+    "title": "Take-home_Ex01",
+    "section": "6.1 Comparison distribution",
+    "text": "6.1 Comparison distribution"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#top-10-subzones",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#top-10-subzones",
+    "title": "Take-home_Ex01",
+    "section": "5.1 Top 10 subzones",
+    "text": "5.1 Top 10 subzones\nIdentifying the top 10 subzones for each population group is paramount for informed urban planning and resource allocation. By understanding the demographic concentrations and where they are located at would help the government agencies, planners and social service providers to allocate infrastructure, facilities and services for efficiently and effectively.\nFor instance, subzones with a high elderly proportion would require more eldercare services, accesible transportation and healthcare centers. On the other hand, areas with many children would need sufficient childcare centers, schools and recreational amenities.\n\nElderly (65+)Young (0-17)Working Adults (18-64)Comparison between the 3 groups (using patchwork)\n\n\n\nlibrary(ggplot2)\n#| fig-width: 7\n#| fig_height: 12\n  \n\n# Filter and get top 10 subzones by elderly population\ntop_elderly_subzones &lt;- popdata_cleaned %&gt;%\n  filter(Age_Group == \"Elderly (65+)\") %&gt;%\n  arrange(desc(Total_Population)) %&gt;%\n  slice_head(n = 10)\n\n# Plot\ne1 &lt;- ggplot(top_elderly_subzones, aes(x = reorder(Subzone, Total_Population), y = Total_Population, fill = Planning_Area)) +\n  geom_col() +\n  coord_flip() +\n  labs(\n    title = \"Top 10 Subzones with Highest Elderly Population\\n(65+ years)\",\n    x = \"Subzone\",\n    y = \"Number of Elderly Population\"\n  ) +\n  theme_minimal() +\n  theme(legend.position = \"none\")\n\ne1#\n\n\n\n\n\n\n\n\n\n\n\nlibrary(ggplot2)\n#| fig-width: 7\n#| fig_height: 12\n\ntop_young_subzones &lt;- popdata_cleaned %&gt;%\n  filter(Age_Group == \"Young (0-17)\") %&gt;%\n  arrange(desc(Total_Population)) %&gt;%\n  slice_head(n = 10)\n\n# Plot\ny1 &lt;- ggplot(top_young_subzones, aes(x = reorder(Subzone, Total_Population), y = Total_Population, fill = Planning_Area)) +\n  geom_col() +\n  coord_flip() +\n  labs(\n    title = \"Top 10 Subzones with Highest Young\\nPopulation (0–17 years)\",\n    x = \"Subzone\",\n    y = \"Number of Young Population\"\n  ) +\n  theme_minimal() +\n  theme(legend.position = \"none\")\n\ny1#\n\n\n\n\n\n\n\n\n\n\n\nlibrary(ggplot2)\n#| fig-width: 7\n#| fig_height: 12\n\n\ntop_working_subzones &lt;- popdata_cleaned %&gt;%\n  filter(Age_Group == \"Working Adults (18-64)\") %&gt;%\n  arrange(desc(Total_Population)) %&gt;%\n  slice_head(n = 10)\n\n# Plot\na1 &lt;- ggplot(top_working_subzones, aes(x = reorder(Subzone, Total_Population), y = Total_Population, fill = Planning_Area)) +\n  geom_col() +\n  coord_flip() +\n  labs(\n    title = \"Top 10 Subzones with Highest Working Adults\\nPopulation (18–64 years)\",\n    x = \"Subzone\",\n    y = \"Number of Working Adults Population\"\n  ) +\n  theme_minimal() +\n  theme(legend.position = \"none\")\n\na1#"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#comparison-between-subzones-and",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#comparison-between-subzones-and",
+    "title": "Take-home_Ex01",
+    "section": "5.2 Comparison between Subzones and",
+    "text": "5.2 Comparison between Subzones and"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#section-2",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#section-2",
+    "title": "Take-home_Ex01",
+    "section": "6.1",
+    "text": "6.1"
   }
 ]

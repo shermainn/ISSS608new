@@ -3,9 +3,307 @@ title: "Take-home_Ex01"
 author: "Shermainn"
 date: 2025-04-29
 date-modified: "last-modified"
-categories: ["Hands-on Exercise"]
+categories: ["Take-home Exercise"]
 execute: 
   eval: true
   echo: true
   warning: false
 ---
+
+# 1. Overview
+
+## 1.1 Background
+
+The Department of Statistics (DOS) Singapore is the national authority responsible for the collection, compilation, analysis and dissemination of official statistics in Singapore. As part of the Ministry of Trade and Industry, DOS plays a pivotal role in supporting evidence-based policy-making and planning by providing timely and reliable demographic, social and economic statistics.
+
+In the context of population studies, DOS regularly published detailed data sets that inform stakeholders on trends in age structure, gender distribution, geographical dispersion and population growth. This would help to analyze population structures, identifying spatial disparities and tracking demographic shifts across time and regions.
+
+The DOS data set taken in 2024 consisted resident population (age and sex) of the planning regions based on the main area and sub-zones.
+
+## 1.2 Data
+
+The data used for this exercise is *Singapore Residents by Planning Area / Subzone, Single Year of Age and Sex, June 2024* which can be retrieved from [Department of Statistics, Singapore (DOS)](https://www.singstat.gov.sg/find-data/search-by-theme/population/geographic-distribution/latest-data) Population Trends tab.
+
+![Image of DOS data](Image%20of%20Data%20DOS.png)
+
+Supplementary materials used complementary with data set:
+
+-   Facilities of
+
+## 1.3 Task
+
+As a graphical editor of the media company, the task is to prepare data visualization for the article on **demographic structures and distribution of Singapore in 2024**.
+
+Using the DOS data set above, this post aims to use appropriate `tidyverse` family of packages (`dplr`, `tidyr`), exploratory data analysis (EDA) and `ggplot2` functions and its extensions to uncover:
+
+1.  Dependency Burden: the regions that have a high dependency ratio (high proportion of young and elderly) to find out if there are sufficient facilities (e.g. childcare centers and eldercare facilities)
+
+2.  Urban Planning and Housing Needs: the aging communities in Singapore based on the geographical regions using the subzone-level data
+
+# 2. Load Packages
+
++------------+---------------------------------------------------------------------------------------------------------------+
+| Library    | Description                                                                                                   |
++============+===============================================================================================================+
+| tidyverse  | A collection of core packages designed for data science, used extensively for data preparation and wrangling. |
++------------+---------------------------------------------------------------------------------------------------------------+
+| patchwork  | For preparing composite figure created using ggplot2.                                                         |
++------------+---------------------------------------------------------------------------------------------------------------+
+| ggthemes   | Extra themes, geoms, and scales for ggplot2.                                                                  |
++------------+---------------------------------------------------------------------------------------------------------------+
+| gganimate  | Extends the grammat of graphics as implemented by ggplot2 to include the description of animation.            |
++------------+---------------------------------------------------------------------------------------------------------------+
+| ggrepel    | Control the placement of annotation on a graph                                                                |
++------------+---------------------------------------------------------------------------------------------------------------+
+| hrbrthemes | Create professional publication quality figures                                                               |
++------------+---------------------------------------------------------------------------------------------------------------+
+| ggiraph    | Makes ‘ggplot’ graphics interactive                                                                           |
++------------+---------------------------------------------------------------------------------------------------------------+
+| plotly     | R library for plotting interactive statistical graphs                                                         |
++------------+---------------------------------------------------------------------------------------------------------------+
+| DT         | Provides an R interface to the JavaScript library DataTables that create interactive table on html page       |
++------------+---------------------------------------------------------------------------------------------------------------+
+
+The following code chunk uses `p_load()` of pacman package to check if tidyverse packages are installed into the computer.
+
+```{r}
+pacman::p_load(tidyverse,patchwork, ggthemes, gganimate, ggrepel, hrbrthemes,ggiraph,plotly,DT)
+```
+
+# 3. DOS Data
+
+::: panel-tabset
+### Import Data
+
+The code chunk below will import *Singapore Residents by Planning Area / Subzone, Single Year of Age and Sex, June 2024* data set from DOS's website using the `read_excel()` function of the `readxl` package.
+
+```{r}
+library(readxl)
+
+popdata <- read_excel("C:\\shermainn\\ISSS608new\\Take-home_Ex\\Take-home_Ex01\\data\\respopagesex2024e.xlsx")
+```
+
+The data set is in an excel spreadsheet, containing 10,7091 observations (rows) and across 5 variables (columns). Each observation corresponds to an entry from a main planning area (i.e. Ang Mo Kio) that is further split into subzone (i.e. Ang Mo Kio Town Centre) based on the age and sex in 2024.
+
+### 
+
+```{r}
+
+```
+:::
+
+# 4. Data Wrangling
+
+The following flowchart shows the main variables used and created in this study.
+
+```{r}
+library(DiagrammeR)
+
+DiagrammeR("
+graph TD
+  A[DOS data set] --> B1{Dependency Burden}
+  A --> B2{Urban Planning and Housing Needs}
+  
+  B1 --> C1[Age]
+  B2 --> C3[Planning Area]
+  C3 --> C4[Subzone]
+")
+
+```
+
+## 4.1 Variable Selection
+
+Based on the excel spreadsheet, *Singapore Residents by Planning Area / Subzone, Single Year of Age and Sex, June 2024*, I will be categorizing the data set into what was shown above in the flowchart. The ages of the population will be divided into 3 categories: Young (0-17 years), Working adults (18-64), Elderly (65+). The genders will be divided into female and male. As for the planning areas, there are 55 planning areas (main zones) and 346 subzones.
+
+Below are the list of variables retained for this study which are grouped into 2 categories of Age and Planning areas.
+
++----------------+----------------------------------+-------------+------------------------+
+| Category       | Description                      | Type        | Encoding Scheme        |
++================+==================================+=============+========================+
+| Age            | Dependency Burden                | NUM         | Young (0-17)           |
+|                |                                  |             |                        |
+|                |                                  |             | Working Adults (18-64) |
+|                |                                  |             |                        |
+|                |                                  |             | Elderly (65+)          |
++----------------+----------------------------------+-------------+------------------------+
+| Planning areas | Urban Planning and Housing Needs | NUM         | Main zones             |
+|                |                                  |             |                        |
+|                |                                  |             | Subzones               |
++----------------+----------------------------------+-------------+------------------------+
+
+## 4.2 Recoding Categorical Variables
+
+::: panel-tabset
+### Age groups
+
+In order to have a consistent data set to analyze the population age groups, data is cleaned by filter() to set new values into 3 age groups:
+
+-   Young of 0 - 17 years
+
+-   Working Adults of 18 - 64 years
+
+-   and Elderly of 65 years and above
+
+The values are all within the new column namely Age_Group.
+
+### Main zones and subzones
+
+The data set is then further categorized by main zones and subzones by using `filter()`to remove the totals in columns of Age, Sex, Subzone and '-' in Population as they are repeated values or null values. The values are then all renamed Planning_Area, Subzone, and Total_Population.
+
+```{r}
+library(readxl)
+library(dplyr)
+
+# Load the data
+popdata <- read_excel("C:\\shermainn\\ISSS608new\\Take-home_Ex\\Take-home_Ex01\\data\\respopagesex2024e.xlsx")
+
+# Clean and process
+popdata_cleaned <- popdata %>%
+  rename(
+    Planning_Area = `Planning Area`,
+    Population = `2024`
+  ) %>%
+  filter(Sex != "Total", Age != "Total", Subzone != "Total") %>%
+  mutate(
+    Population = na_if(Population, "-"),            
+    Age = as.numeric(Age),
+    Population = as.numeric(Population),
+    Age_Group = case_when(
+      Age >= 0 & Age <= 17 ~ "Young (0-17)",
+      Age >= 18 & Age <= 64 ~ "Working Adults (18-64)",
+      Age >= 65 ~ "Elderly (65+)",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  filter(!is.na(Age_Group)) %>%
+  group_by(Planning_Area, Subzone, Age_Group) %>%
+  summarise(Total_Population = sum(Population, na.rm = TRUE), .groups = "drop")
+
+# View results
+head(popdata_cleaned)
+
+```
+
+### 
+:::
+
+# 5. Univariate Analysis
+
+The next few plots in this section will be used to analyzed the key variables before diving into Exploratory Data Analysis (EDA).
+
+## 5.1 Top 10 subzones
+
+Identifying the top 10 subzones for each population group is paramount for informed urban planning and resource allocation. By understanding the demographic concentrations and where they are located at would help the government agencies, planners and social service providers to allocate infrastructure, facilities and services for efficiently and effectively.
+
+For instance, subzones with a high elderly proportion would require more eldercare services, accesible transportation and healthcare centers. On the other hand, areas with many children would need sufficient childcare centers, schools and recreational amenities.
+
+::: panel-tabset
+### Elderly (65+)
+
+```{r}
+
+library(ggplot2)
+#| fig-width: 7
+#| fig_height: 12
+  
+
+# Filter and get top 10 subzones by elderly population
+top_elderly_subzones <- popdata_cleaned %>%
+  filter(Age_Group == "Elderly (65+)") %>%
+  arrange(desc(Total_Population)) %>%
+  slice_head(n = 10)
+
+# Plot
+e1 <- ggplot(top_elderly_subzones, aes(x = reorder(Subzone, Total_Population), y = Total_Population, fill = Planning_Area)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Top 10 Subzones with Highest Elderly Population\n(65+ years)",
+    x = "Subzone",
+    y = "Number of Elderly Population"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+e1#
+```
+
+### Young (0-17)
+
+```{r}
+library(ggplot2)
+#| fig-width: 7
+#| fig_height: 12
+
+top_young_subzones <- popdata_cleaned %>%
+  filter(Age_Group == "Young (0-17)") %>%
+  arrange(desc(Total_Population)) %>%
+  slice_head(n = 10)
+
+# Plot
+y1 <- ggplot(top_young_subzones, aes(x = reorder(Subzone, Total_Population), y = Total_Population, fill = Planning_Area)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Top 10 Subzones with Highest Young\nPopulation (0–17 years)",
+    x = "Subzone",
+    y = "Number of Young Population"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+y1#
+```
+
+### Working Adults (18-64)
+
+```{r}
+
+library(ggplot2)
+#| fig-width: 7
+#| fig_height: 12
+
+
+top_working_subzones <- popdata_cleaned %>%
+  filter(Age_Group == "Working Adults (18-64)") %>%
+  arrange(desc(Total_Population)) %>%
+  slice_head(n = 10)
+
+# Plot
+a1 <- ggplot(top_working_subzones, aes(x = reorder(Subzone, Total_Population), y = Total_Population, fill = Planning_Area)) +
+  geom_col() +
+  coord_flip() +
+  labs(
+    title = "Top 10 Subzones with Highest Working Adults\nPopulation (18–64 years)",
+    x = "Subzone",
+    y = "Number of Working Adults Population"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+a1#
+
+```
+
+### Comparison between the 3 groups (using patchwork)
+
+```{r}
+#| fig_width: 12
+#| fig-height: 7
+#| echo: false
+
+
+(e1 / y1) | a1
+
+```
+:::
+
+## 5.2  
+
+# 6. Explorartory Data Analysis
+
+## 6.1
+
+# 7. Summary
+
+# 8. References and inspiration

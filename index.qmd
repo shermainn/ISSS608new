@@ -11,7 +11,7 @@ Welcome to **ISSS608 Visual Analytics and Applications**. In this website, you w
 ::::::: {.quarto-grid-item .card .h-100 .card-left}
 <p class="card-img-top">
 
-<img src="C:\shermainn\Background_image.jpg" class="thumbnail-image card-img" style="height: 150px;"/>
+<img src="https://isss608-sherm.netlify.app/hands-on_ex/hands-on_ex03/Hands-on_Ex03_files/figure-html/unnamed-chunk-19-1.png" class="thumbnail-image card-img" style="height: 150px;"/>
 
 </p>
 
@@ -35,3 +35,33 @@ Shermainn
 :::::::
 
 </a>
+
+## 🔥 Latest Take-home Exercise
+
+<a class="quarto-grid-link" href="https://isss608-sherm.netlify.app/take-home_ex/take-home_ex01/take-home_ex01" data-original-href="https://isss608-sherm.netlify.app/take-home_ex/take-home_ex01/take-home_ex01">
+
+::::::: {.quarto-grid-item .card .h-100 .card-left}
+<p class="card-img-top" width="600">
+
+<img src="sg_pic.jpg" style="width: 100%; height: auto;"/>
+
+</p>
+
+:::::: {.card-body .post-contents}
+<h5 class="no-anchor card-title listing-title">
+
+TakehomeEx01
+
+</h5>
+
+::: {.card-text .listing-description}
+Take-home Exercise 1
+:::
+
+:::: {.card-attribution .card-text-small .start}
+::: listing-author
+Shermainn
+:::
+::::
+::::::
+:::::::
