@@ -218,11 +218,12 @@ e1 <- ggplot(top_elderly_subzones, aes(x = reorder(Subzone, Total_Population), y
   geom_col() +
   coord_flip() +
   labs(
-    title = "Top 10 Subzones with Highest Elderly Population\n(65+ years)",
+    title = "Highest Elderly Population",
     x = "Subzone",
     y = "Number of Elderly Population"
   ) +
-  theme_minimal() +
+  scale_fill_grey(start = 0.3, end = 0.8) +  # Use shades of grey
+  theme_bw() +
   theme(legend.position = "none")
 
 e1#
@@ -245,11 +246,12 @@ y1 <- ggplot(top_young_subzones, aes(x = reorder(Subzone, Total_Population), y =
   geom_col() +
   coord_flip() +
   labs(
-    title = "Top 10 Subzones with Highest Young\nPopulation (0–17 years)",
+    title = "Highest Young Population",
     x = "Subzone",
     y = "Number of Young Population"
   ) +
-  theme_minimal() +
+  scale_fill_grey(start = 0.3, end = 0.8) +  # Use shades of grey
+  theme_bw() +
   theme(legend.position = "none")
 
 y1#
@@ -274,11 +276,12 @@ a1 <- ggplot(top_working_subzones, aes(x = reorder(Subzone, Total_Population), y
   geom_col() +
   coord_flip() +
   labs(
-    title = "Top 10 Subzones with Highest Working Adults\nPopulation (18–64 years)",
+    title = "Highest Working Adults Population",
     x = "Subzone",
     y = "Number of Working Adults Population"
   ) +
-  theme_minimal() +
+  scale_fill_grey(start = 0.3, end = 0.8) +  
+  theme_bw() +
   theme(legend.position = "none")
 
 a1#
