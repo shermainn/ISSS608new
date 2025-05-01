@@ -657,7 +657,9 @@ girafe(ggobj = gg)
 
 ### HDB by flat type - gganimate (Bar Graph) - Not great example
 
-Data sets taken from Gov.tech.sg (from previous plot) and [housingmap.sg](https://www.housingmap.sg/hdb-database/). To determine the number of HDB flats in Singapore, I tried using a bar plot graph and animate it to show the different types of flats (e.g. 1-room, 2-room, 3-room, 4-room and 5-room)
+Data sets taken from Gov.tech.sg (from previous plot) and [housingmap.sg](https://www.housingmap.sg/hdb-database/). To determine the number of HDB flats in Singapore, I tried using a bar plot graph and animate it to show the different types of flats (e.g. 1-room, 2-room, 3-room, 4-room and 5-room). 
+
+As there are many areas that have been categorized shown on the bar plot, the is not very useful as you are not able to decipher immediately once you look at the plot due to the huge difference between each bar. It would be better to use a static plot that has a hovering effect to show the numbers instead of this plot. 
 
 ```{r}
 library(tidyr)
@@ -700,9 +702,14 @@ animate(animated_plot, nframes = 100)
 anim_save("hdb_animation.gif", animated_plot)
 ```
 
-### HDB by flat type & Area - gganimate - Great example
+### HDB by flat type & Area - gganimate - Better example
+By using gganimate to show the HDB flats by type as well as what is in the area as shown in the animated gif below, I am able to clearly see where the HDB flats are located as it is pinpointed exactly and labelled by the legend. 
 
-```{r, echo=FALSE, eval=FALSE}
+** For this example, I Was not able to use animate() function as the qmd file cannot be rendered into the Quarto but works fine on the Rstudio so I saved the gif instead and showed only the code chunk below. 
+
+![](singapore_hdb_animation.gif)
+
+```{r}
 
 ### Load Libraries ###
 library(tidyverse)
@@ -781,8 +788,7 @@ animated_map <- base_map +
   ease_aes('sine-in-out')
 
 ### Render and Save Animation ###
-animate(animated_map, nframes = 40, width = 800, height = 600, fps = 10, duration = 8)
-anim_save("singapore_hdb_animation.gif", animated_map)
-
+#animate(animated_map, nframes = 40, width = 800, height = 600, fps = 10, duration = 8)
+#anim_save("singapore_hdb_animation.gif", animated_map)
 ```
 :::
