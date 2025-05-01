@@ -117,19 +117,23 @@ Based on the excel spreadsheet, *Singapore Residents by Planning Area / Subzone,
 
 Below are the list of variables retained for this study which are grouped into 2 categories of Age and Planning areas.
 
-+----------------+----------------------------------+-------------+------------------------+
-| Category       | Description                      | Type        | Encoding Scheme        |
-+================+==================================+=============+========================+
-| Age            | Dependency Burden                | NUM         | Young (0-17)           |
-|                |                                  |             |                        |
-|                |                                  |             | Working Adults (18-64) |
-|                |                                  |             |                        |
-|                |                                  |             | Elderly (65+)          |
-+----------------+----------------------------------+-------------+------------------------+
-| Planning areas | Urban Planning and Housing Needs | NUM         | Main zones             |
-|                |                                  |             |                        |
-|                |                                  |             | Subzones               |
-+----------------+----------------------------------+-------------+------------------------+
++----------------+----------------------------------+-------------+------------------------------+
+| Category       | Description                      | Type        | Encoding Scheme              |
++================+==================================+=============+==============================+
+| Age            | Dependency Burden                | NUM         | Young (0-4 years)            |
+|                |                                  |             |                              |
+|                |                                  |             | Youth (5-12 years)           |
+|                |                                  |             |                              |
+|                |                                  |             | Teens (13-17 years)          |
+|                |                                  |             |                              |
+|                |                                  |             | Working Adults (18-64 years) |
+|                |                                  |             |                              |
+|                |                                  |             | Elderly (65+ years)          |
++----------------+----------------------------------+-------------+------------------------------+
+| Planning areas | Urban Planning and Housing Needs | NUM         | Main zones                   |
+|                |                                  |             |                              |
+|                |                                  |             | Subzones                     |
++----------------+----------------------------------+-------------+------------------------------+
 
 ## 4.2 Recoding Categorical Variables
 
@@ -138,7 +142,11 @@ Below are the list of variables retained for this study which are grouped into 2
 
 In order to have a consistent data set to analyze the population age groups, data is cleaned by filter() to set new values into 3 age groups:
 
--   Young of 0 - 17 years
+-   Young of 0 - 4 years
+
+-   Youth of 5 - 12 years
+
+-   Teens of 13 - 17 years
 
 -   Working Adults of 18 - 64 years
 
@@ -169,7 +177,9 @@ popdata_cleaned <- popdata %>%
     Age = as.numeric(Age),
     Population = as.numeric(Population),
     Age_Group = case_when(
-      Age >= 0 & Age <= 17 ~ "Young (0-17)",
+      Age >= 0 & Age <= 4 ~ "Young (0-4)",
+      Age >= 5 & Age <= 12 ~ "Youth (5-12)",
+      Age >= 13 & Age <= 17 ~ "Teens (13-17)",
       Age >= 18 & Age <= 64 ~ "Working Adults (18-64)",
       Age >= 65 ~ "Elderly (65+)",
       TRUE ~ NA_character_
@@ -191,9 +201,9 @@ head(popdata_cleaned)
 
 The next few plots in this section will be used to analyzed the key variables before diving into Exploratory Data Analysis (EDA).
 
-## 5.1 Top 10 subzones
+## 5.1 Top 10 subzones of each age group
 
-Identifying the top 10 subzones for each population group is paramount for informed urban planning and resource allocation. By understanding the demographic concentrations and where they are located at would help the government agencies, planners and social service providers to allocate infrastructure, facilities and services for efficiently and effectively.
+Identifying the top 10 subzones for each age group is paramount for informed urban planning and resource allocation. By understanding the demographic concentrations and where they are located at would help the government agencies, planners and social service providers to allocate infrastructure, facilities and services for efficiently and effectively.
 
 For instance, subzones with a high elderly proportion would require more eldercare services, accesible transportation and healthcare centers. On the other hand, areas with many children would need sufficient childcare centers, schools and recreational amenities.
 
@@ -214,22 +224,38 @@ top_elderly_subzones <- popdata_cleaned %>%
   slice_head(n = 10)
 
 # Plot
-e1 <- ggplot(top_elderly_subzones, aes(x = reorder(Subzone, Total_Population), y = Total_Population, fill = Planning_Area)) +
-  geom_col() +
+e1 <- ggplot(top_elderly_subzones, 
+             aes(x = reorder(Subzone, Total_Population), 
+                 y = Total_Population, 
+                 fill = Planning_Area,
+                 tooltip = paste0("Planning Area: ", Planning_Area,
+                                  "\nSubzone: ", Subzone,
+                                  "\nPopulation: ", Total_Population),
+                 data_id = Subzone)) +
+  geom_col_interactive() +
   coord_flip() +
   labs(
     title = "Highest Elderly Population",
     x = "Subzone",
     y = "Number of Elderly Population"
   ) +
-  scale_fill_grey(start = 0.3, end = 0.8) +  # Use shades of grey
+  scale_fill_grey(start = 0.3, end = 0.8) +
   theme_bw() +
   theme(legend.position = "none")
 
-e1#
+# Render using girafe
+girafe(
+  ggobj = e1,
+  width_svg = 6,
+  height_svg = 4,
+  options = list(
+    opts_hover(css = "fill:#202020;cursor:pointer;"),
+    opts_hover_inv(css = "opacity:0.3;")
+  )
+)
 ```
 
-### Young (0-17 years)
+### Young (0-4 years)
 
 ```{r}
 library(ggplot2)
@@ -237,24 +263,129 @@ library(ggplot2)
 #| fig_height: 12
 
 top_young_subzones <- popdata_cleaned %>%
-  filter(Age_Group == "Young (0-17)") %>%
+  filter(Age_Group == "Young (0-4)") %>%
   arrange(desc(Total_Population)) %>%
   slice_head(n = 10)
 
 # Plot
-y1 <- ggplot(top_young_subzones, aes(x = reorder(Subzone, Total_Population), y = Total_Population, fill = Planning_Area)) +
-  geom_col() +
+y1 <- ggplot(top_young_subzones, 
+             aes(x = reorder(Subzone, Total_Population), 
+                 y = Total_Population, 
+                 fill = Planning_Area,
+                 tooltip = paste0("Planning Area: ", Planning_Area, "\nPopulation: ", Total_Population),
+                 data_id = Subzone)) +
+  geom_col_interactive() +
   coord_flip() +
   labs(
     title = "Highest Young Population",
     x = "Subzone",
     y = "Number of Young Population"
   ) +
-  scale_fill_grey(start = 0.3, end = 0.8) +  # Use shades of grey
+  scale_fill_grey(start = 0.3, end = 0.8) +
   theme_bw() +
   theme(legend.position = "none")
 
-y1#
+# Render with girafe
+girafe(
+  ggobj = y1,
+  width_svg = 6,
+  height_svg = 4,
+  options = list(
+    opts_hover(css = "fill:#202020;cursor:pointer;"),
+    opts_hover_inv(css = "opacity:0.3;")
+  )
+)
+```
+
+### Youth (5-12 years)
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(ggiraph)
+
+# Create top_youth_subzones
+top_youth_subzones <- popdata_cleaned %>%
+  filter(Age_Group == "Youth (5-12)") %>%
+  arrange(desc(Total_Population)) %>%
+  slice_head(n = 10)
+
+# Interactive plot
+y2 <- ggplot(top_youth_subzones, 
+             aes(x = reorder(Subzone, Total_Population),
+                 y = Total_Population,
+                 fill = Planning_Area,
+                 tooltip = paste0("Planning Area: ", Planning_Area,
+                                  "\nSubzone: ", Subzone,
+                                  "\nPopulation: ", Total_Population),
+                 data_id = Subzone)) +
+  geom_col_interactive() +
+  coord_flip() +
+  labs(
+    title = "Highest Youth Population",
+    x = "Subzone",
+    y = "Number of Youth Population"
+  ) +
+  scale_fill_grey(start = 0.3, end = 0.8) +
+  theme_bw() +
+  theme(legend.position = "none")
+
+# Display with interactivity
+girafe(
+  ggobj = y2,
+  width_svg = 6,
+  height_svg = 4,
+  options = list(
+    opts_hover(css = "fill:#202020;cursor:pointer;"),
+    opts_hover_inv(css = "opacity:0.3;")
+  )
+)
+
+```
+
+### Teens (13-17 years)
+
+```{r}
+library(ggplot2)
+#| fig-width: 7
+#| fig_height: 15
+
+top_young_subzones <- popdata_cleaned %>%
+  filter(Age_Group == "Teens (13-17)") %>%
+  arrange(desc(Total_Population)) %>%
+  slice_head(n = 10)
+
+# Plot
+y3 <- ggplot(top_young_subzones, 
+             aes(x = reorder(Subzone, Total_Population), 
+                 y = Total_Population, 
+                 fill = Planning_Area)) +
+  geom_col_interactive(aes(
+    tooltip = paste0("Subzone: ", Subzone, "\n",
+                     "Planning Area: ", Planning_Area, "\n",
+                     "Population: ", Total_Population),
+    data_id = Subzone
+  )) +
+  coord_flip() +
+  labs(
+    title = "Highest Teens Population",
+    x = NULL,
+    y = "Number of Teens Population"
+  ) +
+  scale_fill_grey(start = 0.3, end = 0.8) +
+  theme_bw() +
+  theme(legend.position = "none")
+
+# Render with girafe
+girafe(
+  ggobj = y2,
+  width_svg = 5,
+  height_svg = 3,
+  options = list(
+    opts_hover(css = "fill:#202020;cursor:pointer;"),
+    opts_hover_inv(css = "opacity:0.3;")
+  )
+)
 ```
 
 ### Working Adults (18-64 years)
@@ -272,23 +403,40 @@ top_working_subzones <- popdata_cleaned %>%
   slice_head(n = 10)
 
 # Plot
-a1 <- ggplot(top_working_subzones, aes(x = reorder(Subzone, Total_Population), y = Total_Population, fill = Planning_Area)) +
-  geom_col() +
+a1 <- ggplot(top_working_subzones, 
+             aes(x = reorder(Subzone, Total_Population), 
+                 y = Total_Population, 
+                 fill = Planning_Area)) +
+  geom_col_interactive(aes(
+    tooltip = paste0("Subzone: ", Subzone, "\n",
+                     "Planning Area: ", Planning_Area, "\n",
+                     "Population: ", Total_Population),
+    data_id = Subzone
+  )) +
   coord_flip() +
   labs(
     title = "Highest Working Adults Population",
     x = NULL,
     y = "Number of Working Adults Population"
   ) +
-  scale_fill_grey(start = 0.3, end = 0.8) +  
+  scale_fill_grey(start = 0.3, end = 0.8) +
   theme_bw() +
   theme(legend.position = "none")
 
-a1#
+# Render the interactive plot
+girafe(
+  ggobj = a1,
+  width_svg = 7,
+  height_svg = 4,
+  options = list(
+    opts_hover(css = "fill:#202020;cursor:pointer;"),
+    opts_hover_inv(css = "opacity:0.3;")
+  )
+)
 
 ```
 
-### Comparison between the 3 groups (using patchwork)
+### Comparison between 3 groups (using patchwork)
 
 ```{r}
 #| fig_width: 12
@@ -301,12 +449,85 @@ a1#
 ```
 :::
 
-## 5.2  
+::: panel-tabset
+## 💡 Observations
+
+-   **Tampines** (Tampines North, Tampines East & Tampines West) is found to have the highest number of young, elderly and working adults population where they are all within the top 10 subzones in all 3 group categories
+
+-   Bedok North and Tampines East and West seems to have the highest elderly proportion compared to the other areas where they amount to be the top 3 subzones
+
+-   As for the young populations, Tampines East, Tampines North and Woodlands East are the top 3 areas with the highest proportion
+
+-   Tampines East and West, Bedok North and Woodlands East are the top 3 subzones for working adults population
+:::
 
 # 6. Exploratory Data Analysis
 
-## 6.1
+Based on the above univariate analysis, I will only be focusing on the subzones of Tampines North, Tampines East, Tampines West, Bedok North and Woodlands East that were mentioned as the top 3 areas that have the highest elderly and young population as well as highest number of working adults.
+
+## 6.1 Dependency ratio by subzones
+
+```{r}
+#| fig_width: 12
+#| fig-height: 7
+#| echo: false
+
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(ggiraph)
+
+# Filter and calculate dependency ratio
+dependency_data_filtered <- popdata_cleaned %>%
+  filter(Subzone %in% c("Tampines North", "Tampines East", "Tampines West", 
+                        "Bedok North", "Woodlands East")) %>%
+  group_by(Planning_Area, Subzone, Age_Group) %>%
+  summarise(Pop = sum(Total_Population), .groups = "drop") %>%
+  pivot_wider(names_from = Age_Group, values_from = Pop, values_fill = 0) %>%
+  mutate(Dependency_Ratio = (`Young (0-4)` + `Elderly (65+)`) / `Working Adults (18-64)`)
+
+# Create interactive heatmap
+p <- ggplot(dependency_data_filtered, 
+            aes(x = Planning_Area, y = Subzone, fill = Dependency_Ratio)) +
+  geom_tile_interactive(aes(tooltip = paste0("Dependency Ratio: ", round(Dependency_Ratio, 2)),
+                            data_id = Subzone),
+                        color = "white") +
+  scale_fill_gradient(low = "#FFFFCC", high = "#FF4444", name = "Dependency\nRatio") +
+  labs(
+    title = "Dependency Ratio in Selected Subzones",
+    x = "Planning Area",
+    y = "Subzone"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid = element_blank()
+  )
+
+girafe(
+  ggobj = p,
+  width_svg = 8,
+  height_svg = 6,
+  options = list(
+    opts_hover(css = "fill:#202020;cursor:pointer;"),
+    opts_hover_inv(css = "opacity:0.3;")
+  )
+)
+
+```
+
+::: panel-tabset
+## 💡 Observations
+
+-   Based on the heat map results, the dependency ratio for the subzones are between 0.20 and 0.45 (every 10 working adults, 4 dependents) which is relatively low and suggests that the working population is currently sufficient to support the dependent population in these subzones
+
+-   There is less strain on social services such as healthcare and education as well as the economy as there is a larger working adult population
+
+-   For urban planning, the infrastructure for dependents such as the childcare centers, schools and eldercare facilities are not an immediate expansion
+:::
 
 # 7. Summary
 
 # 8. References and inspiration
+
+Kam, Tin Seong. (2025). Programming Interactive Data Visualization with R. *R for Visual Analytics.* <https://r4va.netlify.app/chap03>
