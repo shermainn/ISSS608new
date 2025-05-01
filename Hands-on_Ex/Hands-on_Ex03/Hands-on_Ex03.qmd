@@ -793,3 +793,7 @@ animated_map <- base_map +
 #anim_save("singapore_hdb_animation.gif", animated_map)
 ```
 :::
+
+# 5. Reference and Inspiration
+
+VP. (2016). Interactive map of France with ggiraph. <https://rstudio-pubs-static.s3.amazonaws.com/152833_56a4917734204de7b37881d164cf8051.html>
