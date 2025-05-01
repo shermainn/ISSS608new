@@ -28,7 +28,7 @@ The data used for this exercise is *Singapore Residents by Planning Area / Subzo
 
 Supplementary materials used complementary with data set:
 
--   Facilities of
+-   
 
 ## 1.3 Task
 
@@ -527,6 +527,20 @@ girafe(
 :::
 
 # 7. Summary
+
+The analysis explores Singapore's 2024 population data, aimed on demographic, geospatial, dependency ratios and urban planning needs. The data set provided by DOS offers detailed information about the resident population by gender, age, and geographical locations. The goal of the analysis was to examine the distribution of various age groups such as elderly, young children and working adults across the different regions and to identify areas that require targeted urban planning particularly for infrastructure such as childcare and eldercare facilities.
+
+**Key Findings include:**
+
+-   High concentration of specific age groups: Tampines, Bedok North and Woodlands East have significant populations of young children, elderly and working adults where the areas were used for further analysis for targeted resource allocation especially for facilities.
+
+-   Low dependency ratios ranged from 0.20 to 0.45: Indicates that working age population is sufficient in supporting the dependent population suggesting that there is no immediate strain on social services and infrastructure.
+
+**Recommendations for future research:**
+
+-   Urban Planning Implications: Areas with high young and elderly populations can be monitored for further expansion of educational, childcare and eldercare services.
+
+-    Population Density and Housing Needs: Assess how the housing demands and amenities align with the demographic trends.
 
 # 8. References and inspiration
 
