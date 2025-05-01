@@ -277,7 +277,7 @@ a1 <- ggplot(top_working_subzones, aes(x = reorder(Subzone, Total_Population), y
   coord_flip() +
   labs(
     title = "Highest Working Adults Population",
-    x = "Subzone",
+    x = NULL,
     y = "Number of Working Adults Population"
   ) +
   scale_fill_grey(start = 0.3, end = 0.8) +  
@@ -303,7 +303,7 @@ a1#
 
 ## 5.2  
 
-# 6. Explorartory Data Analysis
+# 6. Exploratory Data Analysis
 
 ## 6.1
 
