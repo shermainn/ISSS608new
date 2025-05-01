@@ -198,7 +198,7 @@ Identifying the top 10 subzones for each population group is paramount for infor
 For instance, subzones with a high elderly proportion would require more eldercare services, accesible transportation and healthcare centers. On the other hand, areas with many children would need sufficient childcare centers, schools and recreational amenities.
 
 ::: panel-tabset
-### Elderly (65+)
+### Elderly (65+ years)
 
 ```{r}
 
@@ -229,7 +229,7 @@ e1 <- ggplot(top_elderly_subzones, aes(x = reorder(Subzone, Total_Population), y
 e1#
 ```
 
-### Young (0-17)
+### Young (0-17 years)
 
 ```{r}
 library(ggplot2)
@@ -257,7 +257,7 @@ y1 <- ggplot(top_young_subzones, aes(x = reorder(Subzone, Total_Population), y =
 y1#
 ```
 
-### Working Adults (18-64)
+### Working Adults (18-64 years)
 
 ```{r}
 
