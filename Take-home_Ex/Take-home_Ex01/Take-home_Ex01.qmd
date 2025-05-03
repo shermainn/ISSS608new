@@ -200,7 +200,7 @@ The next few plots in this section will be used to analyzed the key variables be
 
 Identifying the top 10 subzones for each age group is paramount for informed urban planning and resource allocation. By understanding the demographic concentrations and where they are located at would help the government agencies, planners and social service providers to allocate infrastructure, facilities and services for efficiently and effectively.
 
-For instance, subzones with a high elderly proportion would require more eldercare services, accessible transportation and healthcare centers. On the other hand, areas with many children would need sufficient childcare centers, schools and recreational amenities. `ggiraph` method such as tooltip effect and `girafe()` is used to show the hovering of the mouse on a data point of the plot. This makes it more interactive and also allows statistics to display on the tooltip.
+For instance, subzones with a high elderly proportion would require more eldercare services, accessible transportation and healthcare centers. On the other hand, areas with many children would need sufficient childcare centers, schools and recreational amenities.
 
 ::: panel-tabset
 ### Elderly (65+ years)
@@ -399,7 +399,7 @@ y3
 ### Working Adults (18-64 years)
 
 ```{r}
-#| fig-width: 7
+#| fig-width: 10
 #| fig_height: 12
 
 top_working_subzones <- popdata_cleaned %>%
@@ -424,9 +424,10 @@ a1 <- ggplot(top_working_subzones,
   scale_fill_grey(start = 0.3, end = 0.8) +
   scale_x_discrete(expand = expansion(mult = c(0.05, 0.05))) +
   scale_y_continuous(
-    breaks = seq(0, 90000, by = 10000),
-    limits = c(0, 90000),  
-    expand = c(0, 0)  
+    breaks = seq(0, 100000, by = 10000),
+    limits = c(0, 100000),  
+    expand = c(0, 0),
+    labels = scales::comma
   ) +
   theme_bw() +
   theme(
@@ -452,7 +453,7 @@ a1
 #| fig-height: 9
 #| echo: false
 
-y2 + y1 
+y2 / y1 
 
 ```
 :::
