@@ -38,22 +38,20 @@ Using the DOS data set above, this post aims to use appropriate `tidyverse` fami
 
 # 2. Load Packages
 
-+------------+---------------------------------------------------------------------------------------------------------------+
-| Library    | Description                                                                                                   |
-+============+===============================================================================================================+
-| tidyverse  | A collection of core packages designed for data science, used extensively for data preparation and wrangling. |
-+------------+---------------------------------------------------------------------------------------------------------------+
-| patchwork  | For preparing composite figure created using ggplot2.                                                         |
-+------------+---------------------------------------------------------------------------------------------------------------+
-| ggthemes   | Extra themes, geoms, and scales for ggplot2.                                                                  |
-+------------+---------------------------------------------------------------------------------------------------------------+
-| hrbrthemes | Create professional publication quality figures                                                               |
-+------------+---------------------------------------------------------------------------------------------------------------+
++-----------+---------------------------------------------------------------------------------------------------------------+
+| Library   | Description                                                                                                   |
++===========+===============================================================================================================+
+| tidyverse | A collection of core packages designed for data science, used extensively for data preparation and wrangling. |
++-----------+---------------------------------------------------------------------------------------------------------------+
+| patchwork | For preparing composite figure created using ggplot2.                                                         |
++-----------+---------------------------------------------------------------------------------------------------------------+
+| ggthemes  | Extra themes, geoms, and scales for ggplot2.                                                                  |
++-----------+---------------------------------------------------------------------------------------------------------------+
 
 The following code chunk uses `p_load()` of pacman package to check if tidyverse packages are installed into the computer.
 
 ```{r}
-pacman::p_load(tidyverse,patchwork, ggthemes, ggrepel, hrbrthemes)
+pacman::p_load(tidyverse,patchwork, ggthemes)
 ```
 
 # 3. DOS Data
