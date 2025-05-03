@@ -10,6 +10,69 @@ execute:
   warning: false
 ---
 
-**What was mentioned during class:**
+# **What was mentioned during class:**
 
 1.  Make sure that your Netlify website is totally sync with the Rstudio: Render website from the "Build" Tab and then commit and push to the github.
+2.  Numerical data and categorical data: Make sure to recode in R studio if you want to change into categorical data from numerical data
+3.  How to critique and visualize the right data (tips to comment on visualization):
+    -   Chart Junk VI: the ages should be in a sequential order, so that it is easily interpreted
+    -   Avoid distorting the graph especially when there is a grid reference for aesthetic purposes
+    -   Add in text labels to explain plot/graph if needed
+    -   Clarity and aesthetics: use mapping data visualization on a cartesian coordinate system and put on the quadrant plot to assess and critique
+    -   Quadrant 4: Confusing yet beautiful - add in at least 3 good points and areas to improve further
+    -   Quadrant 1: Clear and Beautiful - add in 3 points each as well
+    -   Add in areas to improve - not just changing the graph as a whole unless it is very bad
+
+# Critiques and comments to improve the graphs of my peers 
+
+1.  Distortion of axis - try to avoid that, make it similar as much as possible so that it can be truthful, clarity issue as well when you cannot pinpoint which is student 30, avoid using light colours and the labelling should not be hidden, plot it above the points
+
+![Distortion of axis of graph](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/img2/image6.png)
+
+5.  Hidden data as the plot is on top of the data points
+
+![Beautiful but no clarity](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/img2/image2a.png){fig-align="center"}
+
+5.  Title is being cut off
+
+![](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/img2/image1.png)
+
+5.  Unify the theme - all same theme and consistent as well as font
+
+![](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/img2/image3a.png){fig-align="center"}
+
+5.  Stacked bar chart
+
+    ![](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/img2/image7a.png)
+
+    -   in general, the example is good
+
+    -   Legend is redundant: can just put a label to suggest gender
+
+    -   Forgot to fix the limit of x-axis for the values: the range of y and x axis is different: to not misinterpret data
+
+6.  Pie Chart
+
+    -   Bad example below
+
+        ![](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/img2/image7b.png)
+
+        -   Better Example below:
+
+            -   There is some overlapping in terms of the labelling in the piechart
+
+            -   Use of colour: Try to avoid using hard colours, use a less opaque colour or reduce the opaqueness
+
+    -   ![](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/img2/image7.png)
+
+7.  Raincloud Plot
+
+    -   
+
+![](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/img2/image9a.png)
+
+8.   More appropriate design
+
+![](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/img2/image9.png)
+
+-   Room for improvements: Raindrop is not falling in place

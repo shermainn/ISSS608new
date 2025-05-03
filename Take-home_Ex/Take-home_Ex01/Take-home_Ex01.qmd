@@ -38,18 +38,22 @@ Using the DOS data set above, this post aims to use appropriate `tidyverse` fami
 
 # 2. Load Packages
 
-| Library | Description |
-|----|----|
-| tidyverse | A collection of core packages designed for data science, used extensively for data preparation and wrangling. |
-| patchwork | For preparing composite figure created using ggplot2. |
-| ggthemes | Extra themes, geoms, and scales for ggplot2. |
-| hrbrthemes | Create professional publication quality figures |
-| ggiraph | Makes ‘ggplot’ graphics interactive |
++------------+---------------------------------------------------------------------------------------------------------------+
+| Library    | Description                                                                                                   |
++============+===============================================================================================================+
+| tidyverse  | A collection of core packages designed for data science, used extensively for data preparation and wrangling. |
++------------+---------------------------------------------------------------------------------------------------------------+
+| patchwork  | For preparing composite figure created using ggplot2.                                                         |
++------------+---------------------------------------------------------------------------------------------------------------+
+| ggthemes   | Extra themes, geoms, and scales for ggplot2.                                                                  |
++------------+---------------------------------------------------------------------------------------------------------------+
+| hrbrthemes | Create professional publication quality figures                                                               |
++------------+---------------------------------------------------------------------------------------------------------------+
 
 The following code chunk uses `p_load()` of pacman package to check if tidyverse packages are installed into the computer.
 
 ```{r}
-pacman::p_load(tidyverse,patchwork, ggthemes, gganimate, ggrepel, hrbrthemes,ggiraph,plotly,DT)
+pacman::p_load(tidyverse,patchwork, ggthemes, ggrepel, hrbrthemes)
 ```
 
 # 3. DOS Data
@@ -110,23 +114,23 @@ Based on the excel spreadsheet, *Singapore Residents by Planning Area / Subzone,
 
 Below are the list of variables retained for this study which are grouped into 2 categories of Age and Planning areas.
 
-+----------------+----------------------------------+------+------------------------------+
-| Category       | Description                      | Type | Encoding Scheme              |
-+================+==================================+======+==============================+
-| Age            | Dependency Burden                | NUM  | Young Children (0-4 years)   |
-|                |                                  |      |                              |
-|                |                                  |      | Youth (5-12 years)           |
-|                |                                  |      |                              |
-|                |                                  |      | Teens (13-17 years)          |
-|                |                                  |      |                              |
-|                |                                  |      | Working Adults (18-64 years) |
-|                |                                  |      |                              |
-|                |                                  |      | Elderly (65+ years)          |
-+----------------+----------------------------------+------+------------------------------+
-| Planning areas | Urban Planning and Housing Needs | NUM  | Main zones                   |
-|                |                                  |      |                              |
-|                |                                  |      | Subzones                     |
-+----------------+----------------------------------+------+------------------------------+
++----------------+----------------------------------+-------------+------------------------------+
+| Category       | Description                      | Type        | Encoding Scheme              |
++================+==================================+=============+==============================+
+| Age            | Dependency Burden                | NUM         | Young Children (0-4 years)   |
+|                |                                  |             |                              |
+|                |                                  |             | Youth (5-12 years)           |
+|                |                                  |             |                              |
+|                |                                  |             | Teens (13-17 years)          |
+|                |                                  |             |                              |
+|                |                                  |             | Working Adults (18-64 years) |
+|                |                                  |             |                              |
+|                |                                  |             | Elderly (65+ years)          |
++----------------+----------------------------------+-------------+------------------------------+
+| Planning areas | Urban Planning and Housing Needs | NUM         | Main zones                   |
+|                |                                  |             |                              |
+|                |                                  |             | Subzones                     |
++----------------+----------------------------------+-------------+------------------------------+
 
 ## 4.2 Recoding Categorical Variables
 
@@ -204,11 +208,8 @@ For instance, subzones with a high elderly proportion would require more elderca
 ### Elderly (65+ years)
 
 ```{r}
-
-library(ggplot2)
 #| fig-width: 7
 #| fig_height: 12
-  
 
 # Filter and get top 10 subzones by elderly population
 top_elderly_subzones <- popdata_cleaned %>%
@@ -220,12 +221,8 @@ top_elderly_subzones <- popdata_cleaned %>%
 e1 <- ggplot(top_elderly_subzones, 
              aes(x = reorder(Subzone, Total_Population), 
                  y = Total_Population, 
-                 fill = Planning_Area,
-                 tooltip = paste0("Planning Area: ", Planning_Area,
-                                  "\nSubzone: ", Subzone,
-                                  "\nPopulation: ", Total_Population),
-                 data_id = Subzone)) +
-  geom_col_interactive() +
+                 fill = Planning_Area)) +
+  geom_col() +
   coord_flip() +
   labs(
     title = "Elderly",
@@ -236,22 +233,14 @@ e1 <- ggplot(top_elderly_subzones,
   theme_bw() +
   theme(legend.position = "none")
 
-# Render using girafe
-girafe(
-  ggobj = e1,
-  width_svg = 6,
-  height_svg = 4,
-  options = list(
-    opts_hover(css = "fill:#202020;cursor:pointer;"),
-    opts_hover_inv(css = "opacity:0.3;")
-  )
-)
+# Print plot
+print(e1)
+
 ```
 
 ### Young Children (0-4 years)
 
 ```{r}
-library(ggplot2)
 #| fig-width: 7
 #| fig_height: 12
 
@@ -264,10 +253,8 @@ top_young_subzones <- popdata_cleaned %>%
 y1 <- ggplot(top_young_subzones, 
              aes(x = reorder(Subzone, Total_Population), 
                  y = Total_Population, 
-                 fill = Planning_Area,
-                 tooltip = paste0("Planning Area: ", Planning_Area, "\nPopulation: ", Total_Population),
-                 data_id = Subzone)) +
-  geom_col_interactive() +
+                 fill = Planning_Area)) +
+  geom_col() +
   coord_flip() +
   labs(
     title = "Young Children",
@@ -278,41 +265,25 @@ y1 <- ggplot(top_young_subzones,
   theme_bw() +
   theme(legend.position = "none")
 
-# Render with girafe
-girafe(
-  ggobj = y1,
-  width_svg = 6,
-  height_svg = 4,
-  options = list(
-    opts_hover(css = "fill:#202020;cursor:pointer;"),
-    opts_hover_inv(css = "opacity:0.3;")
-  )
-)
+# Print plot
+print(y1)
 ```
 
 ### Youth (5-12 years)
 
 ```{r}
-library(ggplot2)
-library(dplyr)
-library(ggiraph)
-
 # Create top_youth_subzones
 top_youth_subzones <- popdata_cleaned %>%
   filter(Age_Group == "Youth (5-12)") %>%
   arrange(desc(Total_Population)) %>%
   slice_head(n = 10)
 
-# Interactive plot
+# Static plot
 y2 <- ggplot(top_youth_subzones, 
              aes(x = reorder(Subzone, Total_Population),
                  y = Total_Population,
-                 fill = Planning_Area,
-                 tooltip = paste0("Planning Area: ", Planning_Area,
-                                  "\nSubzone: ", Subzone,
-                                  "\nPopulation: ", Total_Population),
-                 data_id = Subzone)) +
-  geom_col_interactive() +
+                 fill = Planning_Area)) +
+  geom_col() +
   coord_flip() +
   labs(
     title = "Highest Youth Population",
@@ -323,23 +294,16 @@ y2 <- ggplot(top_youth_subzones,
   theme_bw() +
   theme(legend.position = "none")
 
-# Display with interactivity
-girafe(
-  ggobj = y2,
-  width_svg = 6,
-  height_svg = 4,
-  options = list(
-    opts_hover(css = "fill:#202020;cursor:pointer;"),
-    opts_hover_inv(css = "opacity:0.3;")
-  )
-)
+# Display plot
+print(y2)
+
 
 ```
 
 ### Teens (13-17 years)
 
 ```{r}
-library(ggplot2)
+
 #| fig-width: 7
 #| fig_height: 15
 
@@ -353,15 +317,10 @@ y3 <- ggplot(top_young_subzones,
              aes(x = reorder(Subzone, Total_Population), 
                  y = Total_Population, 
                  fill = Planning_Area)) +
-  geom_col_interactive(aes(
-    tooltip = paste0("Subzone: ", Subzone, "\n",
-                     "Planning Area: ", Planning_Area, "\n",
-                     "Population: ", Total_Population),
-    data_id = Subzone
-  )) +
+  geom_col() +
   coord_flip() +
   labs(
-    title = "Highest Teens Population",
+    title = "Highest Teen Population",
     x = NULL,
     y = "Number of Teens Population"
   ) +
@@ -369,26 +328,16 @@ y3 <- ggplot(top_young_subzones,
   theme_bw() +
   theme(legend.position = "none")
 
-# Render with girafe
-girafe(
-  ggobj = y2,
-  width_svg = 5,
-  height_svg = 3,
-  options = list(
-    opts_hover(css = "fill:#202020;cursor:pointer;"),
-    opts_hover_inv(css = "opacity:0.3;")
-  )
-)
+# Display plot
+print(y3)
+
 ```
 
 ### Working Adults (18-64 years)
 
 ```{r}
-
-library(ggplot2)
 #| fig-width: 7
 #| fig_height: 12
-
 
 top_working_subzones <- popdata_cleaned %>%
   filter(Age_Group == "Working Adults (18-64)") %>%
@@ -400,12 +349,7 @@ a1 <- ggplot(top_working_subzones,
              aes(x = reorder(Subzone, Total_Population), 
                  y = Total_Population, 
                  fill = Planning_Area)) +
-  geom_col_interactive(aes(
-    tooltip = paste0("Subzone: ", Subzone, "\n",
-                     "Planning Area: ", Planning_Area, "\n",
-                     "Population: ", Total_Population),
-    data_id = Subzone
-  )) +
+  geom_col() +
   coord_flip() +
   labs(
     title = "Working Adults",
@@ -416,16 +360,8 @@ a1 <- ggplot(top_working_subzones,
   theme_bw() +
   theme(legend.position = "none")
 
-# Render the interactive plot
-girafe(
-  ggobj = a1,
-  width_svg = 7,
-  height_svg = 4,
-  options = list(
-    opts_hover(css = "fill:#202020;cursor:pointer;"),
-    opts_hover_inv(css = "opacity:0.3;")
-  )
-)
+# Display plot
+print(a1)
 
 ```
 
