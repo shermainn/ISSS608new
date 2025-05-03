@@ -76,3 +76,23 @@ execute:
 ![](https://isss608-ay2024-25apr.netlify.app/lesson/lesson02/img2/image9.png)
 
 -   Room for improvements: Raindrop is not falling in place
+
+# In class Exercise (Tableau)
+
+-   Avoid over-generalization: in the aggregation of data
+
+-   Visualize - Add in Quadrant lines (manually):
+
+    -   Convert data into percentile: Click on data point (Sales), Quick Table Calculation \> Percentile, Compute using \> State
+
+    -   Add Reference line: Click on the axis, and click on "add reference line", Use constant and use 0.5 (for flexibility) or use median
+
+    -   Add in Colours to the data points:
+
+    -   Change the size:
+
+-   Filter: drag in order date into the filter panel - click on Year, click on 2019 , apply and click okay, show filter, change to radio button on the right hand corner of the Year filter
+
+-   Auto-update the year when changing filter: Go to the title of the plot, click on edit title and add in insert \<data order date\> after ","+" ".
+
+-   
