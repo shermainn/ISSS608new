@@ -1,0 +1,15 @@
+---
+title: "In-class_Ex03"
+author: "Shermainn"
+date: 2025-04-29
+date-modified: "last-modified"
+categories: ["In-class Exercise"]
+execute: 
+  eval: true
+  echo: true
+  warning: false
+---
+
+**What was mentioned during class:**
+
+1.  Make sure that your Netlify website is totally sync with the Rstudio: Render website from the "Build" Tab and then commit and push to the github.
