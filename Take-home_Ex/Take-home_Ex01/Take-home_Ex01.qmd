@@ -224,6 +224,8 @@ e1 <- ggplot(top_elderly_subzones,
                  fill = Planning_Area)) +
   geom_col() +
   coord_flip() +
+  geom_text(aes(label = Total_Population), 
+            hjust = -0.1, size = 3.5) +
   labs(
     title = "Top 10 Subzones by Elderly Population (65+)",
     x = "Subzone",
@@ -269,6 +271,8 @@ y1 <- ggplot(top_young_subzones,
                  y = Total_Population, 
                  fill = Planning_Area)) +
   geom_col() +
+  geom_text(aes(label = Total_Population), 
+            hjust = -0.1, size = 3.5) +
   coord_flip() +
   labs(
     title = "Top 10 Subzones by Young Population (0-4)",
@@ -278,8 +282,8 @@ y1 <- ggplot(top_young_subzones,
   scale_fill_grey(start = 0.3, end = 0.8) +
     scale_x_discrete(expand = expansion(mult = c(0.05, 0.05))) +
   scale_y_continuous(
-    breaks = seq(0, 6000, by = 1000),
-    limits = c(0, 6000),  
+    breaks = seq(0, 10000, by = 1000),
+    limits = c(0, 10000),  
     expand = c(0, 0)  
   ) +
   theme_bw() +
@@ -313,6 +317,8 @@ y2 <- ggplot(top_youth_subzones,
                  y = Total_Population,
                  fill = Planning_Area)) +
   geom_col() +
+  geom_text(aes(label = Total_Population), 
+            hjust = -0.1, size = 3.5) +
   coord_flip() +
   labs(
     title = "Top 10 subzones of Youth Population (5-12)",
@@ -322,8 +328,8 @@ y2 <- ggplot(top_youth_subzones,
   scale_fill_grey(start = 0.3, end = 0.8) +
   scale_x_discrete(expand = expansion(mult = c(0.05, 0.05))) +
   scale_y_continuous(
-    breaks = seq(0, 9000, by = 1000),
-    limits = c(0, 9000),  
+    breaks = seq(0, 10000, by = 1000),
+    limits = c(0, 10000),  
     expand = c(0, 0)  
   ) +
   theme_bw() +
@@ -361,6 +367,8 @@ y3 <- ggplot(top_young_subzones,
                  y = Total_Population, 
                  fill = Planning_Area)) +
   geom_col() +
+  geom_text(aes(label = Total_Population), 
+            hjust = -0.1, size = 3.5) +
   coord_flip() +
   labs(
     title = "Top 10 subzones of Teens Population (13-17)",
@@ -370,8 +378,8 @@ y3 <- ggplot(top_young_subzones,
   scale_fill_grey(start = 0.3, end = 0.8) +
   scale_x_discrete(expand = expansion(mult = c(0.05, 0.05))) +
   scale_y_continuous(
-    breaks = seq(0, 6000, by = 1000),
-    limits = c(0, 6000),  
+    breaks = seq(0, 7000, by = 1000),
+    limits = c(0, 7000),  
     expand = c(0, 0)  
   ) +
   theme_bw() +
@@ -407,6 +415,8 @@ a1 <- ggplot(top_working_subzones,
                  y = Total_Population, 
                  fill = Planning_Area)) +
   geom_col() +
+  geom_text(aes(label = Total_Population), 
+            hjust = -0.1, size = 3.5) +
   coord_flip() +
   labs(
     title = "Top 10 subzones of Working Adults Population (18-64)",
@@ -437,14 +447,14 @@ a1
 
 ```
 
-### Comparison between 2 groups (young and elderly dependents)
+### Comparison between 2 groups (young and youth dependents)
 
 ```{r}
-#| fig_width: 12
-#| fig-height: 7
+#| fig_width: 13
+#| fig-height: 9
 #| echo: false
 
-(y2 / y1) | e1
+y2 + y1 
 
 ```
 :::
@@ -452,13 +462,15 @@ a1
 ::: panel-tabset
 ## 💡 Observations
 
--   **Tampines** (Tampines North, Tampines East & Tampines West) is found to have the highest number of young, youth and elderly population where they are all within the top 10 subzones in all 3 group categories
+-   **Tampines** (Tampines North, Tampines East & Tampines West) is found to have the highest number of young, youth and elderly population where they are all within the top 10 subzones in all 3 group categories.
 
--   Bedok North and Tampines East and West seems to have the highest elderly proportion compared to the other areas where they amount to be the top 3 subzones
+-   Bedok North and Tampines East and West seems to have the highest elderly proportion compared to the other areas where they amount to be the top 3 subzones.
 
--   As for the young populations, Tampines East, Tampines North and Woodlands East are the top 3 areas with the highest proportion
+-   As for the young populations, Tampines East, Tampines North and Woodlands East are the top 3 areas with the highest proportion.
 
--   Tampines East, Woodlands East and Fernvale are the top 3 subzones for youth population
+-   Tampines East, Woodlands East and Fernvale are the top 3 subzones for youth population.
+
+-   When comparing between the youth (5-12 years) and young (0-4 years) age groups, they have similarities where Tampines East and Woodlands East are within the top 3 subzones for these two age groups. In addition, the youth has almost double the number as compared to the young population in both of these two zones as shown in the above comparison plot.
 :::
 
 # 6. Exploratory Data Analysis
