@@ -1,0 +1,19 @@
+---
+title: "Take-home_Ex01b"
+author: "Shermainn"
+date: 2025-05-5
+date-modified: "last-modified"
+categories: ["Take-home Exercise"]
+execute: 
+  eval: true
+  echo: true
+  warning: false
+---
+
+This is on the Phase ll of Take-home exercise 1 where I will be evaluating and critiquing on one of my peer's, Celin, Take-home exercise 1 from her Netlify shown [here](https://isss608celin.netlify.app/).
+
+# 1. Overview
+
+# 2. Recommendations/Critique of Plots
+
+# 3. Summary
