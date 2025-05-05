@@ -8,6 +8,11 @@ execute:
   eval: true
   echo: true
   warning: false
+
+format:
+  html:
+    code-fold: true
+    code-tools: true  # Optional: adds global show/hide code buttons
 ---
 
 This is on the Phase ll of Take-home exercise 1 where I will be evaluating and critiquing on one of my peer's, Celin, Take-home exercise 1 from her Netlify shown [here](https://isss608celin.netlify.app/take-home_ex/take-home_ex01/take-home_ex01).
@@ -40,7 +45,7 @@ Areas to improve on:
 
 # 3. Makeover design of the Pie Chart
 
-## Cleaned Data 
+## Cleaned Data
 
 ```{r}
 pacman::p_load(tidyverse, ggrepel, 
@@ -115,6 +120,7 @@ head(resident_regioned)
 ## Modified Pie Chart
 
 ```{r}
+
 pie_all_regions <- resident_regioned %>%
   group_by(Region, Sex) %>%
   summarise(Population = sum(Population, na.rm = TRUE), .groups = "drop") %>%
