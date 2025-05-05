@@ -132,6 +132,14 @@ female_data <- pie_all_regions %>%
     label = paste0(Region, "\n", round(Population / sum(Population) * 100, 1), "%")
   )
 
+region_colors <- c(
+  "Central"     = "#f4cccc",
+  "East"        = "#d9ead3",
+  "North"       = "#fce5cd",
+  "North-East"  = "#d9d2e9",
+  "West"        = "#cfe2f3"
+)
+
 # Plot: Two pie charts with direct labels
 male_pie <- ggplot(male_data, aes(x = "", y = Population, fill = Region)) +
   geom_col(width = 1, color = "white") +
