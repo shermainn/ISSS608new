@@ -9,3 +9,302 @@ execute:
   echo: true
   warning: false
 ---
+
+# Overview
+
+# Load Packages
+
+```{r}
+pacman::p_load(ggdist, ggridges, ggthemes,
+               colorspace, tidyverse)
+```
+
+# Load Data
+
+```{r}
+Jakarta <- read_csv("data/COVID-19_DKI_Jakarta.csv")
+```
+
+# Visualizing Ridgeline Plot
+
+Use ggridges package to plot ridgeline plot with R. This package provide two main geom: `geom_ridgeline()` which thatkes height values directly to draw ridgelines and `geom_density_ridges()` to estimates data density and then draws the ridgelines.
+
+::: panel-tabset
+### Ridgeline Plot (with `geom_density_ridges()`)
+
+```{r}
+ggplot(Jakarta, 
+       aes(x = Death, 
+           y = City)) +
+  geom_density_ridges(
+    scale = 3,
+    rel_min_height = 0.01,
+    bandwidth = 3.4,
+    fill = lighten("#7097BB", .3),
+    color = "white"
+  ) +
+  scale_x_continuous(
+    name = "Number of Deaths",
+    expand = c(0, 0)
+    ) +
+  scale_y_discrete(name = NULL, expand = expansion(add = c(0.2, 2.6))) +
+  theme_ridges()
+```
+
+### Varying Fill Colours along x-axis
+
+To change the colours, from solid to a gradient effect, use geom_ridgeline_gradient() or geom_density_ridges_gradient().
+
+```{r}
+ggplot(Jakarta, 
+       aes(x = Death, 
+           y = City,
+           fill = ..x..)) +
+  geom_density_ridges_gradient(
+    scale = 3,
+    rel_min_height = 0.01) +
+  scale_fill_viridis_c(name = "Number of Deaths",
+                       option = "C") +
+  scale_x_continuous(
+    name = "Number of Deaths",
+    expand = c(0, 0)
+    ) +
+  scale_y_discrete(name = NULL, expand = expansion(add = c(0.2, 2.6))) +
+  theme_ridges()
+```
+
+### **Mapping probabilities directly onto colour**
+
+Adding statistics into the plot such as `stat_density_ridges()` can be done as well by replacing `stat_density()` in the code chunk. To calculate the probabilities in the plot `after_stat(ecdf)` that calculates the empirical cumulative density function for the distribution of the number of deaths in Jakarta. The direction in the code chunk also changes the colours gradient when = -1 to the opposite colour gradient. Note: Include `calc_ecdf = TRUE` in `stat_density_ridges()` to help the function compute the ECDF (empirical cumulative distribution function).
+
+```{r}
+ggplot(Jakarta, 
+       aes(x = Death, 
+           y = City,
+           fill = 0.5 - abs(0.5-after_stat(ecdf)))) +
+  stat_density_ridges(geom = "density_ridges_gradient", 
+                      calc_ecdf = TRUE) +
+  scale_fill_viridis_c(name = "Number of deaths",
+                       direction = -1) +
+  theme_ridges()
+```
+
+### Quantile Lines
+
+You can also use the stat(quantile) to plot the ridgeline plot as shown in the code chunk below:
+
+-   Change from `scale_fill_viridis_c` to `scale_fill_viridis_d`
+
+-   `stat(quantile)` refer to how many groups you want to divide your data into where I set `quantiles = 4`
+
+```{r}
+ggplot(Jakarta, 
+       aes(x = Death, 
+           y = City,
+           fill = factor(stat(quantile)))) +
+  stat_density_ridges(geom = "density_ridges_gradient", 
+                      calc_ecdf = TRUE,
+                      quantiles = 4,
+                      quantile_lines = TRUE) +
+  scale_fill_viridis_d(name = "Quartiles") +
+  theme_ridges()
+```
+
+### Quantiles (in %)
+
+You can also categorize in terms of percentages such as 2.5% and 97.5% as shwon in the figure below.
+
+```{r}
+ggplot(Jakarta, 
+       aes(x = Death, 
+           y = City,
+           fill = factor(stat(quantile)))) +
+  stat_density_ridges(geom = "density_ridges_gradient", 
+                      calc_ecdf = TRUE,
+                      quantiles = c(0.025, 0.975)) +
+  scale_fill_manual(
+    name = "Probability",
+    values = c("#FF0000A0", "#A0A0A0A0", "#0000FFA0"),
+    labels = c("(0, 0.025]", "(0.025, 0.975]", "(0.975, 1]")
+  ) +
+  theme_ridges()
+```
+:::
+
+# Visualizing Raincloud Plot
+
+::: panel-tabset
+### Half Eye graph
+
+Use `stat_halfeye()` of `ggdist` package which will produce a half-density and slab-interval known as Half Eye plot. You can remove the slab interval by `setting .width = 0` and `point_colour = NA` . First 3 cities were used in this example by filtering based on top 3 cities.
+
+```{r}
+Jakarta_filtered <- Jakarta %>%
+  count(City, sort = TRUE) %>%
+  top_n(3, n) %>%
+  inner_join(Jakarta, by = "City")
+
+ggplot(Jakarta_filtered, 
+       aes(x = City, 
+           y = Death)) +
+  stat_halfeye(adjust = 0.5,
+               justification = -0.2,
+               .width = 0,
+               point_colour = NA)
+```
+
+### Add boxplot with `geom_boxplot()`
+
+```{r}
+Jakarta_filtered <- Jakarta %>%
+  count(City, sort = TRUE) %>%
+  top_n(3, n) %>%
+  inner_join(Jakarta, by = "City")
+
+ggplot(Jakarta_filtered, 
+       aes(x = City, 
+           y = Death)) +
+  stat_halfeye(adjust = 0.5,
+               justification = 0,
+               .width = 0,
+               point_colour = NA) +
+        geom_boxplot(width = .1,
+               outlier.shape = NA) 
+
+```
+
+### Dot Plot with stat_dots()
+
+```{r}
+Jakarta_filtered <- Jakarta %>%
+  count(City, sort = TRUE) %>%
+  top_n(3, n) %>%
+  inner_join(Jakarta, by = "City")
+
+ggplot(Jakarta_filtered, 
+       aes(x = City, 
+           y = Death)) +
+  stat_halfeye(adjust = 0.5,
+               justification = 0,
+               .width = 0,
+               point_colour = NA) +
+        geom_boxplot(width = .1,
+               outlier.shape = NA) +
+    stat_dots(side = "left", 
+            justification = 1.2, 
+            binwidth = .5,
+            dotsize = 2)
+```
+
+## Finishing Touch
+
+`coord_flip()` is used to flip the chart horizontally to give a raincloud appearance.
+
+```{r}
+Jakarta_filtered <- Jakarta %>%
+  count(City, sort = TRUE) %>%
+  top_n(3, n) %>%
+  inner_join(Jakarta, by = "City")
+
+ggplot(Jakarta_filtered, 
+       aes(x = City, 
+           y = Death)) +
+  stat_halfeye(adjust = 0.5,
+               justification = 0,
+               .width = 0,
+               point_colour = NA) +
+        geom_boxplot(width = .1,
+               outlier.shape = NA) +
+    stat_dots(side = "left", 
+            justification = 1.2, 
+            binwidth = .5,
+            dotsize = 2) +
+  coord_flip()
+```
+:::
+
+# Visual Statistical Analysis with ggstatsplot
+
+### 1. Load packages
+
+```{r}
+pacman::p_load(ggstatsplot, tidyverse)
+```
+
+### 2. One-sample test: gghistostats() method
+
+```{r}
+set.seed(1234)
+
+gghistostats(
+  data = Jakarta,
+  x = Death,
+  type = "bayes",
+  test.value = 60, #null hypothesis
+  xlab = "Number of Deaths"
+)
+```
+
+### 3. Two-sample mean test: ggbetweenstats() Method
+
+The code chunk below is used to build a visual for a two-sample mean test for the number of deaths Jakarta's cities.
+
+```{r}
+ggbetweenstats(
+  data = Jakarta,
+  x = City, 
+  y = Death,
+  type = "np",
+  messages = FALSE
+)
+```
+
+### 4. One-way ANOVA test: ggbetweenstats() Method
+
+Similarly, the same code chunk is used to create a One-way ANOVA test on number of deaths in Jakarta's cities.
+
+```{r}
+# Check the distribution after filtering
+ggbetweenstats(
+  data = Jakarta,
+  x = City, 
+  y = Death,
+  type = "p",
+  mean.ci = TRUE, 
+  pairwise.comparisons = TRUE, 
+  pairwise.display = "s",  # Show only significant comparisons
+  p.adjust.method = "fdr",
+  messages = FALSE
+)
+
+```
+
+### 5. Significant Test of Correlation: ggscatterstats()
+
+```{r}
+ggscatterstats(
+  data = Jakarta,
+  x = Death,
+  y = Recovered,
+  marginal = FALSE,
+  )
+```
+
+### 6. Significant Test of Association (Dependence): ggbarstats() methods
+
+In the code chunk below: the number of deaths is binned into 3-class variable by using `cut()`.
+
+```{r}
+#| fig-width: 7
+#| fig-height: 10
+  
+Jakarta_death <- Jakarta %>% 
+  mutate(Death_bins = 
+           cut(Death, 
+               breaks = c(0,60,75,100))
+)
+
+ggbarstats(Jakarta_death, 
+           x = Death_bins,
+           y = City)
+```
