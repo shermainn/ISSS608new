@@ -6,7 +6,7 @@ Welcome to **ISSS608 Visual Analytics and Applications**. In this website, you w
 
 ## 🔥 Latest Hands-on Exercise
 
-<a class="quarto-grid-link" href="https://isss608-sherm.netlify.app/hands-on_ex/hands-on_ex03/hands-on_ex03" data-original-href="https://isss608-sherm.netlify.app/hands-on_ex/hands-on_ex03/hands-on_ex03">
+<a class="quarto-grid-link" href="https://isss608-sherm.netlify.app/hands-on_ex/hands-on_ex04/hands-on_ex04" data-original-href="https://isss608-sherm.netlify.app/hands-on_ex/hands-on_ex04/hands-on_ex04">
 
 ::::::: {.quarto-grid-item .card .h-100 .card-left}
 <p class="card-img-top">
@@ -18,12 +18,12 @@ Welcome to **ISSS608 Visual Analytics and Applications**. In this website, you w
 :::::: {.card-body .post-contents}
 <h5 class="no-anchor card-title listing-title">
 
-HandsOnEx3
+HandsOnEx4
 
 </h5>
 
 ::: {.card-text .listing-description}
-Hands-on Exercise 3
+Hands-on Exercise 4
 :::
 
 :::: {.card-attribution .card-text-small .start}
@@ -38,7 +38,7 @@ Shermainn
 
 ## 🔥 Latest Take-home Exercise
 
-<a class="quarto-grid-link" href="https://isss608-sherm.netlify.app/take-home_ex/take-home_ex01/take-home_ex01" data-original-href="https://isss608-sherm.netlify.app/take-home_ex/take-home_ex01/take-home_ex01">
+<a class="quarto-grid-link" href="https://isss608-sherm.netlify.app/take-home_ex/take-home_ex01/take-home_ex01b" data-original-href="https://isss608-sherm.netlify.app/take-home_ex/take-home_ex01/take-home_ex01b">
 
 ::::::: {.quarto-grid-item .card .h-100 .card-left}
 <p class="card-img-top" width="600">
@@ -50,12 +50,12 @@ Shermainn
 :::::: {.card-body .post-contents}
 <h5 class="no-anchor card-title listing-title">
 
-TakehomeEx01
+TakehomeEx01b
 
 </h5>
 
 ::: {.card-text .listing-description}
-Take-home Exercise 1
+Take-home Exercise 1b
 :::
 
 :::: {.card-attribution .card-text-small .start}
