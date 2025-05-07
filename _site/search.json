@@ -224,6 +224,34 @@
     "text": "7.7. Packed Bars"
   },
   {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html",
+    "href": "Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html",
+    "title": "Hands-on_Ex04",
+    "section": "",
+    "text": "I will be using the same data across all 4 sections.\n\n\n\npacman::p_load(ggdist, ggridges, ggthemes,\n               colorspace, tidyverse)\n\n\n\n\n\nJakarta &lt;- read_csv(\"data/COVID-19_DKI_Jakarta.csv\")"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html#load-packages",
+    "href": "Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html#load-packages",
+    "title": "Hands-on_Ex04",
+    "section": "",
+    "text": "pacman::p_load(ggdist, ggridges, ggthemes,\n               colorspace, tidyverse)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html#load-data",
+    "href": "Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html#load-data",
+    "title": "Hands-on_Ex04",
+    "section": "",
+    "text": "Jakarta &lt;- read_csv(\"data/COVID-19_DKI_Jakarta.csv\")"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html#finishing-touch",
+    "href": "Hands-on_Ex/Hands-on_Ex04/Hands-on_Ex04.html#finishing-touch",
+    "title": "Hands-on_Ex04",
+    "section": "Finishing Touch",
+    "text": "Finishing Touch\ncoord_flip() is used to flip the chart horizontally to give a raincloud appearance.\n\nJakarta_filtered &lt;- Jakarta %&gt;%\n  count(City, sort = TRUE) %&gt;%\n  top_n(3, n) %&gt;%\n  inner_join(Jakarta, by = \"City\")\n\nggplot(Jakarta_filtered, \n       aes(x = City, \n           y = Death)) +\n  stat_halfeye(adjust = 0.5,\n               justification = 0,\n               .width = 0,\n               point_colour = NA) +\n        geom_boxplot(width = .1,\n               outlier.shape = NA) +\n    stat_dots(side = \"left\", \n            justification = 1.2, \n            binwidth = .5,\n            dotsize = 2) +\n  coord_flip()"
+  },
+  {
     "objectID": "In-class_Ex/In-class_Ex03/In-class_Ex03.html",
     "href": "In-class_Ex/In-class_Ex03/In-class_Ex03.html",
     "title": "In-class_Ex03",
