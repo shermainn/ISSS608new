@@ -12,20 +12,22 @@ execute:
 
 # Overview
 
-# Load Packages
+I will be using the same data across all 4 sections.
+
+## Load Packages
 
 ```{r}
 pacman::p_load(ggdist, ggridges, ggthemes,
                colorspace, tidyverse)
 ```
 
-# Load Data
+## Load Data
 
 ```{r}
 Jakarta <- read_csv("data/COVID-19_DKI_Jakarta.csv")
 ```
 
-# Visualizing Ridgeline Plot
+# 1.0 Visualizing Ridgeline Plot
 
 Use ggridges package to plot ridgeline plot with R. This package provide two main geom: `geom_ridgeline()` which thatkes height values directly to draw ridgelines and `geom_density_ridges()` to estimates data density and then draws the ridgelines.
 
@@ -131,7 +133,7 @@ ggplot(Jakarta,
 ```
 :::
 
-# Visualizing Raincloud Plot
+# 1.1 Visualizing Raincloud Plot
 
 ::: panel-tabset
 ### Half Eye graph
@@ -223,7 +225,7 @@ ggplot(Jakarta_filtered,
 ```
 :::
 
-# Visual Statistical Analysis with ggstatsplot
+# 2.0 Visual Statistical Analysis with ggstatsplot
 
 ### 1. Load packages
 
