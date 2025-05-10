@@ -27,4 +27,6 @@ format:
 
 -   Two sample mean - EDA, need to do sampling test regardless of sample size (n \>30 still need to do!)
 
+-   Use this website to have best practices for ggstatsplot [here](https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggbetweenstats.html).
+
 -   \
