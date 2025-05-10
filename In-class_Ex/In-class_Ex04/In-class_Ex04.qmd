@@ -1,0 +1,16 @@
+---
+title: "In-class_Ex04"
+author: "Shermainn"
+date: 10-05-2025
+date-modified: "last-modified"
+categories: ["Hands-on Exercise"]
+execute: 
+  eval: true
+  echo: true
+  warning: false
+  
+format:
+  html:
+    code-fold: true
+    code-tools: true
+---
