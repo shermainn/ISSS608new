@@ -22,3 +22,9 @@ format:
 -   Take home exercise 3: To do a prototype: deadline - 15th June (try to do it asap before week 8 so that can proceed to the project), come up with a storyboard and necessary R packages in the Shiny environment, don't need to build up the whole application
 
 -   
+
+# Lesson 4
+
+-   Two sample mean - EDA, need to do sampling test regardless of sample size (n \>30 still need to do!)
+
+-   \
