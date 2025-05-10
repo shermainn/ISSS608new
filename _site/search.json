@@ -81,7 +81,7 @@
     "href": "In-class_Ex/In-class_Ex04/In-class_Ex04.html",
     "title": "In-class_Ex04",
     "section": "",
-    "text": "Recap:\n\nTake home exercise 2: Do mini challenge 1 - analyze on the various questions shown, do not need to do the reflection questions\nTake home exercise 3: To do a prototype: deadline - 15th June (try to do it asap before week 8 so that can proceed to the project), come up with a storyboard and necessary R packages in the Shiny environment, don’t need to build up the whole application\n\n\n\n\nLesson 4\n\nTwo sample mean - EDA, need to do sampling test regardless of sample size (n &gt;30 still need to do!)"
+    "text": "Recap:\n\nTake home exercise 2: Do mini challenge 1 - analyze on the various questions shown, do not need to do the reflection questions\nTake home exercise 3: To do a prototype: deadline - 15th June (try to do it asap before week 8 so that can proceed to the project), come up with a storyboard and necessary R packages in the Shiny environment, don’t need to build up the whole application\n\n\n\n\nLesson 4\n\nTwo sample mean - EDA, need to do sampling test regardless of sample size (n &gt;30 still need to do!)\nUse this website to have best practices for ggstatsplot here."
   },
   {
     "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html",

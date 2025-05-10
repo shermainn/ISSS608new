@@ -293,7 +293,7 @@ ggscatterstats(
   data = Jakarta,
   x = Death,
   y = Recovered,
-  marginal = FALSE,
+  marginal = FALSE, #If I put it as True, the bar graph will show 
   )
 ```
 
@@ -494,7 +494,9 @@ Jakarta %>%
 
 ### Install ungeviz package
 
-```{r}
+```{r eval=FALSE}
+
+#everything downloaded from github just need to download once so add in the eval = False into R
 devtools::install_github("wilkelab/ungeviz")
 ```
 
