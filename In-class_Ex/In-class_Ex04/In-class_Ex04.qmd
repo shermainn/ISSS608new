@@ -14,3 +14,11 @@ format:
     code-fold: true
     code-tools: true
 ---
+
+# Recap:
+
+-   Take home exercise 2: Do mini challenge 1 - analyze on the various questions shown, do not need to do the reflection questions
+
+-   Take home exercise 3: To do a prototype: deadline - 15th June (try to do it asap before week 8 so that can proceed to the project), come up with a storyboard and necessary R packages in the Shiny environment, don't need to build up the whole application
+
+-   
