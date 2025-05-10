@@ -8,6 +8,11 @@ execute:
   eval: true
   echo: true
   warning: false
+  
+format:
+  html:
+    code-fold: true
+    code-tools: true 
 ---
 
 # 1. Overview
@@ -38,11 +43,15 @@ Using the DOS data set above, this post aims to use appropriate `tidyverse` fami
 
 # 2. Load Packages
 
-| Library | Description |
-|----|----|
-| tidyverse | A collection of core packages designed for data science, used extensively for data preparation and wrangling. |
-| patchwork | For preparing composite figure created using ggplot2. |
-| ggthemes | Extra themes, geoms, and scales for ggplot2. |
++-----------------------------------+---------------------------------------------------------------------------------------------------------------+
+| Library                           | Description                                                                                                   |
++===================================+===============================================================================================================+
+| tidyverse                         | A collection of core packages designed for data science, used extensively for data preparation and wrangling. |
++-----------------------------------+---------------------------------------------------------------------------------------------------------------+
+| patchwork                         | For preparing composite figure created using ggplot2.                                                         |
++-----------------------------------+---------------------------------------------------------------------------------------------------------------+
+| ggthemes                          | Extra themes, geoms, and scales for ggplot2.                                                                  |
++-----------------------------------+---------------------------------------------------------------------------------------------------------------+
 
 The following code chunk uses `p_load()` of pacman package to check if tidyverse packages are installed into the computer.
 
@@ -108,23 +117,23 @@ Based on the excel spreadsheet, *Singapore Residents by Planning Area / Subzone,
 
 Below are the list of variables retained for this study which are grouped into 2 categories of Age and Planning areas.
 
-+----------------+----------------------------------+------+------------------------------+
-| Category       | Description                      | Type | Encoding Scheme              |
-+================+==================================+======+==============================+
-| Age            | Dependency Burden                | NUM  | Young Children (0-4 years)   |
-|                |                                  |      |                              |
-|                |                                  |      | Youth (5-12 years)           |
-|                |                                  |      |                              |
-|                |                                  |      | Teens (13-17 years)          |
-|                |                                  |      |                              |
-|                |                                  |      | Working Adults (18-64 years) |
-|                |                                  |      |                              |
-|                |                                  |      | Elderly (65+ years)          |
-+----------------+----------------------------------+------+------------------------------+
-| Planning areas | Urban Planning and Housing Needs | NUM  | Main zones                   |
-|                |                                  |      |                              |
-|                |                                  |      | Subzones                     |
-+----------------+----------------------------------+------+------------------------------+
++----------------+----------------------------------+------------+------------------------------+
+| Category       | Description                      | Type       | Encoding Scheme              |
++================+==================================+============+==============================+
+| Age            | Dependency Burden                | NUM        | Young Children (0-4 years)   |
+|                |                                  |            |                              |
+|                |                                  |            | Youth (5-12 years)           |
+|                |                                  |            |                              |
+|                |                                  |            | Teens (13-17 years)          |
+|                |                                  |            |                              |
+|                |                                  |            | Working Adults (18-64 years) |
+|                |                                  |            |                              |
+|                |                                  |            | Elderly (65+ years)          |
++----------------+----------------------------------+------------+------------------------------+
+| Planning areas | Urban Planning and Housing Needs | NUM        | Main zones                   |
+|                |                                  |            |                              |
+|                |                                  |            | Subzones                     |
++----------------+----------------------------------+------------+------------------------------+
 
 ## 4.2 Recoding Categorical Variables
 
