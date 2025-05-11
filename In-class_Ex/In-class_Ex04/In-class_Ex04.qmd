@@ -51,6 +51,6 @@ format:
 
 -   HOPS:
 
-    When moves slower, means more certain about the data sets and bigger sample size.
+    When moves slower, means more certain about the data sets and bigger sample size with smaller variability.
 
-    When moves faster, means less certain about the data sets and smaller sample size, \
+    When moves faster, means less certain about the data sets and smaller sample size and bigger variability, \
