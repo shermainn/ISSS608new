@@ -49,4 +49,8 @@ format:
 
 -   Half-Eye Plot: Violin Plot is divided in half, and then used boxplot to show the median, max and min points as well as dot plot to show the number of data points
 
--   \
+-   HOPS:
+
+    When moves slower, means more certain about the data sets and bigger sample size.
+
+    When moves faster, means less certain about the data sets and smaller sample size, \
