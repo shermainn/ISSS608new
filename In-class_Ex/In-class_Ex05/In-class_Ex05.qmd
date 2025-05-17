@@ -1,0 +1,128 @@
+---
+title: "In-class_Ex05"
+author: "Shermainn"
+date: 2025-05-17
+date-modified: "last-modified"
+categories: ["Take-home Exercise"]
+execute: 
+  eval: true
+  echo: true
+  warning: false
+
+format:
+  html:
+    code-fold: true
+    code-tools: true
+---
+
+# Mini Case 1
+
+In this code chunk below, p_load() of pacman package is used to load the R packages into R environment.
+
+```{r}
+pacman::p_load(tidyverse,jsonlite, SmartEDA, tidygraph, ggraph)
+```
+
+In the code chunk below, fromJSON() of jsonlite package is used to import MC1_graph.json file into R and save the output object.
+
+```{r}
+kg <- fromJSON("C:\\shermainn\\ISSS608new\\In-class_Ex\\In-class_Ex05\\data\\MC1_graph.json")
+```
+
+Inspect Structure
+
+```{r}
+str(kg, max.level = 1)
+```
+
+Extract and Inspect
+
+To do some data cleaning, we separate out into nodes_tb1 and edges_tb1 from the json file.
+
+```{r}
+nodes_tb1 <- as_tibble(kg$nodes) edges_tb1 <- as_tibble(kg$links)
+```
+
+Initial EDA
+
+```{r}
+ggplot(data = edges_tb1,         aes(y = `Edge Type`)) +    geom_bar()
+```
+
+```{r}
+ggplot(data = nodes_tb1,         aes(y = `Node Type`)) +    geom_bar()
+```
+
+## Create Knowledge Graph
+
+### Step 1: Map from node id to row index
+
+```{r}
+id_map <- tibble(id = nodes_tb1$id,                  index = seq_len(nrow(nodes_tb1)))
+```
+
+This ensures each id from your node list is mapped to the correct row number.
+
+### Step 2: Map source and target IDs to row indices
+
+```{r}
+edges_tb1 <- edges_tb1 %>%   left_join(id_map, by = c("source" = "id")) %>%   rename(from = index) %>%   left_join(id_map, by = c("target" = "id")) %>%   rename(to = index)
+```
+
+### Step 3: Filter out any unmatched (invalid edges)
+
+```{r}
+edges_tb1 <- edges_tb1 %>%   filter(!is.na(from), !is.na(to))
+```
+
+### Step 4: Create the graph
+
+Lastly, tbl_graph() is used to create tidygraph's graph object by using the code chunk below.
+
+```{r}
+graph <- tbl_graph(nodes = nodes_tb1,                    edges = edges_tb1,                     directed = kg$directed)
+```
+
+Visualize the knowledge graph
+
+```{r}
+set.seed(1234) #ensures to get back the same graph
+```
+
+Visualize the whole graph
+
+```{r}
+#| eval: false
+ggraph(graph, layout = "fr") +   geom_edge_link(alpha = 0.3,                  colour = "gray") +   geom_node_point(aes(colour = `Node Type`),                   size = 4) +   geom_node_text(aes(label = name),                  repel = TRUE,                  size = 2.5) +   theme_void()
+```
+
+Step1: Filter edges to only "Memberof"
+
+```{r}
+graph_memberof <- graph %>%
+  activate(edges) %>%
+  filter(`Edge Type` == 'Memberof')
+```
+
+Step2: Extract only connected nodes (i.e. used in these edges)
+
+```{r}
+used_node_indices <- graph_memberof %>%
+  activate(edges) %>%
+  as_tibble() %>%
+  select(from, to) %>%
+  unlist() %>%
+  unique()
+```
+
+Step3: Keep only those nodes
+
+```{r} graph_memberof <- graph_memberof %>%   activate(nodes) %>%   mutate(row_id = row_number()) %>%   filter(row_id %in% used_node_indices) %>%   select(-row_id) #optional clean up}
+```
+
+Plot the sub-graph
+
+```{r} ggraph(graph_memberof,         layout = "fr") +   geom_edge_link(alpha = 0.5,                  colour = "gray") +   geom_node_point(aes(colour = `Node Type`),                   size = 1) +   geom_node_text(aes(label = name),                  repel = TRUE,                   size = 2.5) +   theme_void()}
+```
+
+the graph shows that it is very silo

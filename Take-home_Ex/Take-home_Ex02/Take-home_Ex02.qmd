@@ -15,42 +15,152 @@ format:
     code-tools: true
 ---
 
-# Mini-Challenge 1
+# Mini Case 1
 
-## Background
+In this code chunk below, p_load() of pacman package is used to load the R packages into R environment.
 
-One of music’s biggest superstars is Oceanus native Sailor Shift. From humble beginnings, Sailor has grown in popularity and now enjoys fans around the world. Sailor started her career on the island nation of Oceanus which can be clearly seen in her early work, she started in the genre of “Oceanus Folk”. While Sailor has moved away from the traditional Oceanus style, the Oceanus Folk has made a name for itself in the musical world. The popularity of this music is one of the factors driving an increase in tourism to a quiet island nation that used to be known for fishing.
+```{r}
+pacman::p_load(tidyverse,jsonlite, SmartEDA, tidygraph, ggraph)
+```
 
-In 2023, Sailor Shift joined the Ivy Echoes – an all-female Oceanus Folk band consisting of Sailor (vocalist), Maya Jensen (vocalist), Lila “Lilly” Hartman (guitarist), Jade Thompson (drummer), and Sophie Ramirez (bassist). They played together at venues throughout Oceanus but had broken up to pursue their individual careers by 2026. Sailor’s breakthrough came in 2028 when one of her singles went viral, launched to the top of the global charts (something no other Oceanus Folk song had ever done). Since then, she has only continued to grow in popularity worldwide.
+In the code chunk below, fromJSON() of jsonlite package is used to import MC1_graph.json file into R and save the output object.
 
-Sailor has released a new album almost every year since her big break, and each has done better than the last. Although she has remained primarily a solo artist, she has also frequently collaborated with other established artists, especially in the Indie Pop and Indie Folk genres. She herself has branched out musically over the years but regularly returns to the Oceanus Folk genre — even as the genre’s influence on the rest of the music world has spread even more.
+```{r}
+kg <- fromJSON("C:\\shermainn\\ISSS608new\\Take-home_Ex\\Take-home_Ex02\\data\\MC1_graph.json")
+```
 
-Sailor has always been passionate about two things: (1) spreading Oceanus Folk, and (2) helping lesser-known artists break into music. Because of those goals, she’s particularly famous for her frequent collaborations.
+Inspect Structure
 
-Additionally, because of Sailor’s success, more attention began to be paid over the years to her previous bandmates. All 4 have continued in the music industry—Maya as an independent vocalist, Lilly and Jade as instrumentalists in other bands, and Sophie as a music producer for a major record label. In various ways, all of them have contributed to the increased influence of Oceanus folk, resulting in a new generation of up-and-coming Oceanus Folk artists seeking to make a name for themselves in the music industry.
+```{r}
+str(kg, max.level = 1)
+```
 
-Now, as Sailor returns to Oceanus in 2040, a local journalist – Silas Reed – is writing a piece titled Oceanus Folk: Then-and-Now that aims to trace the rise of Sailor and the influence of Oceanus Folk on the rest of the music world. He has collected a large dataset of musical artists, producers, albums, songs, and influences and organized it into a knowledge graph. Your task is to help Silas create beautiful and informative visualizations of this data and uncover new and interesting information about Sailor’s past, her rise to stardom, and her influence.
+Extract and Inspect
 
-## Tasks and Questions:
+To do some data cleaning, we separate out into nodes_tb1 and edges_tb1 from the json file.
 
-1.  Design and develop visualizations and visual analytic tools that will allow Silas to explore and understand the profile of Sailor Shift’s career
+```{r}
+nodes_tb1 <- as_tibble(kg$nodes)
+edges_tb1 <- as_tibble(kg$links)
+```
 
-    1.  Who has she been most influenced by over time?
+Initial EDA
 
-    2.  Who has she collaborated with and directly or indirectly influenced?
+```{r}
+ggplot(data = edges_tb1, 
+       aes(y = `Edge Type`)) + 
+  geom_bar()
+```
 
-    3.  How has she influenced collaborators of the broader Oceanus Folk community?
+```{r}
+ggplot(data = nodes_tb1, 
+       aes(y = `Node Type`)) + 
+  geom_bar()
+```
 
-2.  Develop visualizations that illustrate how the influence of Oceanus Folk has spread through the musical world.
+## Create Knowledge Graph
 
-    1.  Was this influence intermittent or did it have a gradual rise?
+### Step 1: Map from node id to row index
 
-    2.  What genres and top artists have been most influenced by Oceanus Folk?
+```{r}
+id_map <- tibble(id = nodes_tb1$id,
+                 index = seq_len(nrow(nodes_tb1)))
+```
 
-    3.  On the converse, how has Oceanus Folk changed with the rise of Sailor Shift? From which genres does it draw most of its contemporary inspiration?
+This ensures each id from your node list is mapped to the correct row number.
 
-3.  Use your visualizations to develop a profile of what it means to be a rising star in the music industry.
+### Step 2: Map source and target IDs to row indices
 
-    1.  Visualize the careers of three artists. Compare and contrast their rise in popularity and influence.
+```{r}
+edges_tb1 <- edges_tb1 %>%
+  left_join(id_map, by = c("source" = "id")) %>%
+  rename(from = index) %>%
+  left_join(id_map, by = c("target" = "id")) %>%
+  rename(to = index)
+```
 
-    2.  Using this characterization, give three predictions of who the next Oceanus Folk stars with be over the next five years.
+### Step 3: Filter out any unmatched (invalid edges)
+
+```{r}
+edges_tb1 <- edges_tb1 %>%
+  filter(!is.na(from), !is.na(to))
+```
+
+### Step 4: Create the graph
+
+Lastly, tbl_graph() is used to create tidygraph's graph object by using the code chunk below.
+
+```{r}
+graph <- tbl_graph(nodes = nodes_tb1,
+                   edges = edges_tb1, 
+                   directed = kg$directed)
+```
+
+Visualize the knowledge graph
+
+```{r}
+set.seed(1234) #ensures to get back the same graph
+```
+
+Visualize the whole graph
+
+```{r}
+#| eval: false
+ggraph(graph, layout = "fr") +
+  geom_edge_link(alpha = 0.3,
+                 colour = "gray") +
+  geom_node_point(aes(colour = `Node Type`),
+                  size = 4) +
+  geom_node_text(aes(label = name),
+                 repel = TRUE,
+                 size = 2.5) +
+  theme_void()
+```
+
+Visualize the sub-graph
+
+Step1: Filter edges to only "Memberof"
+
+```{r}
+graph_memberof <- graph %>%
+  activate(edges) %>%
+  filter(`Edge Type` == "MemberOf")
+```
+
+Step2: Extract only connected nodes (i.e. used in these edges)
+
+```{r}
+used_node_indices <- graph_memberof %>%
+  activate(edges) %>%
+  as_tibble() %>%
+  select(from, to) %>%
+  unlist() %>%
+  unique()
+```
+
+Step3: Keep only those nodes
+
+```{r}
+graph_memberof <- graph_memberof %>%
+  activate(nodes) %>%
+  mutate(row_id = row_number()) %>%
+  filter(row_id %in% used_node_indices) %>%
+  select(-row_id) #optional clean up
+```
+
+Plot the sub-graph
+
+```{r}
+ggraph(graph_memberof, 
+       layout = "fr") +
+  geom_edge_link(alpha = 0.5,
+                 colour = "gray") +
+  geom_node_point(aes(colour = `Node Type`),
+                  size = 1) +
+  geom_node_text(aes(label = name),
+                 repel = TRUE, 
+                 size = 2.5) +
+  theme_void()
+```
+
+the graph shows that it is very silo
