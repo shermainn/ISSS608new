@@ -503,12 +503,13 @@ visNetwork(GAStech_nodes,
   visLayout(randomSeed = 123)
 ```
 
-###  **Visual attributes - Edges**
+### **Visual attributes - Edges**
 
 -   `isEdges()` is used to symbolise the edges:
 
     \- The argument *arrows* is used to define where to place the arrow.\
-    - The *smooth* argument is used to plot the edges using a smooth curve.
+
+    -   The *smooth* argument is used to plot the edges using a smooth curve.
 
 ```{r}
 visNetwork(GAStech_nodes,
