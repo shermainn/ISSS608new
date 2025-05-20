@@ -226,6 +226,7 @@ hline.data <- Vietnam %>%
 Step 5: Plot cycle plot
 
 ```{r}
+library(ggrepel)
 ggplot() + 
   geom_line(data=Vietnam,
             aes(x=year, 
@@ -237,12 +238,14 @@ ggplot() +
              linetype=6, 
              colour="red", 
              size=0.5) + 
+  geom_text_repel() +
   facet_grid(~month) +
   labs(axis.text.x = element_blank(),
        title = "Visitor arrivals from Vietnam by air, Jan 2010-Dec 2019") +
   xlab("") +
   ylab("No. of Visitors") +
-  theme_tufte(base_family = "Helvetica")
+  theme_tufte(base_family = "Helvetica") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 Slopegraph
