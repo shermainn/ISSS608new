@@ -595,23 +595,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>Vietnam,</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>year, </span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">y=</span><span class="st">`</span><span class="at">Vietnam</span><span class="st">`</span>, </span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">group=</span>month), </span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour=</span><span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept=</span>avgvalue), </span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">data=</span>hline.data, </span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype=</span><span class="dv">6</span>, </span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour=</span><span class="st">"red"</span>, </span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">size=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>month) <span class="sc">+</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Visitor arrivals from Vietnam by air, Jan 2010-Dec 2019"</span>) <span class="sc">+</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"No. of Visitors"</span>) <span class="sc">+</span></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_tufte</span>(<span class="at">base_family =</span> <span class="st">"Helvetica"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>Vietnam,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>year, </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">y=</span><span class="st">`</span><span class="at">Vietnam</span><span class="st">`</span>, </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">group=</span>month), </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour=</span><span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept=</span>avgvalue), </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">data=</span>hline.data, </span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype=</span><span class="dv">6</span>, </span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour=</span><span class="st">"red"</span>, </span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">size=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>() <span class="sc">+</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>month) <span class="sc">+</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Visitor arrivals from Vietnam by air, Jan 2010-Dec 2019"</span>) <span class="sc">+</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"No. of Visitors"</span>) <span class="sc">+</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_tufte</span>(<span class="at">base_family =</span> <span class="st">"Helvetica"</span>) <span class="sc">+</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1357,46 +1360,49 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb18-254"><a href="#cb18-254" aria-hidden="true" tabindex="-1"></a>Step 5: Plot cycle plot</span>
 <span id="cb18-255"><a href="#cb18-255" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-258"><a href="#cb18-258" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-259"><a href="#cb18-259" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb18-260"><a href="#cb18-260" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>Vietnam,</span>
-<span id="cb18-261"><a href="#cb18-261" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>year, </span>
-<span id="cb18-262"><a href="#cb18-262" aria-hidden="true" tabindex="-1"></a>                <span class="at">y=</span><span class="st">`</span><span class="at">Vietnam</span><span class="st">`</span>, </span>
-<span id="cb18-263"><a href="#cb18-263" aria-hidden="true" tabindex="-1"></a>                <span class="at">group=</span>month), </span>
-<span id="cb18-264"><a href="#cb18-264" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour=</span><span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb18-265"><a href="#cb18-265" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept=</span>avgvalue), </span>
-<span id="cb18-266"><a href="#cb18-266" aria-hidden="true" tabindex="-1"></a>             <span class="at">data=</span>hline.data, </span>
-<span id="cb18-267"><a href="#cb18-267" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype=</span><span class="dv">6</span>, </span>
-<span id="cb18-268"><a href="#cb18-268" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour=</span><span class="st">"red"</span>, </span>
-<span id="cb18-269"><a href="#cb18-269" aria-hidden="true" tabindex="-1"></a>             <span class="at">size=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb18-270"><a href="#cb18-270" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>month) <span class="sc">+</span></span>
-<span id="cb18-271"><a href="#cb18-271" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb18-272"><a href="#cb18-272" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Visitor arrivals from Vietnam by air, Jan 2010-Dec 2019"</span>) <span class="sc">+</span></span>
-<span id="cb18-273"><a href="#cb18-273" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
-<span id="cb18-274"><a href="#cb18-274" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"No. of Visitors"</span>) <span class="sc">+</span></span>
-<span id="cb18-275"><a href="#cb18-275" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_tufte</span>(<span class="at">base_family =</span> <span class="st">"Helvetica"</span>)</span>
-<span id="cb18-276"><a href="#cb18-276" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb18-277"><a href="#cb18-277" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-278"><a href="#cb18-278" aria-hidden="true" tabindex="-1"></a>Slopegraph</span>
-<span id="cb18-279"><a href="#cb18-279" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-280"><a href="#cb18-280" aria-hidden="true" tabindex="-1"></a>Step 1: Data Import</span>
-<span id="cb18-281"><a href="#cb18-281" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-284"><a href="#cb18-284" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-285"><a href="#cb18-285" aria-hidden="true" tabindex="-1"></a>rice <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/rice.csv"</span>)</span>
-<span id="cb18-286"><a href="#cb18-286" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb18-287"><a href="#cb18-287" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-288"><a href="#cb18-288" aria-hidden="true" tabindex="-1"></a>Step 2: Plot slopegraph</span>
-<span id="cb18-289"><a href="#cb18-289" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-290"><a href="#cb18-290" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>For effective data visualisation design,&nbsp;<span class="in">`factor()`</span>&nbsp;is used convert the value type of&nbsp;*Year*&nbsp;field from numeric to factor.</span>
-<span id="cb18-291"><a href="#cb18-291" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-294"><a href="#cb18-294" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb18-295"><a href="#cb18-295" aria-hidden="true" tabindex="-1"></a>rice <span class="sc">%&gt;%</span> </span>
-<span id="cb18-296"><a href="#cb18-296" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">factor</span>(Year)) <span class="sc">%&gt;%</span></span>
-<span id="cb18-297"><a href="#cb18-297" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1961</span>, <span class="dv">1980</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb18-298"><a href="#cb18-298" aria-hidden="true" tabindex="-1"></a>  <span class="fu">newggslopegraph</span>(Year, Yield, Country,</span>
-<span id="cb18-299"><a href="#cb18-299" aria-hidden="true" tabindex="-1"></a>                <span class="at">Title =</span> <span class="st">"Rice Yield of Top 11 Asian Counties"</span>,</span>
-<span id="cb18-300"><a href="#cb18-300" aria-hidden="true" tabindex="-1"></a>                <span class="at">SubTitle =</span> <span class="st">"1961-1980"</span>,</span>
-<span id="cb18-301"><a href="#cb18-301" aria-hidden="true" tabindex="-1"></a>                <span class="at">Caption =</span> <span class="st">"Prepared by: Dr. Kam Tin Seong"</span>)</span>
-<span id="cb18-302"><a href="#cb18-302" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-259"><a href="#cb18-259" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb18-260"><a href="#cb18-260" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb18-261"><a href="#cb18-261" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data=</span>Vietnam,</span>
+<span id="cb18-262"><a href="#cb18-262" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x=</span>year, </span>
+<span id="cb18-263"><a href="#cb18-263" aria-hidden="true" tabindex="-1"></a>                <span class="at">y=</span><span class="st">`</span><span class="at">Vietnam</span><span class="st">`</span>, </span>
+<span id="cb18-264"><a href="#cb18-264" aria-hidden="true" tabindex="-1"></a>                <span class="at">group=</span>month), </span>
+<span id="cb18-265"><a href="#cb18-265" aria-hidden="true" tabindex="-1"></a>            <span class="at">colour=</span><span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb18-266"><a href="#cb18-266" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept=</span>avgvalue), </span>
+<span id="cb18-267"><a href="#cb18-267" aria-hidden="true" tabindex="-1"></a>             <span class="at">data=</span>hline.data, </span>
+<span id="cb18-268"><a href="#cb18-268" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype=</span><span class="dv">6</span>, </span>
+<span id="cb18-269"><a href="#cb18-269" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour=</span><span class="st">"red"</span>, </span>
+<span id="cb18-270"><a href="#cb18-270" aria-hidden="true" tabindex="-1"></a>             <span class="at">size=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb18-271"><a href="#cb18-271" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>() <span class="sc">+</span></span>
+<span id="cb18-272"><a href="#cb18-272" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>month) <span class="sc">+</span></span>
+<span id="cb18-273"><a href="#cb18-273" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb18-274"><a href="#cb18-274" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Visitor arrivals from Vietnam by air, Jan 2010-Dec 2019"</span>) <span class="sc">+</span></span>
+<span id="cb18-275"><a href="#cb18-275" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">""</span>) <span class="sc">+</span></span>
+<span id="cb18-276"><a href="#cb18-276" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"No. of Visitors"</span>) <span class="sc">+</span></span>
+<span id="cb18-277"><a href="#cb18-277" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_tufte</span>(<span class="at">base_family =</span> <span class="st">"Helvetica"</span>) <span class="sc">+</span></span>
+<span id="cb18-278"><a href="#cb18-278" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
+<span id="cb18-279"><a href="#cb18-279" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-280"><a href="#cb18-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-281"><a href="#cb18-281" aria-hidden="true" tabindex="-1"></a>Slopegraph</span>
+<span id="cb18-282"><a href="#cb18-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-283"><a href="#cb18-283" aria-hidden="true" tabindex="-1"></a>Step 1: Data Import</span>
+<span id="cb18-284"><a href="#cb18-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-287"><a href="#cb18-287" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-288"><a href="#cb18-288" aria-hidden="true" tabindex="-1"></a>rice <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/rice.csv"</span>)</span>
+<span id="cb18-289"><a href="#cb18-289" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-290"><a href="#cb18-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-291"><a href="#cb18-291" aria-hidden="true" tabindex="-1"></a>Step 2: Plot slopegraph</span>
+<span id="cb18-292"><a href="#cb18-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-293"><a href="#cb18-293" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>For effective data visualisation design,&nbsp;<span class="in">`factor()`</span>&nbsp;is used convert the value type of&nbsp;*Year*&nbsp;field from numeric to factor.</span>
+<span id="cb18-294"><a href="#cb18-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-297"><a href="#cb18-297" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-298"><a href="#cb18-298" aria-hidden="true" tabindex="-1"></a>rice <span class="sc">%&gt;%</span> </span>
+<span id="cb18-299"><a href="#cb18-299" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">factor</span>(Year)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-300"><a href="#cb18-300" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1961</span>, <span class="dv">1980</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-301"><a href="#cb18-301" aria-hidden="true" tabindex="-1"></a>  <span class="fu">newggslopegraph</span>(Year, Yield, Country,</span>
+<span id="cb18-302"><a href="#cb18-302" aria-hidden="true" tabindex="-1"></a>                <span class="at">Title =</span> <span class="st">"Rice Yield of Top 11 Asian Counties"</span>,</span>
+<span id="cb18-303"><a href="#cb18-303" aria-hidden="true" tabindex="-1"></a>                <span class="at">SubTitle =</span> <span class="st">"1961-1980"</span>,</span>
+<span id="cb18-304"><a href="#cb18-304" aria-hidden="true" tabindex="-1"></a>                <span class="at">Caption =</span> <span class="st">"Prepared by: Dr. Kam Tin Seong"</span>)</span>
+<span id="cb18-305"><a href="#cb18-305" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
