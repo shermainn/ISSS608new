@@ -15,152 +15,226 @@ format:
     code-tools: true
 ---
 
-# Mini Case 1
+# Import Packages
 
-In this code chunk below, p_load() of pacman package is used to load the R packages into R environment.
+In the code chunk below, `p_load()` of **pacman** package is used to load the R packages into R environment.
 
 ```{r}
-pacman::p_load(tidyverse,jsonlite, SmartEDA, tidygraph, ggraph)
+pacman::p_load(tidyverse, jsonlite,
+               tidygraph, ggraph,
+               SmartEDA)
 ```
 
-In the code chunk below, fromJSON() of jsonlite package is used to import MC1_graph.json file into R and save the output object.
+# Import Data
+
+In the code chunk below, `fromJSON()` of **jsonlite** package is used to import *mc3.json* file into R and save the output object
 
 ```{r}
-kg <- fromJSON("C:\\shermainn\\ISSS608new\\Take-home_Ex\\Take-home_Ex02\\data\\MC1_graph.json")
+MC3 <- fromJSON("data/MC3_graph.json")
+MC3_schema <- fromJSON("data/MC3_schema.json")
 ```
 
-Inspect Structure
+## Inspect Knowledge Graph Structure
+
+In the code chunk below `glimpse()` is used to reveal the structure of *mc3* knowledge graph.
 
 ```{r}
-str(kg, max.level = 1)
+glimpse(MC3)
 ```
 
-Extract and Inspect
+## Extract Edges and Nodes Tables
 
-To do some data cleaning, we separate out into nodes_tb1 and edges_tb1 from the json file.
+Next, `as_tibble()` of **tibble** package package is used to extract the nodes and links tibble data frames from *mc3* tibble dataframe into two separate tibble dataframes called *mc3_nodes* and *mc3_edges* respectively.
 
 ```{r}
-nodes_tb1 <- as_tibble(kg$nodes)
-edges_tb1 <- as_tibble(kg$links)
+mc3_nodes <- as_tibble(MC3$nodes)
+mc3_edges <- as_tibble(MC3$edges)
 ```
 
-Initial EDA
+## Initial EDA
+
+It is time for us to apply appropriate EDA methods to examine the data.
+
+In the code chunk below, `ExpCatViz()` of SmartEDA package is used to reveal the frequency distribution of all categorical fields in *mc3_nodes* tibble dataframe.
+
+On the other hands, code chunk below uses `ExpCATViz()` of SmartEDA package to reveal the frequency distribution of all categorical fields in *mc3_edges* tibble dataframe.
 
 ```{r}
-ggplot(data = edges_tb1, 
-       aes(y = `Edge Type`)) + 
-  geom_bar()
+ExpCatViz(data=mc3_nodes,
+          col="lightblue")
 ```
 
+# Data Cleaning and Wrangling
+
+::: panel-tabset
+### Filter Values
+
+Code chunk below performs the following data cleaning tasks:
+
+-   convert values in id field into character data type,
+
+-   exclude records with `id` value are na,
+
+-   exclude records with similar id values,
+
+-   exclude `thing_collected` field, and
+
+-   save the cleaned tibble dataframe into a new tibble datatable called `mc3_nodes_cleaned`.
+
 ```{r}
-ggplot(data = nodes_tb1, 
-       aes(y = `Node Type`)) + 
-  geom_bar()
+mc3_nodes_cleaned <- mc3_nodes %>%
+  mutate(id = as.character(id)) %>%
+  filter(!is.na(id)) %>%
+  distinct(id, .keep_all = TRUE) %>%
+  select(-thing_collected)
 ```
 
-## Create Knowledge Graph
+### Rename and remove unnecessary values
 
-### Step 1: Map from node id to row index
+Next, the code chunk below will be used to:
+
+-   rename source and target fields to from_id and to_id respectively,
+
+-   convert values in from_id and to_id fields to character data type,
+
+-   exclude values in from_id and to_id which not found in the id field of mc3_nodes_cleaned,
+
+-   exclude records whereby from_id and/or to_id values are missing, and
+
+-   save the cleaned tibble dataframe and called it mc3_edges_cleaned.
 
 ```{r}
-id_map <- tibble(id = nodes_tb1$id,
-                 index = seq_len(nrow(nodes_tb1)))
+mc3_edges_cleaned <- mc3_edges %>%
+  rename(from_id = source, 
+         to_id = target) %>%
+  mutate(across(c(from_id, to_id), 
+                as.character)) %>%
+  filter(from_id %in% mc3_nodes_cleaned$id, 
+         to_id %in% mc3_nodes_cleaned$id) %>%
+  filter(!is.na(from_id), !is.na(to_id))
 ```
 
-This ensures each id from your node list is mapped to the correct row number.
+### Create mapping of nodes
 
-### Step 2: Map source and target IDs to row indices
+Next, code chunk below will be used to create mapping of character id in `mc3_nodes_cleaned` to row index.
 
 ```{r}
-edges_tb1 <- edges_tb1 %>%
-  left_join(id_map, by = c("source" = "id")) %>%
-  rename(from = index) %>%
-  left_join(id_map, by = c("target" = "id")) %>%
-  rename(to = index)
+node_index_lookup <- mc3_nodes_cleaned %>%
+  mutate(.row_id = row_number()) %>%
+  select(id, .row_id)
 ```
 
-### Step 3: Filter out any unmatched (invalid edges)
+### Join nodes to edges
+
+Next, the code chunk below will be used to join and convert `from_id` and `to_id` to integer indices. At the same time we also drop rows with unmatched nodes.
 
 ```{r}
-edges_tb1 <- edges_tb1 %>%
-  filter(!is.na(from), !is.na(to))
+mc3_edges_indexed <- mc3_edges_cleaned %>%
+  left_join(node_index_lookup, 
+            by = c("from_id" = "id")) %>%
+  rename(from = .row_id) %>%
+  left_join(node_index_lookup, 
+            by = c("to_id" = "id")) %>%
+  rename(to = .row_id) %>%
+  select(from, to, is_inferred, type) %>%
+  filter(!is.na(from) & !is.na(to))  
 ```
 
-### Step 4: Create the graph
+### Subset Nodes by Edges
 
-Lastly, tbl_graph() is used to create tidygraph's graph object by using the code chunk below.
+Next the code chunk below is used to subset nodes to only those referenced by edges.
 
 ```{r}
-graph <- tbl_graph(nodes = nodes_tb1,
-                   edges = edges_tb1, 
-                   directed = kg$directed)
+used_node_indices <- sort(
+  unique(c(mc3_edges_indexed$from, 
+           mc3_edges_indexed$to)))
+
+mc3_nodes_final <- mc3_nodes_cleaned %>%
+  slice(used_node_indices) %>%
+  mutate(new_index = row_number())
 ```
 
-Visualize the knowledge graph
+### Rebuild new index
+
+We will then use the code chunk below to rebuild lookup from old index to new index.
 
 ```{r}
-set.seed(1234) #ensures to get back the same graph
+old_to_new_index <- tibble(
+  old_index = used_node_indices,
+  new_index = seq_along(
+    used_node_indices))
 ```
 
-Visualize the whole graph
+### Update edges to match new node table
+
+Lastly, the code chunk below will be used to update edge indices to match new node table.
 
 ```{r}
-#| eval: false
-ggraph(graph, layout = "fr") +
-  geom_edge_link(alpha = 0.3,
-                 colour = "gray") +
-  geom_node_point(aes(colour = `Node Type`),
-                  size = 4) +
-  geom_node_text(aes(label = name),
-                 repel = TRUE,
-                 size = 2.5) +
-  theme_void()
+mc3_edges_final <- mc3_edges_indexed %>%
+  left_join(old_to_new_index, 
+            by = c("from" = "old_index")) %>%
+  rename(from_new = new_index) %>%
+  left_join(old_to_new_index, 
+            by = c("to" = "old_index")) %>%
+  rename(to_new = new_index) %>%
+  select(from = from_new, to = to_new, 
+         is_inferred, type)
+```
+:::
+
+## Build tidygraph Object
+
+```{r}
+mc3_graph <- tbl_graph(
+  nodes = mc3_nodes_final,
+  edges = mc3_edges_final,
+  directed = TRUE
+)
+
+str(mc3_graph)
 ```
 
-Visualize the sub-graph
+## Visualize knowledge graph
 
-Step1: Filter edges to only "Memberof"
+Several of the **ggraph** layouts involve randomisation. In order to ensure reproducibility, it is necessary to set the seed value before plotting by using the code chunk below.
 
 ```{r}
-graph_memberof <- graph %>%
-  activate(edges) %>%
-  filter(`Edge Type` == "MemberOf")
+set.seed(1234)
 ```
 
-Step2: Extract only connected nodes (i.e. used in these edges)
+In the code chunk below, **ggraph** functions are used to create the whole graph.
 
 ```{r}
-used_node_indices <- graph_memberof %>%
-  activate(edges) %>%
-  as_tibble() %>%
-  select(from, to) %>%
-  unlist() %>%
-  unique()
-```
-
-Step3: Keep only those nodes
-
-```{r}
-graph_memberof <- graph_memberof %>%
-  activate(nodes) %>%
-  mutate(row_id = row_number()) %>%
-  filter(row_id %in% used_node_indices) %>%
-  select(-row_id) #optional clean up
-```
-
-Plot the sub-graph
-
-```{r}
-ggraph(graph_memberof, 
+ggraph(mc3_graph, 
        layout = "fr") +
-  geom_edge_link(alpha = 0.5,
+  geom_edge_link(alpha = 0.3, 
                  colour = "gray") +
-  geom_node_point(aes(colour = `Node Type`),
-                  size = 1) +
-  geom_node_text(aes(label = name),
+  geom_node_point(aes(color = `type`), 
+                  size = 4) +
+  geom_node_text(aes(label = type), 
                  repel = TRUE, 
                  size = 2.5) +
   theme_void()
 ```
 
-the graph shows that it is very silo
+# Mini Case 3
+
+## Background
+
+Over the past decade, the community of Oceanus has faced numerous transformations and challenges evolving from its fishing-centric origins. Following major crackdowns on illegal fishing activities, suspects have shifted investments into more regulated sectors such as the ocean tourism industry, resulting in growing tensions. This increased tourism has recently attracted the likes of international pop star Sailor Shift, who announced plans to film a music video on the island.
+
+Clepper Jessen, a former analyst at FishEye and now a seasoned journalist for the Hacklee Herald, has been keenly observing these rising tensions. Recently, he turned his attention towards the temporary closure of Nemo Reef. By listening to radio communications and utilizing his investigative tools, Clepper uncovered a complex web of expedited approvals and secretive logistics. These efforts revealed a story involving high-level Oceanus officials, Sailor Shift’s team, local influential families, and local conservationist group The Green Guardians, pointing towards a story of corruption and manipulation.
+
+Your task is to develop new and novel visualizations and visual analytics approaches to help Clepper get to the bottom of this story.
+
+## Tasks and Questions:
+
+Clepper diligently recorded all intercepted radio communications over the last two weeks. With the help of his intern, they have analyzed their content to identify important events and relationships between key players. The result is a knowledge graph describing the last two weeks on Oceanus. Clepper and his intern have spent a large amount of time generating this knowledge graph, and they would now like some assistance using it to answer the following questions.
+
+1.  Clepper found that messages frequently came in at around the same time each day.
+
+    -   Develop a graph-based visual analytics approach to identify any daily temporal patterns in communications.
+
+    -   How do these patterns shift over the two weeks of observations?
+
+    -   Focus on a specific entity and use this information to determine who has influence over them.
