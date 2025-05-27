@@ -269,6 +269,8 @@ clean_text <- function(x) {
   trimws(x)
 }
 
+entity_names <- unique(mc3_nodes_final$name)
+
 # Pre-clean both
 entity_names_clean <- sapply(entity_names, clean_text)
 content_clean <- sapply(comms_list$content, clean_text)
@@ -319,9 +321,10 @@ head(weighted_edges)
 
 ## Visualize Interactive Network Graph of Communications with visNetwork
 
+::: panel-tabset
 ### Communication Network (As a whole)
 
-This is the baseline of the communication network based on the sub-types of organization, person, group, vessel, location and monitoring. Since this is too big of a network, it will be narrowed down to organization, person and vessel based on the sub-types as the other 3 sub-types seems to show little correlation as shown in the network below.
+This is the baseline of the communication network based on the sub-types of organization, person, group, vessel, location and monitoring.
 
 ```{r}
 nodes <- mc3_nodes_final %>%
@@ -330,9 +333,6 @@ nodes <- mc3_nodes_final %>%
   select(id, sub_type)
 
 nodes$group <- nodes$sub_type
-
-edges <- mc3_edges_final %>%
-  filter(from %in% nodes$id & to %in% nodes$id)
 
 edges <- edges_edges_df %>%
   mutate(arrows = "to",
@@ -346,14 +346,20 @@ visNetwork(nodes, edges) %>%
   visLegend()
 ```
 
-### Narrowed down specific subtypes
+### Narrowed down specific sub-types
+
+Since this is too big of a network, it will be narrowed down to organization, person and vessel based on the sub-types as the other 3 sub-types seems to show little correlation as shown in the network below.
+
+-   The thicker the lines, the more messages are communicated between the sub-types.
+
+-   Outliers are isolated - no direct connections exclusively between them.
 
 ```{r}
-important_types <- c("Organization", "Person", "Vessel")
+important_types <- c("Organization", "Person", "Location")
 filtered_nodes <- mc3_nodes_final %>%
   filter(sub_type %in% important_types)
 
-filtered_edges <- mc3_edges_final %>%
+filtered_edges <- edges_edges_df %>%
   filter(from %in% filtered_nodes$name, to %in% filtered_nodes$name)
 
 nodes <- filtered_nodes %>%
@@ -367,15 +373,39 @@ edges <- filtered_edges %>%
 visNetwork(nodes, edges) %>%
   visGroups(groupname = "Organization", color = "tomato") %>%
   visGroups(groupname = "Person", color = "skyblue") %>%
-  visGroups(groupname = "Vessel", color = "lightgreen") %>%
+  visGroups(groupname = "Location", color = "lightgreen") %>%
   visIgraphLayout(layout = "layout_with_fr") %>%
   visPhysics(enabled = FALSE) %>%
   visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
   visLegend()
 ```
 
+### Time-based Pattern Shifts
+
+```{r}
+
+# Ensure date_only is created from timestamp
+mc3_nodes_final$date_only <- as.Date(mc3_nodes_final$timestamp)
+
+end_date <- max(mc3_nodes_final$date_only, na.rm = TRUE)
+
+wk1_date <- end_date - 14
+
+# Filter Week 1 (first 7 days)
+week1 <- mc3_nodes_final %>%
+  filter(date_only <= wk1_date)
+
+# Filter Week 2 (next 7 days)
+week2 <- mc3_nodes_final %>%
+  filter(date_only >= wk1_date | date_only < end_date)
+
+```
+:::
+
 ::: panel-tabset
 ## 💡 Observations
 
--   The filtered nodes are isolated - no direct connections exclusively between them.
+-   Nemo Reef has the highest connections among the locations shown.
+
+-   Miranda Jordan do not have any direction connections between any organization/location.
 :::
