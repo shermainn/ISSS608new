@@ -22,7 +22,7 @@ In the code chunk below, `p_load()` of **pacman** package is used to load th
 ```{r}
 pacman::p_load(tidyverse, jsonlite,
                tidygraph, ggraph,
-               SmartEDA)
+               SmartEDA, dplyr, visNetwork, igraph)
 ```
 
 # Import Data
@@ -42,7 +42,7 @@ In the code chunk below `glimpse()` is used to reveal the structure of *mc3*�
 glimpse(MC3)
 ```
 
-## Extract Edges and Nodes Tables
+## Extract Edges and Nodes
 
 Next, `as_tibble()` of **tibble** package package is used to extract the nodes and links tibble data frames from *mc3* tibble dataframe into two separate tibble dataframes called *mc3_nodes* and *mc3_edges* respectively.
 
@@ -233,8 +233,149 @@ Clepper diligently recorded all intercepted radio communications over the last t
 
 1.  Clepper found that messages frequently came in at around the same time each day.
 
-    -   Develop a graph-based visual analytics approach to identify any daily temporal patterns in communications.
+    -   Develop a graph-based visual analytics approach to identify any daily temporal patterns in communications (From sub-type).
 
     -   How do these patterns shift over the two weeks of observations?
 
-    -   Focus on a specific entity and use this information to determine who has influence over them.
+    -   Focus on a specific entity and use this information to determine who has influence over them. (Who appears the most in the filtered list - Top 10)
+
+## Extracting Graph Elements
+
+To identify any patterns in communications between the different people or companies, only "sub_type", "name", "content" and "timestamp" columns were used to do these analysis.
+
+::: panel-tabset
+### 1. Make an entity list
+
+```{r}
+entity_list <- subset(mc3_nodes_final, type == "Entity", select = c(sub_type, name))
+
+entity_list
+```
+
+### 2. Make a Content for communications List
+
+```{r}
+comms_list <- subset(mc3_nodes_final, type == "Event" & label == "Communication", select = c(timestamp, content))
+
+comms_list
+```
+
+### 3. Make a new list - to identify the entities involved in the messages in the communications
+
+```{r}
+clean_text <- function(x) {
+  x <- tolower(x)
+  x <- gsub("[^a-z0-9 ]", "", x)  # remove punctuation
+  trimws(x)
+}
+
+# Pre-clean both
+entity_names_clean <- sapply(entity_names, clean_text)
+content_clean <- sapply(comms_list$content, clean_text)
+
+# Match using the cleaned versions
+comms_entity_list <- mapply(function(ts, content) {
+  matches <- entity_names[ sapply(entity_names_clean, function(entity) grepl(entity, content, fixed = TRUE)) ]
+  list(timestamp = ts, entities = matches)
+}, ts = comms_list$timestamp, content = content_clean, SIMPLIFY = FALSE)
+
+
+```
+
+### 4. Create new Edges data frame (Entity -\> Entity)
+
+For `ggraph` to plot the edges correctly, we need to assigns weights to the edges. For simplicity, let us assign the number of edges with the same `source`, `target` and `type`.
+
+It will then be changed from `source` and `target` to `from` and `to`, respectively for compatibility with network functions we will use.
+
+### 
+
+```{r}
+edges_list <- lapply(comms_entity_list, function(x) {
+  ents <- x$entities
+  if(length(ents) < 2) return(NULL)  # Need at least 2 to make an edge
+  
+  # Create all pairwise combinations (undirected edges)
+  pairs <- t(combn(ents, 2))
+  
+  data.frame(
+    from = pairs[,1],
+    to = pairs[,2],
+    timestamp = x$timestamp,
+    stringsAsFactors = FALSE
+  )
+})
+
+# Combine all into one data frame
+edges_edges_df <- do.call(rbind, edges_list)
+
+head(edges_edges_df)
+
+weighted_edges <- edges_edges_df %>%
+  count(from, to, name = "weight")
+head(weighted_edges)
+```
+:::
+
+## Visualize Interactive Network Graph of Communications with visNetwork
+
+### Communication Network (As a whole)
+
+This is the baseline of the communication network based on the sub-types of organization, person, group, vessel, location and monitoring. Since this is too big of a network, it will be narrowed down to organization, person and vessel based on the sub-types as the other 3 sub-types seems to show little correlation as shown in the network below.
+
+```{r}
+nodes <- mc3_nodes_final %>%
+  distinct(name, .keep_all = TRUE) %>%
+  mutate(id = name, label = name) %>%
+  select(id, sub_type)
+
+nodes$group <- nodes$sub_type
+
+edges <- mc3_edges_final %>%
+  filter(from %in% nodes$id & to %in% nodes$id)
+
+edges <- edges_edges_df %>%
+  mutate(arrows = "to",
+         title = paste0("From: ", from, "<br>To: ", to))
+
+visNetwork(nodes, edges) %>%
+  visEdges(smooth = FALSE, arrows = "to") %>%
+  visNodes(font = list(size = 20)) %>%
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visLegend()
+```
+
+### Narrowed down specific subtypes
+
+```{r}
+important_types <- c("Organization", "Person", "Vessel")
+filtered_nodes <- mc3_nodes_final %>%
+  filter(sub_type %in% important_types)
+
+filtered_edges <- mc3_edges_final %>%
+  filter(from %in% filtered_nodes$name, to %in% filtered_nodes$name)
+
+nodes <- filtered_nodes %>%
+  rename(id = name, group = sub_type, label_new = name)
+
+edges <- filtered_edges %>%
+  group_by(from, to) %>%
+  summarise(value = n(), .groups = "drop") %>%
+  mutate(arrows = "to", title = paste("Messages:", value))
+
+visNetwork(nodes, edges) %>%
+  visGroups(groupname = "Organization", color = "tomato") %>%
+  visGroups(groupname = "Person", color = "skyblue") %>%
+  visGroups(groupname = "Vessel", color = "lightgreen") %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visPhysics(enabled = FALSE) %>%
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
+  visLegend()
+```
+
+::: panel-tabset
+## 💡 Observations
+
+-   
+:::
