@@ -377,5 +377,5 @@ visNetwork(nodes, edges) %>%
 ::: panel-tabset
 ## 💡 Observations
 
--   
+-   The filtered nodes are isolated - no direct connections exclusively between them.
 :::
