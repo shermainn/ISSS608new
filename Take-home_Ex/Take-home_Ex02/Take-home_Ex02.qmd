@@ -421,9 +421,9 @@ visNetwork(nodes, edges) %>%
 
 -   `The Intern` is a bit suspicious in talking to `Mrs. Money` and `The Lookout` with over 24 and 25 messages respectively, `The Intern` also talks to `Boss` as well as an organization namely `V. Miesel Shipping`
 
--   `Sam` seems to be entity that has the most influence among the organizations.
+-   `Sam` seems to be entity that has the most influence among the organizations as Sam has the most edges in terms of communication.
 
--   `V. Miesel Shipping` seems to be the entity that has the most influence among the persons.
+-   `V. Miesel Shipping` seems to be the entity that has the most influence among the persons with the most edges as well in terms of communication.
 :::
 
 ::: panel-tabset
@@ -502,5 +502,5 @@ visNetwork(nodes_wk2, edges_wk2, width = "100%", height = "400px") %>%
 
 -   As an overall, most communication are reduced when transitioning to week 2.
 
--   `The Intern` was talking to the `Boss`, `The Middleman`, `The Lookout`, `Mrs Money` and `Mako` in week 1 whereas `The Intern` was talking to `Mrs Money`, `The Lookout` and `Sam` in week 2
+-   `The Intern` was talking to the `Boss`, `The Middleman`, `The Lookout` and `Mrs Money` in week 1 whereas `The Intern` was talking to `Mrs Money`, `The Lookout` and `Sam` in week 2.
 :::
