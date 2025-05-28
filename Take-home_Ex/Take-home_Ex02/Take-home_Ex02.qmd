@@ -350,6 +350,12 @@ visNetwork(nodes, edges) %>%
 
 Since this is too big of a network, it will be narrowed down to organization, person and vessel based on the sub-types as the other 3 sub-types seems to show little correlation as shown in the network below.
 
+`important_types` are the 3 sub-types that we are looking more in-depth to see if there is any relationship between the 3 types. Making use of the `group` attribute that is created to clearly identify the different types of nodes in`important_types`.
+
+For ease of selecting a particular entity, a dropdown list with all the entities (nodes) that are present in the graph is shown.
+
+Mouse pointer hover action is also included on the graph so that the user can hover the mouse pointer over the graph to look at the possible different ‘groups’ of connectivity as well as the number of messages sent to each 'group'.
+
 -   The thicker the lines, the more messages are communicated between the sub-types.
 
 -   Outliers are isolated - no direct connections exclusively between them.
@@ -382,6 +388,10 @@ visNetwork(nodes, edges) %>%
 
 ### Time-based Pattern Shifts
 
+To detect behavioural changes between individuals and organizations based on the clusters forming or active nodes being isolated.
+
+Firstly, Filter the dates to week 1 (first 7 days) and week 2 (next 7 days) from 01-10-2040 to 07-10-2040 and from 08-10-2040 to 15-10-2040.
+
 ```{r}
 
 # Ensure date_only is created from timestamp
@@ -389,23 +399,75 @@ mc3_nodes_final$date_only <- as.Date(mc3_nodes_final$timestamp)
 
 end_date <- max(mc3_nodes_final$date_only, na.rm = TRUE)
 
-wk1_date <- end_date - 14
+wk2_start <- end_date - 7
+wk1_start <- end_date - 14
 
 # Filter Week 1 (first 7 days)
 week1 <- mc3_nodes_final %>%
-  filter(date_only <= wk1_date)
-
+  filter(date_only >= wk1_start & date_only < wk2_start) %>%
+  filter(type == "Event", label == "Communication")
+  
 # Filter Week 2 (next 7 days)
 week2 <- mc3_nodes_final %>%
-  filter(date_only >= wk1_date | date_only < end_date)
+  filter(date_only >= wk2_start | date_only <= end_date) %>%
+  filter(type == "Event", label == "Communication")
+
+```
+
+### Comparison of Week 1 and Week 2 Communications
+
+```{r}
+week1_ids <- week1$timestamp
+week2_ids <- week2$timestamp
+
+edges_week1 <- edges_edges_df %>% filter(timestamp %in% week1$timestamp)
+edges_week2 <- edges_edges_df %>% filter(timestamp %in% week2$timestamp)
+
+
+edges_wk1 <- edges_week1 %>% select(from, to)
+edges_wk2 <- edges_week2 %>% select(from, to)
+
+nodes_wk1 <- data.frame(
+  id = unique(c(edges_week1$from, edges_week1$to)),
+  label = unique(c(edges_week1$from, edges_week1$to))
+)
+
+edges_wk1 <- edges_week1 %>%
+  select(from, to)
+
+nodes_wk2 <- data.frame(
+  id = unique(c(edges_week2$from, edges_week2$to)),
+  label = unique(c(edges_week2$from, edges_week2$to))
+)
+
+edges_wk2 <- edges_week2 %>%
+  select(from, to)
+
+visNetwork(nodes_wk1, edges_wk1, width = "100%", height = "400px") %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visPhysics(enabled = FALSE) %>%
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
+  visLegend()
+
+visNetwork(nodes_wk2, edges_wk2, width = "100%", height = "400px") %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visPhysics(enabled = FALSE) %>%
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
+  visLegend()
 
 ```
 :::
 
 ::: panel-tabset
-## 💡 Observations
+## 💡 Observations from Communication Network
 
--   Nemo Reef has the highest connections among the locations shown.
+-   `Nemo Reef` has the highest communications among the locations shown.
 
--   Miranda Jordan do not have any direct connections between any organization/location.
+-   `Miranda Jordan` do not have any direct connections between any organization/location.
+:::
+
+::: panel-tabset
+## 💡 Observations from Communication Time-based Pattern shifts
+
+-   
 :::
