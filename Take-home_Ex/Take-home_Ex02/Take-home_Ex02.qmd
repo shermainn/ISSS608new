@@ -423,7 +423,7 @@ visNetwork(nodes, edges) %>%
 
 -   `Sam` seems to be entity that has the most influence among the organizations.
 
--   V. Miesel Shipping seems to be the entity that has the most influence among the persons.
+-   `V. Miesel Shipping` seems to be the entity that has the most influence among the persons.
 :::
 
 ::: panel-tabset
