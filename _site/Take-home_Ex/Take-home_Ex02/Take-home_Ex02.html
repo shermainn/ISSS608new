@@ -752,7 +752,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   ..$ :List of 2
   .. ..$ is_inferred: logi [1:3226] TRUE FALSE TRUE TRUE TRUE TRUE ...
   .. ..$ type       : chr [1:3226] NA "sent" NA NA ...
- $ :&lt;environment: 0x000002446b393a48&gt; 
+ $ :&lt;environment: 0x0000024c1a4ac660&gt; 
  - attr(*, "active")= chr "nodes"</code></pre>
 </div>
 </div>
@@ -953,7 +953,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="visualize-interactive-network-graph-of-communications-with-visnetwork" class="level2">
 <h2 class="anchored" data-anchor-id="visualize-interactive-network-graph-of-communications-with-visnetwork">Visualize Interactive Network Graph of Communications with visNetwork</h2>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Communication Network (As a whole)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Narrowed down specific sub-types</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-3" role="tab" aria-controls="tabset-3-3" aria-selected="false">Time-based Pattern Shifts</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-4" role="tab" aria-controls="tabset-3-4" aria-selected="false">Comparison of Week 1 and Week 2 Communications</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Communication Network (As a whole)</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Narrowed down specific sub-types</a></li></ul>
 <div class="tab-content">
 <div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
 <p>This is the baseline of the communication network based on the sub-types of organization, person, group, vessel, location and monitoring.</p>
@@ -1026,7 +1026,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="tabset-3-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-3-tab">
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">💡 Observations from Communication Network</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<ul>
+<li><p><code>Nemo Reef</code> has the highest communications among the locations shown.</p></li>
+<li><p><code>Miranda Jordan</code> do not have any direct connections between any organization/location.</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">Time-based Pattern Shifts</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">Comparison of Week 1 and Week 2 Communications</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
+<p>To detect behavioural changes between individuals and organizations based on the clusters forming or active nodes being isolated.</p>
+<p>Firstly, Filter the dates to week 1 (first 7 days) and week 2 (next 7 days) from 01-10-2040 to 07-10-2040 and from 08-10-2040 to 15-10-2040.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1050,7 +1068,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 </div>
-<div id="tabset-3-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-4-tab">
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -1107,12 +1125,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">💡 Observations</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">💡 Observations from Communication Time-based Pattern shifts</a></li></ul>
 <div class="tab-content">
-<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
 <ul>
-<li><p><code>Nemo Reef</code> has the highest communications among the locations shown.</p></li>
-<li><p><code>Miranda Jordan</code> do not have any direct connections between any organization/location.</p></li>
+<li></li>
 </ul>
 </div>
 </div>
@@ -1983,81 +2000,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb46-427"><a href="#cb46-427" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visOptions</span>(<span class="at">highlightNearest =</span> <span class="cn">TRUE</span>, <span class="at">nodesIdSelection =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb46-428"><a href="#cb46-428" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visLegend</span>()</span>
 <span id="cb46-429"><a href="#cb46-429" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb46-430"><a href="#cb46-430" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-431"><a href="#cb46-431" aria-hidden="true" tabindex="-1"></a><span class="fu">### Time-based Pattern Shifts</span></span>
-<span id="cb46-432"><a href="#cb46-432" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-435"><a href="#cb46-435" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb46-436"><a href="#cb46-436" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure date_only is created from timestamp</span></span>
-<span id="cb46-437"><a href="#cb46-437" aria-hidden="true" tabindex="-1"></a>mc3_nodes_final<span class="sc">$</span>date_only <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(mc3_nodes_final<span class="sc">$</span>timestamp)</span>
-<span id="cb46-438"><a href="#cb46-438" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-439"><a href="#cb46-439" aria-hidden="true" tabindex="-1"></a>end_date <span class="ot">&lt;-</span> <span class="fu">max</span>(mc3_nodes_final<span class="sc">$</span>date_only, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb46-440"><a href="#cb46-440" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-441"><a href="#cb46-441" aria-hidden="true" tabindex="-1"></a>wk2_start <span class="ot">&lt;-</span> end_date <span class="sc">-</span> <span class="dv">7</span></span>
-<span id="cb46-442"><a href="#cb46-442" aria-hidden="true" tabindex="-1"></a>wk1_start <span class="ot">&lt;-</span> end_date <span class="sc">-</span> <span class="dv">14</span></span>
-<span id="cb46-443"><a href="#cb46-443" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-444"><a href="#cb46-444" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter Week 1 (first 7 days)</span></span>
-<span id="cb46-445"><a href="#cb46-445" aria-hidden="true" tabindex="-1"></a>week1 <span class="ot">&lt;-</span> mc3_nodes_final <span class="sc">%&gt;%</span></span>
-<span id="cb46-446"><a href="#cb46-446" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date_only <span class="sc">&gt;=</span> wk1_start <span class="sc">&amp;</span> date_only <span class="sc">&lt;</span> wk2_start) <span class="sc">%&gt;%</span></span>
-<span id="cb46-447"><a href="#cb46-447" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type <span class="sc">==</span> <span class="st">"Event"</span>, label <span class="sc">==</span> <span class="st">"Communication"</span>)</span>
-<span id="cb46-448"><a href="#cb46-448" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb46-449"><a href="#cb46-449" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter Week 2 (next 7 days)</span></span>
-<span id="cb46-450"><a href="#cb46-450" aria-hidden="true" tabindex="-1"></a>week2 <span class="ot">&lt;-</span> mc3_nodes_final <span class="sc">%&gt;%</span></span>
-<span id="cb46-451"><a href="#cb46-451" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date_only <span class="sc">&gt;=</span> wk2_start <span class="sc">|</span> date_only <span class="sc">&lt;=</span> end_date) <span class="sc">%&gt;%</span></span>
-<span id="cb46-452"><a href="#cb46-452" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type <span class="sc">==</span> <span class="st">"Event"</span>, label <span class="sc">==</span> <span class="st">"Communication"</span>)</span>
-<span id="cb46-453"><a href="#cb46-453" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-454"><a href="#cb46-454" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb46-455"><a href="#cb46-455" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-456"><a href="#cb46-456" aria-hidden="true" tabindex="-1"></a><span class="fu">### Comparison of Week 1 and Week 2 Communications</span></span>
+<span id="cb46-430"><a href="#cb46-430" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb46-431"><a href="#cb46-431" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-432"><a href="#cb46-432" aria-hidden="true" tabindex="-1"></a>::: panel-tabset</span>
+<span id="cb46-433"><a href="#cb46-433" aria-hidden="true" tabindex="-1"></a><span class="fu">## 💡 Observations from Communication Network</span></span>
+<span id="cb46-434"><a href="#cb46-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-435"><a href="#cb46-435" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Nemo Reef`</span> has the highest communications among the locations shown.</span>
+<span id="cb46-436"><a href="#cb46-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-437"><a href="#cb46-437" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Miranda Jordan`</span> do not have any direct connections between any organization/location.</span>
+<span id="cb46-438"><a href="#cb46-438" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb46-439"><a href="#cb46-439" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-440"><a href="#cb46-440" aria-hidden="true" tabindex="-1"></a>::: panel-tabset</span>
+<span id="cb46-441"><a href="#cb46-441" aria-hidden="true" tabindex="-1"></a><span class="fu">### Time-based Pattern Shifts</span></span>
+<span id="cb46-442"><a href="#cb46-442" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-443"><a href="#cb46-443" aria-hidden="true" tabindex="-1"></a>To detect behavioural changes between individuals and organizations based on the clusters forming or active nodes being isolated.</span>
+<span id="cb46-444"><a href="#cb46-444" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-445"><a href="#cb46-445" aria-hidden="true" tabindex="-1"></a>Firstly, Filter the dates to week 1 (first 7 days) and week 2 (next 7 days) from 01-10-2040 to 07-10-2040 and from 08-10-2040 to 15-10-2040.</span>
+<span id="cb46-446"><a href="#cb46-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-449"><a href="#cb46-449" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb46-450"><a href="#cb46-450" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure date_only is created from timestamp</span></span>
+<span id="cb46-451"><a href="#cb46-451" aria-hidden="true" tabindex="-1"></a>mc3_nodes_final<span class="sc">$</span>date_only <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(mc3_nodes_final<span class="sc">$</span>timestamp)</span>
+<span id="cb46-452"><a href="#cb46-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-453"><a href="#cb46-453" aria-hidden="true" tabindex="-1"></a>end_date <span class="ot">&lt;-</span> <span class="fu">max</span>(mc3_nodes_final<span class="sc">$</span>date_only, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb46-454"><a href="#cb46-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-455"><a href="#cb46-455" aria-hidden="true" tabindex="-1"></a>wk2_start <span class="ot">&lt;-</span> end_date <span class="sc">-</span> <span class="dv">7</span></span>
+<span id="cb46-456"><a href="#cb46-456" aria-hidden="true" tabindex="-1"></a>wk1_start <span class="ot">&lt;-</span> end_date <span class="sc">-</span> <span class="dv">14</span></span>
 <span id="cb46-457"><a href="#cb46-457" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-460"><a href="#cb46-460" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb46-461"><a href="#cb46-461" aria-hidden="true" tabindex="-1"></a>week1_ids <span class="ot">&lt;-</span> week1<span class="sc">$</span>timestamp</span>
-<span id="cb46-462"><a href="#cb46-462" aria-hidden="true" tabindex="-1"></a>week2_ids <span class="ot">&lt;-</span> week2<span class="sc">$</span>timestamp</span>
-<span id="cb46-463"><a href="#cb46-463" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-464"><a href="#cb46-464" aria-hidden="true" tabindex="-1"></a>edges_week1 <span class="ot">&lt;-</span> edges_edges_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(timestamp <span class="sc">%in%</span> week1<span class="sc">$</span>timestamp)</span>
-<span id="cb46-465"><a href="#cb46-465" aria-hidden="true" tabindex="-1"></a>edges_week2 <span class="ot">&lt;-</span> edges_edges_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(timestamp <span class="sc">%in%</span> week2<span class="sc">$</span>timestamp)</span>
-<span id="cb46-466"><a href="#cb46-466" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-458"><a href="#cb46-458" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter Week 1 (first 7 days)</span></span>
+<span id="cb46-459"><a href="#cb46-459" aria-hidden="true" tabindex="-1"></a>week1 <span class="ot">&lt;-</span> mc3_nodes_final <span class="sc">%&gt;%</span></span>
+<span id="cb46-460"><a href="#cb46-460" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date_only <span class="sc">&gt;=</span> wk1_start <span class="sc">&amp;</span> date_only <span class="sc">&lt;</span> wk2_start) <span class="sc">%&gt;%</span></span>
+<span id="cb46-461"><a href="#cb46-461" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type <span class="sc">==</span> <span class="st">"Event"</span>, label <span class="sc">==</span> <span class="st">"Communication"</span>)</span>
+<span id="cb46-462"><a href="#cb46-462" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb46-463"><a href="#cb46-463" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter Week 2 (next 7 days)</span></span>
+<span id="cb46-464"><a href="#cb46-464" aria-hidden="true" tabindex="-1"></a>week2 <span class="ot">&lt;-</span> mc3_nodes_final <span class="sc">%&gt;%</span></span>
+<span id="cb46-465"><a href="#cb46-465" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date_only <span class="sc">&gt;=</span> wk2_start <span class="sc">|</span> date_only <span class="sc">&lt;=</span> end_date) <span class="sc">%&gt;%</span></span>
+<span id="cb46-466"><a href="#cb46-466" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type <span class="sc">==</span> <span class="st">"Event"</span>, label <span class="sc">==</span> <span class="st">"Communication"</span>)</span>
 <span id="cb46-467"><a href="#cb46-467" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-468"><a href="#cb46-468" aria-hidden="true" tabindex="-1"></a>edges_wk1 <span class="ot">&lt;-</span> edges_week1 <span class="sc">%&gt;%</span> <span class="fu">select</span>(from, to)</span>
-<span id="cb46-469"><a href="#cb46-469" aria-hidden="true" tabindex="-1"></a>edges_wk2 <span class="ot">&lt;-</span> edges_week2 <span class="sc">%&gt;%</span> <span class="fu">select</span>(from, to)</span>
-<span id="cb46-470"><a href="#cb46-470" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-471"><a href="#cb46-471" aria-hidden="true" tabindex="-1"></a>nodes_wk1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb46-472"><a href="#cb46-472" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">unique</span>(<span class="fu">c</span>(edges_week1<span class="sc">$</span>from, edges_week1<span class="sc">$</span>to)),</span>
-<span id="cb46-473"><a href="#cb46-473" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">unique</span>(<span class="fu">c</span>(edges_week1<span class="sc">$</span>from, edges_week1<span class="sc">$</span>to))</span>
-<span id="cb46-474"><a href="#cb46-474" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb46-475"><a href="#cb46-475" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-476"><a href="#cb46-476" aria-hidden="true" tabindex="-1"></a>edges_wk1 <span class="ot">&lt;-</span> edges_week1 <span class="sc">%&gt;%</span></span>
-<span id="cb46-477"><a href="#cb46-477" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(from, to)</span>
-<span id="cb46-478"><a href="#cb46-478" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-479"><a href="#cb46-479" aria-hidden="true" tabindex="-1"></a>nodes_wk2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb46-480"><a href="#cb46-480" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">unique</span>(<span class="fu">c</span>(edges_week2<span class="sc">$</span>from, edges_week2<span class="sc">$</span>to)),</span>
-<span id="cb46-481"><a href="#cb46-481" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">unique</span>(<span class="fu">c</span>(edges_week2<span class="sc">$</span>from, edges_week2<span class="sc">$</span>to))</span>
-<span id="cb46-482"><a href="#cb46-482" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb46-483"><a href="#cb46-483" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-484"><a href="#cb46-484" aria-hidden="true" tabindex="-1"></a>edges_wk2 <span class="ot">&lt;-</span> edges_week2 <span class="sc">%&gt;%</span></span>
-<span id="cb46-485"><a href="#cb46-485" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(from, to)</span>
-<span id="cb46-486"><a href="#cb46-486" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-487"><a href="#cb46-487" aria-hidden="true" tabindex="-1"></a><span class="fu">visNetwork</span>(nodes_wk1, edges_wk1, <span class="at">width =</span> <span class="st">"100%"</span>, <span class="at">height =</span> <span class="st">"400px"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb46-488"><a href="#cb46-488" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visIgraphLayout</span>(<span class="at">layout =</span> <span class="st">"layout_with_fr"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb46-489"><a href="#cb46-489" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visPhysics</span>(<span class="at">enabled =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb46-490"><a href="#cb46-490" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visOptions</span>(<span class="at">highlightNearest =</span> <span class="cn">TRUE</span>, <span class="at">nodesIdSelection =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb46-491"><a href="#cb46-491" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visLegend</span>()</span>
+<span id="cb46-468"><a href="#cb46-468" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb46-469"><a href="#cb46-469" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-470"><a href="#cb46-470" aria-hidden="true" tabindex="-1"></a><span class="fu">### Comparison of Week 1 and Week 2 Communications</span></span>
+<span id="cb46-471"><a href="#cb46-471" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-474"><a href="#cb46-474" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb46-475"><a href="#cb46-475" aria-hidden="true" tabindex="-1"></a>week1_ids <span class="ot">&lt;-</span> week1<span class="sc">$</span>timestamp</span>
+<span id="cb46-476"><a href="#cb46-476" aria-hidden="true" tabindex="-1"></a>week2_ids <span class="ot">&lt;-</span> week2<span class="sc">$</span>timestamp</span>
+<span id="cb46-477"><a href="#cb46-477" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-478"><a href="#cb46-478" aria-hidden="true" tabindex="-1"></a>edges_week1 <span class="ot">&lt;-</span> edges_edges_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(timestamp <span class="sc">%in%</span> week1<span class="sc">$</span>timestamp)</span>
+<span id="cb46-479"><a href="#cb46-479" aria-hidden="true" tabindex="-1"></a>edges_week2 <span class="ot">&lt;-</span> edges_edges_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(timestamp <span class="sc">%in%</span> week2<span class="sc">$</span>timestamp)</span>
+<span id="cb46-480"><a href="#cb46-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-481"><a href="#cb46-481" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-482"><a href="#cb46-482" aria-hidden="true" tabindex="-1"></a>edges_wk1 <span class="ot">&lt;-</span> edges_week1 <span class="sc">%&gt;%</span> <span class="fu">select</span>(from, to)</span>
+<span id="cb46-483"><a href="#cb46-483" aria-hidden="true" tabindex="-1"></a>edges_wk2 <span class="ot">&lt;-</span> edges_week2 <span class="sc">%&gt;%</span> <span class="fu">select</span>(from, to)</span>
+<span id="cb46-484"><a href="#cb46-484" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-485"><a href="#cb46-485" aria-hidden="true" tabindex="-1"></a>nodes_wk1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb46-486"><a href="#cb46-486" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">unique</span>(<span class="fu">c</span>(edges_week1<span class="sc">$</span>from, edges_week1<span class="sc">$</span>to)),</span>
+<span id="cb46-487"><a href="#cb46-487" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">unique</span>(<span class="fu">c</span>(edges_week1<span class="sc">$</span>from, edges_week1<span class="sc">$</span>to))</span>
+<span id="cb46-488"><a href="#cb46-488" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb46-489"><a href="#cb46-489" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-490"><a href="#cb46-490" aria-hidden="true" tabindex="-1"></a>edges_wk1 <span class="ot">&lt;-</span> edges_week1 <span class="sc">%&gt;%</span></span>
+<span id="cb46-491"><a href="#cb46-491" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(from, to)</span>
 <span id="cb46-492"><a href="#cb46-492" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-493"><a href="#cb46-493" aria-hidden="true" tabindex="-1"></a><span class="fu">visNetwork</span>(nodes_wk2, edges_wk2, <span class="at">width =</span> <span class="st">"100%"</span>, <span class="at">height =</span> <span class="st">"400px"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb46-494"><a href="#cb46-494" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visIgraphLayout</span>(<span class="at">layout =</span> <span class="st">"layout_with_fr"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb46-495"><a href="#cb46-495" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visPhysics</span>(<span class="at">enabled =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb46-496"><a href="#cb46-496" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visOptions</span>(<span class="at">highlightNearest =</span> <span class="cn">TRUE</span>, <span class="at">nodesIdSelection =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb46-497"><a href="#cb46-497" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visLegend</span>()</span>
-<span id="cb46-498"><a href="#cb46-498" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-499"><a href="#cb46-499" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb46-500"><a href="#cb46-500" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb46-501"><a href="#cb46-501" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-502"><a href="#cb46-502" aria-hidden="true" tabindex="-1"></a>::: panel-tabset</span>
-<span id="cb46-503"><a href="#cb46-503" aria-hidden="true" tabindex="-1"></a><span class="fu">## 💡 Observations</span></span>
-<span id="cb46-504"><a href="#cb46-504" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-505"><a href="#cb46-505" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Nemo Reef`</span> has the highest communications among the locations shown.</span>
+<span id="cb46-493"><a href="#cb46-493" aria-hidden="true" tabindex="-1"></a>nodes_wk2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb46-494"><a href="#cb46-494" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">unique</span>(<span class="fu">c</span>(edges_week2<span class="sc">$</span>from, edges_week2<span class="sc">$</span>to)),</span>
+<span id="cb46-495"><a href="#cb46-495" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">unique</span>(<span class="fu">c</span>(edges_week2<span class="sc">$</span>from, edges_week2<span class="sc">$</span>to))</span>
+<span id="cb46-496"><a href="#cb46-496" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb46-497"><a href="#cb46-497" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-498"><a href="#cb46-498" aria-hidden="true" tabindex="-1"></a>edges_wk2 <span class="ot">&lt;-</span> edges_week2 <span class="sc">%&gt;%</span></span>
+<span id="cb46-499"><a href="#cb46-499" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(from, to)</span>
+<span id="cb46-500"><a href="#cb46-500" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-501"><a href="#cb46-501" aria-hidden="true" tabindex="-1"></a><span class="fu">visNetwork</span>(nodes_wk1, edges_wk1, <span class="at">width =</span> <span class="st">"100%"</span>, <span class="at">height =</span> <span class="st">"400px"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb46-502"><a href="#cb46-502" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visIgraphLayout</span>(<span class="at">layout =</span> <span class="st">"layout_with_fr"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb46-503"><a href="#cb46-503" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visPhysics</span>(<span class="at">enabled =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb46-504"><a href="#cb46-504" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visOptions</span>(<span class="at">highlightNearest =</span> <span class="cn">TRUE</span>, <span class="at">nodesIdSelection =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb46-505"><a href="#cb46-505" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visLegend</span>()</span>
 <span id="cb46-506"><a href="#cb46-506" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-507"><a href="#cb46-507" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`Miranda Jordan`</span> do not have any direct connections between any organization/location.</span>
-<span id="cb46-508"><a href="#cb46-508" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb46-507"><a href="#cb46-507" aria-hidden="true" tabindex="-1"></a><span class="fu">visNetwork</span>(nodes_wk2, edges_wk2, <span class="at">width =</span> <span class="st">"100%"</span>, <span class="at">height =</span> <span class="st">"400px"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb46-508"><a href="#cb46-508" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visIgraphLayout</span>(<span class="at">layout =</span> <span class="st">"layout_with_fr"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb46-509"><a href="#cb46-509" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visPhysics</span>(<span class="at">enabled =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb46-510"><a href="#cb46-510" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visOptions</span>(<span class="at">highlightNearest =</span> <span class="cn">TRUE</span>, <span class="at">nodesIdSelection =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb46-511"><a href="#cb46-511" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visLegend</span>()</span>
+<span id="cb46-512"><a href="#cb46-512" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb46-513"><a href="#cb46-513" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb46-514"><a href="#cb46-514" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-515"><a href="#cb46-515" aria-hidden="true" tabindex="-1"></a>::: panel-tabset</span>
+<span id="cb46-516"><a href="#cb46-516" aria-hidden="true" tabindex="-1"></a><span class="fu">## 💡 Observations from Communication Time-based Pattern shifts</span></span>
+<span id="cb46-517"><a href="#cb46-517" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-518"><a href="#cb46-518" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span></span>
+<span id="cb46-519"><a href="#cb46-519" aria-hidden="true" tabindex="-1"></a>:::</span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

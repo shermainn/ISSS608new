@@ -290,8 +290,6 @@ For `ggraph` to plot the edges correctly, we need to assigns weights to the ed
 
 It will then be changed from `source` and `target` to `from` and `to`, respectively for compatibility with network functions we will use.
 
-### 
-
 ```{r}
 edges_list <- lapply(comms_entity_list, function(x) {
   ents <- x$entities
@@ -385,6 +383,33 @@ visNetwork(nodes, edges) %>%
   visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
   visLegend()
 ```
+
+Organization to Person Communication
+
+```{r}
+important_types <- c("Organization", "Person")
+filtered_nodes <- mc3_nodes_final %>%
+  filter(sub_type %in% important_types)
+
+filtered_edges <- edges_edges_df %>%
+  filter(from %in% filtered_nodes$name, to %in% filtered_nodes$name)
+
+nodes <- filtered_nodes %>%
+  rename(id = name, group = sub_type, label_new = name)
+
+edges <- filtered_edges %>%
+  group_by(from, to) %>%
+  summarise(value = n(), .groups = "drop") %>%
+  mutate(arrows = "to", title = paste("Messages:", value))
+
+visNetwork(nodes, edges) %>%
+  visGroups(groupname = "Organization", color = "tomato") %>%
+  visGroups(groupname = "Person", color = "skyblue") %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visPhysics(enabled = FALSE) %>%
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
+  visLegend()
+```
 :::
 
 ::: panel-tabset
@@ -453,12 +478,18 @@ edges_wk2 <- edges_week2 %>%
   select(from, to)
 
 visNetwork(nodes_wk1, edges_wk1, width = "100%", height = "400px") %>%
+  visGroups(groupname = "Organization", color = "tomato") %>%
+  visGroups(groupname = "Person", color = "skyblue") %>%
+  visGroups(groupname = "Location", color = "lightgreen") %>%
   visIgraphLayout(layout = "layout_with_fr") %>%
   visPhysics(enabled = FALSE) %>%
   visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
   visLegend()
 
 visNetwork(nodes_wk2, edges_wk2, width = "100%", height = "400px") %>%
+  visGroups(groupname = "Organization", color = "tomato") %>%
+  visGroups(groupname = "Person", color = "skyblue") %>%
+  visGroups(groupname = "Location", color = "lightgreen") %>%
   visIgraphLayout(layout = "layout_with_fr") %>%
   visPhysics(enabled = FALSE) %>%
   visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
