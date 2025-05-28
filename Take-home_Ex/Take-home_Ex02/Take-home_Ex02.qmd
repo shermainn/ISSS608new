@@ -407,5 +407,5 @@ week2 <- mc3_nodes_final %>%
 
 -   Nemo Reef has the highest connections among the locations shown.
 
--   Miranda Jordan do not have any direction connections between any organization/location.
+-   Miranda Jordan do not have any direct connections between any organization/location.
 :::
