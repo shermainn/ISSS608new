@@ -385,7 +385,17 @@ visNetwork(nodes, edges) %>%
   visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
   visLegend()
 ```
+:::
 
+::: panel-tabset
+## 💡 Observations from Communication Network
+
+-   `Nemo Reef` has the highest communications among the locations shown.
+
+-   `Miranda Jordan` do not have any direct connections between any organization/location.
+:::
+
+::: panel-tabset
 ### Time-based Pattern Shifts
 
 To detect behavioural changes between individuals and organizations based on the clusters forming or active nodes being isolated.
@@ -393,7 +403,6 @@ To detect behavioural changes between individuals and organizations based on the
 Firstly, Filter the dates to week 1 (first 7 days) and week 2 (next 7 days) from 01-10-2040 to 07-10-2040 and from 08-10-2040 to 15-10-2040.
 
 ```{r}
-
 # Ensure date_only is created from timestamp
 mc3_nodes_final$date_only <- as.Date(mc3_nodes_final$timestamp)
 
@@ -454,16 +463,7 @@ visNetwork(nodes_wk2, edges_wk2, width = "100%", height = "400px") %>%
   visPhysics(enabled = FALSE) %>%
   visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
   visLegend()
-
 ```
-:::
-
-::: panel-tabset
-## 💡 Observations from Communication Network
-
--   `Nemo Reef` has the highest communications among the locations shown.
-
--   `Miranda Jordan` do not have any direct connections between any organization/location.
 :::
 
 ::: panel-tabset
