@@ -233,11 +233,11 @@ Clepper diligently recorded all intercepted radio communications over the last t
 
 1.  Clepper found that messages frequently came in at around the same time each day.
 
-    -   Develop a graph-based visual analytics approach to identify any daily temporal patterns in communications (From sub-type).
+    -   Develop a graph-based visual analytics approach to identify any daily temporal patterns in communications.
 
     -   How do these patterns shift over the two weeks of observations?
 
-    -   Focus on a specific entity and use this information to determine who has influence over them. (Who appears the most in the filtered list - Top 10)
+    -   Focus on a specific entity and use this information to determine who has influence over them.
 
 ## Extracting Graph Elements
 
@@ -410,6 +410,33 @@ visNetwork(nodes, edges) %>%
   visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
   visLegend()
 ```
+
+### Persons' Communication
+
+```{r}
+important_types <- c("Person")
+filtered_nodes <- mc3_nodes_final %>%
+  filter(sub_type %in% important_types)
+
+filtered_edges <- edges_edges_df %>%
+  filter(from %in% filtered_nodes$name, to %in% filtered_nodes$name)
+
+nodes <- filtered_nodes %>%
+  rename(id = name, group = sub_type, label_new = name)
+
+edges <- filtered_edges %>%
+  group_by(from, to) %>%
+  summarise(value = n(), .groups = "drop") %>%
+  mutate(arrows = "to", title = paste("Messages:", value))
+
+visNetwork(nodes, edges) %>%
+  visGroups(groupname = "Organization", color = "tomato") %>%
+  visGroups(groupname = "Person", color = "skyblue") %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visPhysics(enabled = FALSE) %>%
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
+  visLegend()
+```
 :::
 
 ::: panel-tabset
@@ -417,11 +444,9 @@ visNetwork(nodes, edges) %>%
 
 -   `Nemo Reef` has the highest communications among the locations shown.
 
--   `Miranda Jordan` do not have any direct connections between any organization/location.
+-   `Miranda Jordan` and `Liam Thomson` do not have any direct connections between any people as they are isolated.
 
--   `The Intern` is a bit suspicious in talking to `Mrs. Money` and `The Lookout` with over 24 and 25 messages respectively, `The Intern` also talks to `Boss` as well as an organization namely `V. Miesel Shipping`
-
--   `Sam` seems to be entity that has the most influence among the organizations as Sam has the most edges in terms of communication.
+-   `Boss` seems to be entity that has the most influence among the organizations as Boss has the most edges in terms of communication.
 
 -   `V. Miesel Shipping` seems to be the entity that has the most influence among the persons with the most edges as well in terms of communication.
 :::
@@ -501,6 +526,171 @@ visNetwork(nodes_wk2, edges_wk2, width = "100%", height = "400px") %>%
 ## 💡 Observations from Communication Time-based Pattern shifts
 
 -   As an overall, most communication are reduced when transitioning to week 2.
+:::
 
--   `The Intern` was talking to the `Boss`, `The Middleman`, `The Lookout` and `Mrs Money` in week 1 whereas `The Intern` was talking to `Mrs Money`, `The Lookout` and `Sam` in week 2.
+## Heatmap by Grouped Type (Organization, People, Vessel)
+
+The heatmap is created to analyzed on the communication (i.e. number of messages) between the individuals as well as other subtypes as shown below. I will be narrowing it down to people's communication to see if there is any suspicious activity going on between them.
+
+::: panel-tabset
+```{r}
+# Rename id column in nodes to match 'from' in edges
+nodes_info <- mc3_nodes_final %>%
+  select(id, name, sub_type)  # keep only relevant columns
+
+# Join metadata onto edges
+edges_edges_df <- edges_edges_df %>%
+  mutate(
+    timestamp = ymd_hms(timestamp),    
+    date = as.Date(timestamp),        
+    hour = hour(timestamp)            
+  )
+
+edges_with_meta <- edges_edges_df %>%
+  left_join(nodes_info, by = c("from" = "id"))
+
+by_sender <- edges_with_meta %>%
+  group_by(date, hour, name) %>%
+  summarise(message_count = n(), .groups = "drop")
+```
+
+### Heatmap (By type)
+
+```{r}
+by_type <- edges_with_meta %>%
+  group_by(date, hour, sub_type) %>%
+  summarise(message_count = n(), .groups = "drop")
+
+ggplot(by_type, aes(x = hour, y = date, fill = message_count)) +
+  geom_tile() +
+  facet_wrap(~ sub_type) +
+  scale_fill_gradient(low = "white", high = "purple") +
+  theme_minimal() +
+  labs(
+    title = "Communication Patterns by Type",
+    x = "Hour of Day", y = "Date", fill = "Count"
+  )
+```
+
+### Heatmap (Individuals)
+
+```{r}
+by_person <- edges_with_meta %>%
+  filter(sub_type == "Person") %>%
+  group_by(date, hour) %>%
+  summarise(message_count = n(), .groups = "drop")
+
+ggplot(by_person, aes(x = hour, y = date, fill = message_count)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient(low = "white", high = "purple") +
+  theme_minimal() +
+  labs(
+    title = "Communication Patterns (Senders Who Are Persons)",
+    x = "Hour of Day", y = "Date", fill = "Message Count"
+  )
+```
+
+```{r}
+by_person_detail <- edges_with_meta %>%
+  filter(sub_type == "Person") %>%
+  group_by(date, hour, name) %>%
+  summarise(message_count = n(), .groups = "drop")
+
+ggplot(by_person_detail, aes(x = hour, y = date, fill = message_count)) +
+  geom_tile() +
+  facet_wrap(~ name) +
+  scale_fill_gradient(low = "white", high = "purple") +
+  theme_minimal() +
+  labs(
+    title = "Message Timing for Each Person",
+    x = "Hour of Day", y = "Date", fill = "Count"
+  )
+```
+
+### Top 5 people that communicates the most
+
+```{r}
+# Count total messages sent by each person
+top_5_people <- edges_with_meta %>%
+  filter(sub_type == "Person") %>%
+  count(name, sort = TRUE) %>%
+  slice_head(n = 5) %>%
+  pull(name)  # extract just the names
+
+top_people_data <- edges_with_meta %>%
+  filter(sub_type == "Person", name %in% top_5_people) %>%
+  group_by(date, hour, name) %>%
+  summarise(message_count = n(), .groups = "drop")
+
+ggplot(top_people_data, aes(x = hour, y = date, fill = message_count)) +
+  geom_tile(color = "white") +
+  facet_wrap(~ name) +
+  scale_fill_gradient(low = "white", high = "darkorange") +
+  theme_minimal() +
+  labs(
+    title = "Top 5 Most Active People: Communication Heatmap",
+    x = "Hour of Day", y = "Date", fill = "Messages Sent"
+  )
+
+```
+:::
+
+::: panel-tabset
+## 💡 Observations from Communication Heatmap
+
+-   It is shown that the top 5 individuals communicating are `Sam`, `Davis,` `The Intern,` `Mrs Money` and `Boss` has the most communication among all the individuals.
+
+-   The communication is mostly done between the 8th and 10th hour of the day.
+
+-   There isn't really a distinguished date where they communicated the most.
+:::
+
+```{r}
+top_5_people <- edges_with_meta %>%
+  filter(sub_type == "Person") %>%
+  count(name, sort = TRUE) %>%
+  slice_head(n = 5) %>%
+  pull(name)
+
+receiver_meta <- mc3_nodes_final %>%
+  select(id, to_name = name, to_type = sub_type)
+
+edges_top5 <- edges_with_meta %>%
+  left_join(receiver_meta, by = c("to" = "id")) %>%
+  filter(name %in% top_5_people, to_name %in% top_5_people)
+
+edge_list <- edges_top5 %>%
+  group_by(name, to_name) %>%
+  summarise(value = n(), .groups = "drop") %>%
+  rename(from = name, to = to_name)
+
+nodes_list <- unique(c(edge_list$from, edge_list$to))
+
+# Create nodes dataframe
+nodes <- data.frame(
+  id = nodes_list,
+  label = nodes_list,
+  title = nodes_list,
+  group = "Person",      
+  stringsAsFactors = FALSE
+)
+
+edges <- edge_list %>%
+  mutate(
+    width = value,               # edge thickness
+    label = as.character(value)  
+  )
+
+visNetwork(nodes, edge_list, width = "100%") %>%
+  visEdges(arrows = "to") %>%
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
+  visLayout(randomSeed = 123) %>%
+  visPhysics(stabilization = TRUE) %>%
+  visLegend()
+```
+
+::: panel-tabset
+## 💡 Observations from Communication Heatmap
+
+-   `Boss` is the suspected mastermind and most suspicious as everyone is sending him all the updates and messages to him and shows that he has the most communication among the 5 people.
 :::

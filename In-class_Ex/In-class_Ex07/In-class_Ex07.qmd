@@ -1,0 +1,16 @@
+---
+title: "In-class_Ex07"
+author: "Shermainn"
+date: 2025-05-31
+date-modified: "last-modified"
+categories: ["Take-home Exercise"]
+execute: 
+  eval: true
+  echo: true
+  warning: false
+
+format:
+  html:
+    code-fold: true
+    code-tools: true
+---
