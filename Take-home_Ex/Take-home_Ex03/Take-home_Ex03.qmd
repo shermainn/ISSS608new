@@ -679,6 +679,26 @@ visNetwork(nodes, edge_list, width = "100%") %>%
 
 # Question 2
 
+## Use visual analytics to help Clepper understand and explore the interactions and relationships between vessels and people in the knowledge graph.
+
+## Are there groups that are more closely associated? If so, what are the topic areas that are predominant for each group?
+
+-   For example, these groupings could be related to: Environmentalism (known associates of Green Guardians), Sailor Shift, and fishing/leisure vessels.
+
 # Question 3
 
+## Expanding upon your prior visual analytics, determine who is using pseudonyms to communicate, and what these pseudonyms are.
+
+-   Some that Clepper has already identified include: “Boss”, and “The Lookout”, but there appear to be many more.
+
+-   To complicate the matter, pseudonyms may be used by multiple people or vessels.
+
+## Describe how your visualizations make it easier for Clepper to identify common entities in the knowledge graph.
+
+## How does your understanding of activities change given your understanding of pseudonyms?
+
 # Question 4
+
+## Through visual analytics, provide evidence that Nadia is, or is not, doing something illegal.
+
+## Summarize Nadia’s actions visually. Are Clepper’s suspicions justified?
