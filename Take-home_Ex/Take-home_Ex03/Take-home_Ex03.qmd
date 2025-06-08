@@ -1,0 +1,16 @@
+---
+title: "Take-home_Ex03"
+author: "Shermainn"
+date: 2025-06-8
+date-modified: "last-modified"
+categories: ["Take-home Exercise"]
+execute: 
+  eval: true
+  echo: true
+  warning: false
+
+format:
+  html:
+    code-fold: true
+    code-tools: true
+---
