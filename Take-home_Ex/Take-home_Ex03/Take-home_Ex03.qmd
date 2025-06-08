@@ -14,3 +14,671 @@ format:
     code-fold: true
     code-tools: true
 ---
+
+# Mini Case 3 Overview
+
+Over the past decade, the community of Oceanus has faced numerous transformations and challenges evolving from its fishing-centric origins. Following major crackdowns on illegal fishing activities, suspects have shifted investments into more regulated sectors such as the ocean tourism industry, resulting in growing tensions. This increased tourism has recently attracted the likes of international pop star Sailor Shift, who announced plans to film a music video on the island.
+
+Clepper Jessen, a former analyst at FishEye and now a seasoned journalist for the Hacklee Herald, has been keenly observing these rising tensions. Recently, he turned his attention towards the temporary closure of Nemo Reef. By listening to radio communications and utilizing his investigative tools, Clepper uncovered a complex web of expedited approvals and secretive logistics. These efforts revealed a story involving high-level Oceanus officials, Sailor Shift’s team, local influential families, and local conservationist group The Green Guardians, pointing towards a story of corruption and manipulation.
+
+Your task is to develop new and novel visualizations and visual analytics approaches to help Clepper get to the bottom of this story.
+
+# Questions and Tasks
+
+Clepper diligently recorded all intercepted radio communications over the last two weeks. With the help of his intern, they have analyzed their content to identify important events and relationships between key players. The result is a knowledge graph describing the last two weeks on Oceanus. Clepper and his intern have spent a large amount of time generating this knowledge graph, and they would now like some assistance using it to answer the following questions.
+
+1.  **Clepper found that messages frequently came in at around the same time each day.**
+
+    1.  Develop a graph-based visual analytics approach to identify any daily temporal patterns in communications.
+
+    2.  How do these patterns shift over the two weeks of observations?
+
+    3.  Focus on a specific entity and use this information to determine who has influence over them.
+
+2.  **Clepper has noticed that people often communicate with (or about) the same people or vessels, and that grouping them together may help with the investigation.**
+
+    1.  Use visual analytics to help Clepper understand and explore the interactions and relationships between vessels and people in the knowledge graph.
+
+    2.  Are there groups that are more closely associated? If so, what are the topic areas that are predominant for each group?
+
+        -   For example, these groupings could be related to: Environmentalism (known associates of Green Guardians), Sailor Shift, and fishing/leisure vessels.
+
+3.  **It was noted by Clepper’s intern that some people and vessels are using pseudonyms to communicate.**
+
+    1.  Expanding upon your prior visual analytics, determine who is using pseudonyms to communicate, and what these pseudonyms are.
+
+        -   Some that Clepper has already identified include: “Boss”, and “The Lookout”, but there appear to be many more.
+
+        -   To complicate the matter, pseudonyms may be used by multiple people or vessels.
+
+    2.  Describe how your visualizations make it easier for Clepper to identify common entities in the knowledge graph.
+
+    3.  How does your understanding of activities change given your understanding of pseudonyms?
+
+4.  **Clepper suspects that Nadia Conti, who was formerly entangled in an illegal fishing scheme, may have continued illicit activity within Oceanus.**
+
+    1.  Through visual analytics, provide evidence that Nadia is, or is not, doing something illegal.
+
+    2.  Summarize Nadia’s actions visually. Are Clepper’s suspicions justified?
+
+# Import Packages and Data
+
+### Import Package
+
+In the code chunk below, `p_load()` of **pacman** package is used to load the R packages into R environment.
+
+```{r}
+pacman::p_load(tidyverse, jsonlite,
+               tidygraph, ggraph,
+               SmartEDA, dplyr, visNetwork, igraph)
+```
+
+### Import Data
+
+In the code chunk below, `fromJSON()` of **jsonlite** package is used to import *mc3.json* file into R and save the output object.
+
+```{r}
+MC3 <- fromJSON("data/MC3_graph.json")
+MC3_schema <- fromJSON("data/MC3_schema.json")
+```
+
+### Inspect Knowledge Graph Structure
+
+In the code chunk below `glimpse()` is used to reveal the structure of *mc3* knowledge graph.
+
+```{r}
+glimpse(MC3)
+```
+
+### Extract Edges and Nodes
+
+Next, `as_tibble()` of **tibble** package package is used to extract the nodes and links tibble data frames from *mc3* tibble dataframe into two separate tibble dataframes called *mc3_nodes* and *mc3_edges* respectively.
+
+```{r}
+mc3_nodes <- as_tibble(MC3$nodes) 
+mc3_edges <- as_tibble(MC3$edges)
+```
+
+### Initial EDA
+
+It is time for us to apply appropriate EDA methods to examine the data.
+
+In the code chunk below, `ExpCatViz()` of SmartEDA package is used to reveal the frequency distribution of all categorical fields in *mc3_nodes* tibble dataframe.
+
+On the other hands, code chunk below uses `ExpCATViz()` of SmartEDA package to reveal the frequency distribution of all categorical fields in *mc3_edges* tibble dataframe.
+
+```{r}
+ExpCatViz(data=mc3_nodes,           col="lightblue")
+```
+
+## Data Cleaning and Wrangling
+
+::: panel-tabset
+### Filter Values
+
+Code chunk below performs the following data cleaning tasks:
+
+-   convert values in id field into character data type,
+
+-   exclude records with `id` value are na,
+
+-   exclude records with similar id values,
+
+-   exclude `thing_collected` field, and
+
+-   save the cleaned tibble dataframe into a new tibble datatable called `mc3_nodes_cleaned`.
+
+```{r}
+mc3_nodes_cleaned <- mc3_nodes %>%   mutate(id = as.character(id)) %>%   filter(!is.na(id)) %>%   distinct(id, .keep_all = TRUE) %>%   select(-thing_collected)
+```
+
+### Rename and remove unnecessary values
+
+Next, the code chunk below will be used to:
+
+-   rename source and target fields to from_id and to_id respectively,
+
+-   convert values in from_id and to_id fields to character data type,
+
+-   exclude values in from_id and to_id which not found in the id field of mc3_nodes_cleaned,
+
+-   exclude records whereby from_id and/or to_id values are missing, and
+
+-   save the cleaned tibble dataframe and called it mc3_edges_cleaned.
+
+```{r}
+mc3_edges_cleaned <- mc3_edges %>%   rename(from_id = source,           to_id = target) %>%   mutate(across(c(from_id, to_id),                  as.character)) %>%   filter(from_id %in% mc3_nodes_cleaned$id,           to_id %in% mc3_nodes_cleaned$id) %>%   filter(!is.na(from_id), !is.na(to_id))
+```
+
+### Create mapping of nodes
+
+Next, code chunk below will be used to create mapping of character id in `mc3_nodes_cleaned` to row index.
+
+```{r}
+node_index_lookup <- mc3_nodes_cleaned %>%   mutate(.row_id = row_number()) %>%   select(id, .row_id)
+```
+
+### Join nodes to edges
+
+Next, the code chunk below will be used to join and convert `from_id` and `to_id` to integer indices. At the same time we also drop rows with unmatched nodes.
+
+```{r}
+mc3_edges_indexed <- mc3_edges_cleaned %>%   left_join(node_index_lookup,              by = c("from_id" = "id")) %>%   rename(from = .row_id) %>%   left_join(node_index_lookup,              by = c("to_id" = "id")) %>%   rename(to = .row_id) %>%   select(from, to, is_inferred, type) %>%   filter(!is.na(from) & !is.na(to))  
+```
+
+### Subset Nodes by Edges
+
+Next the code chunk below is used to subset nodes to only those referenced by edges.
+
+```{r}
+used_node_indices <- sort(   unique(c(mc3_edges_indexed$from,             mc3_edges_indexed$to)))  
+mc3_nodes_final <- mc3_nodes_cleaned %>%   slice(used_node_indices) %>%   mutate(new_index = row_number())
+```
+
+### Rebuild new index
+
+We will then use the code chunk below to rebuild lookup from old index to new index.
+
+```{r}
+old_to_new_index <- tibble(   old_index = used_node_indices,   new_index = seq_along(     used_node_indices))
+```
+
+### Update edges to match new node table
+
+Lastly, the code chunk below will be used to update edge indices to match new node table.
+
+```{r}
+mc3_edges_final <- mc3_edges_indexed %>%   left_join(old_to_new_index,              by = c("from" = "old_index")) %>%   rename(from_new = new_index) %>%   left_join(old_to_new_index,              by = c("to" = "old_index")) %>%   rename(to_new = new_index) %>%   select(from = from_new, to = to_new,           is_inferred, type)
+```
+:::
+
+## Build tidygraph Object
+
+```{r}
+mc3_graph <- tbl_graph(
+  nodes = mc3_nodes_final,
+  edges = mc3_edges_final,
+  directed = TRUE
+)
+
+str(mc3_graph)
+```
+
+## Visualize knowledge graph
+
+Several of the **ggraph** layouts involve randomisation. In order to ensure reproducibility, it is necessary to set the seed value before plotting by using the code chunk below.
+
+```{r}
+set.seed(1234)
+```
+
+In the code chunk below, **ggraph** functions are used to create the whole graph.
+
+```{r}
+ggraph(mc3_graph,         layout = "fr") +   geom_edge_link(alpha = 0.3,                   colour = "gray") +   geom_node_point(aes(color = `type`),                    size = 4) +   geom_node_text(aes(label = type),                   repel = TRUE,                   size = 2.5) +   theme_void()
+```
+
+# Question 1
+
+## Develop a graph-based visual analytics approach to identify any daily temporal patterns in communications.
+
+### Data Cleaning and Wrangling
+
+To identify any patterns in communications between the different people or companies, only "sub_type", "name", "content" and "timestamp" columns were used to do these analysis.
+
+::: panel-tabset
+### 1. Make an entity list
+
+```{r}
+entity_list <- subset(mc3_nodes_final, type == "Entity", select = c(sub_type, name))  
+entity_list
+```
+
+### 2. Make a Content for communications List
+
+```{r}
+comms_list <- subset(mc3_nodes_final, type == "Event" & label == "Communication", select = c(timestamp, content))  
+comms_list
+```
+
+### 3. Make a new list - to identify the entities involved in the messages in the communications
+
+```{r}
+clean_text <- function(x) {
+  x <- tolower(x)
+  x <- gsub("[^a-z0-9 ]", "", x)  # remove punctuation
+  trimws(x)
+}
+
+entity_names <- unique(mc3_nodes_final$name)
+
+# Pre-clean both
+entity_names_clean <- sapply(entity_names, clean_text)
+content_clean <- sapply(comms_list$content, clean_text)
+
+# Match using the cleaned versions
+comms_entity_list <- mapply(function(ts, content) {
+  matches <- entity_names[ sapply(entity_names_clean, function(entity) grepl(entity, content, fixed = TRUE)) ]
+  list(timestamp = ts, entities = matches)
+}, ts = comms_list$timestamp, content = content_clean, SIMPLIFY = FALSE)
+
+```
+
+### 4. Create new Edges data frame (Entity -\> Entity)
+
+For `ggraph` to plot the edges correctly, we need to assigns weights to the edges. For simplicity, let us assign the number of edges with the same `source`, `target` and `type`.
+
+It will then be changed from `source` and `target` to `from` and `to`, respectively for compatibility with network functions we will use.
+
+```{r}
+edges_list <- lapply(comms_entity_list, function(x) {
+  ents <- x$entities
+  if(length(ents) < 2) return(NULL)  # Need at least 2 to make an edge
+  
+  # Create all pairwise combinations (undirected edges)
+  pairs <- t(combn(ents, 2))
+  
+  data.frame(
+    from = pairs[,1],
+    to = pairs[,2],
+    timestamp = x$timestamp,
+    stringsAsFactors = FALSE
+  )
+})
+
+# Combine all into one data frame
+edges_edges_df <- do.call(rbind, edges_list)
+
+head(edges_edges_df)
+
+weighted_edges <- edges_edges_df %>%
+  count(from, to, name = "weight")
+head(weighted_edges)
+```
+:::
+
+## Heatmap by Grouped Type (Organization, People, Vessel)
+
+The heatmap is created to analyzed on the communication (i.e. number of messages) between the individuals as well as other subtypes as shown below. I will be narrowing it down to people's communication to see if there is any suspicious activity going on between them.
+
+::: panel-tabset
+```{r}
+# Rename id column in nodes to match 'from' in edges
+nodes_info <- mc3_nodes_final %>%
+  select(id, name, sub_type)  # keep only relevant columns
+
+# Join metadata onto edges
+edges_edges_df <- edges_edges_df %>%
+  mutate(
+    timestamp = ymd_hms(timestamp),    
+    date = as.Date(timestamp),        
+    hour = hour(timestamp)            
+  )
+
+edges_with_meta <- edges_edges_df %>%
+  left_join(nodes_info, by = c("from" = "id"))
+
+by_sender <- edges_with_meta %>%
+  group_by(date, hour, name) %>%
+  summarise(message_count = n(), .groups = "drop")
+```
+
+### Heatmap (By type)
+
+```{r}
+by_type <- edges_with_meta %>%
+  group_by(date, hour, sub_type) %>%
+  summarise(message_count = n(), .groups = "drop")
+
+ggplot(by_type, aes(x = hour, y = date, fill = message_count)) +
+  geom_tile() +
+  facet_wrap(~ sub_type) +
+  scale_fill_gradient(low = "white", high = "purple") +
+  theme_minimal() +
+  labs(
+    title = "Communication Patterns by Type",
+    x = "Hour of Day", y = "Date", fill = "Count"
+  )
+```
+
+### Heatmap (Individuals)
+
+```{r}
+by_person <- edges_with_meta %>%
+  filter(sub_type == "Person") %>%
+  group_by(date, hour) %>%
+  summarise(message_count = n(), .groups = "drop")
+
+ggplot(by_person, aes(x = hour, y = date, fill = message_count)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient(low = "white", high = "purple") +
+  theme_minimal() +
+  labs(
+    title = "Communication Patterns (Senders Who Are Persons)",
+    x = "Hour of Day", y = "Date", fill = "Message Count"
+  )
+```
+
+```{r}
+by_person_detail <- edges_with_meta %>%
+  filter(sub_type == "Person") %>%
+  group_by(date, hour, name) %>%
+  summarise(message_count = n(), .groups = "drop")
+
+ggplot(by_person_detail, aes(x = hour, y = date, fill = message_count)) +
+  geom_tile() +
+  facet_wrap(~ name) +
+  scale_fill_gradient(low = "white", high = "purple") +
+  theme_minimal() +
+  labs(
+    title = "Message Timing for Each Person",
+    x = "Hour of Day", y = "Date", fill = "Count"
+  )
+```
+
+### Top 5 people that communicates the most
+
+```{r}
+# Count total messages sent by each person
+top_5_people <- edges_with_meta %>%
+  filter(sub_type == "Person") %>%
+  count(name, sort = TRUE) %>%
+  slice_head(n = 5) %>%
+  pull(name)  # extract just the names
+
+top_people_data <- edges_with_meta %>%
+  filter(sub_type == "Person", name %in% top_5_people) %>%
+  group_by(date, hour, name) %>%
+  summarise(message_count = n(), .groups = "drop")
+
+ggplot(top_people_data, aes(x = hour, y = date, fill = message_count)) +
+  geom_tile(color = "white") +
+  facet_wrap(~ name) +
+  scale_fill_gradient(low = "white", high = "darkorange") +
+  theme_minimal() +
+  labs(
+    title = "Top 5 Most Active People: Communication Heatmap",
+    x = "Hour of Day", y = "Date", fill = "Messages Sent"
+  )
+```
+:::
+
+::: panel-tabset
+## 💡 Observations from Communication Heatmap
+
+-   It is shown that the top 5 individuals communicating are `Sam`, `Davis,` `The Intern,` `Mrs Money` and `Boss` has the most communication among all the individuals.
+
+-   The communication is mostly done between the 8th and 10th hour of the day.
+
+-   There isn't really a distinguished date where they communicated the most.
+:::
+
+## Visualize Interactive Network Graph of Communications with visNetwork
+
+::: panel-tabset
+### Communication Network (As a whole)
+
+This is the baseline of the communication network based on the sub-types of organization, person, group, vessel, location and monitoring.
+
+```{r}
+nodes <- mc3_nodes_final %>%
+  distinct(name, .keep_all = TRUE) %>%
+  mutate(id = name, label = name) %>%
+  select(id, sub_type)
+
+nodes$group <- nodes$sub_type
+
+edges <- edges_edges_df %>%
+  mutate(arrows = "to",
+         title = paste0("From: ", from, "<br>To: ", to))
+
+visNetwork(nodes, edges) %>%
+  visEdges(smooth = FALSE, arrows = "to") %>%
+  visNodes(font = list(size = 20)) %>%
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visLegend()
+```
+
+### Narrowed down specific sub-types
+
+Since this is too big of a network, it will be narrowed down to organization, person and vessel based on the sub-types as the other 3 sub-types seems to show little correlation as shown in the network below.
+
+`important_types` are the 3 sub-types that we are looking more in-depth to see if there is any relationship between the 3 types. Making use of the `group` attribute that is created to clearly identify the different types of nodes in`important_types`.
+
+For ease of selecting a particular entity, a dropdown list with all the entities (nodes) that are present in the graph is shown.
+
+Mouse pointer hover action is also included on the graph so that the user can hover the mouse pointer over the graph to look at the possible different ‘groups’ of connectivity as well as the number of messages sent to each 'group'.
+
+-   The thicker the lines, the more messages are communicated between the sub-types.
+
+-   Outliers are isolated - no direct connections exclusively between them.
+
+```{r}
+important_types <- c("Organization", "Person", "Location")
+filtered_nodes <- mc3_nodes_final %>%
+  filter(sub_type %in% important_types)
+
+filtered_edges <- edges_edges_df %>%
+  filter(from %in% filtered_nodes$name, to %in% filtered_nodes$name)
+
+nodes <- filtered_nodes %>%
+  rename(id = name, group = sub_type, label_new = name)
+
+edges <- filtered_edges %>%
+  group_by(from, to) %>%
+  summarise(value = n(), .groups = "drop") %>%
+  mutate(arrows = "to", title = paste("Messages:", value))
+
+visNetwork(nodes, edges) %>%
+  visGroups(groupname = "Organization", color = "tomato") %>%
+  visGroups(groupname = "Person", color = "skyblue") %>%
+  visGroups(groupname = "Location", color = "lightgreen") %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visPhysics(enabled = FALSE) %>%
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
+  visLegend()
+```
+
+Organization to Person Communication
+
+```{r}
+important_types <- c("Organization", "Person")
+filtered_nodes <- mc3_nodes_final %>%
+  filter(sub_type %in% important_types)
+
+filtered_edges <- edges_edges_df %>%
+  filter(from %in% filtered_nodes$name, to %in% filtered_nodes$name)
+
+nodes <- filtered_nodes %>%
+  rename(id = name, group = sub_type, label_new = name)
+
+edges <- filtered_edges %>%
+  group_by(from, to) %>%
+  summarise(value = n(), .groups = "drop") %>%
+  mutate(arrows = "to", title = paste("Messages:", value))
+
+visNetwork(nodes, edges) %>%
+  visGroups(groupname = "Organization", color = "tomato") %>%
+  visGroups(groupname = "Person", color = "skyblue") %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visPhysics(enabled = FALSE) %>%
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
+  visLegend()
+```
+
+### Persons' Communication
+
+```{r}
+important_types <- c("Person")
+filtered_nodes <- mc3_nodes_final %>%
+  filter(sub_type %in% important_types)
+
+filtered_edges <- edges_edges_df %>%
+  filter(from %in% filtered_nodes$name, to %in% filtered_nodes$name)
+
+nodes <- filtered_nodes %>%
+  rename(id = name, group = sub_type, label_new = name)
+
+edges <- filtered_edges %>%
+  group_by(from, to) %>%
+  summarise(value = n(), .groups = "drop") %>%
+  mutate(arrows = "to", title = paste("Messages:", value))
+
+visNetwork(nodes, edges) %>%
+  visGroups(groupname = "Organization", color = "tomato") %>%
+  visGroups(groupname = "Person", color = "skyblue") %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visPhysics(enabled = FALSE) %>%
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
+  visLegend()
+```
+:::
+
+::: panel-tabset
+## 💡 Observations from Communication Network
+
+-   `Nemo Reef` has the highest communications among the locations shown.
+
+-   `Miranda Jordan` and `Liam Thomson` do not have any direct connections between any people as they are isolated.
+
+-   `Boss` seems to be entity that has the most influence among the organizations as Boss has the most edges in terms of communication.
+
+-   `V. Miesel Shipping` seems to be the entity that has the most influence among the persons with the most edges as well in terms of communication.
+:::
+
+## How do these patterns shift over the two weeks of observations?
+
+::: panel-tabset
+### Time-based Pattern Shifts
+
+To detect behavioural changes between individuals and organizations based on the clusters forming or active nodes being isolated.
+
+Firstly, Filter the dates to week 1 (first 7 days) and week 2 (next 7 days) from 01-10-2040 to 07-10-2040 and from 08-10-2040 to 15-10-2040.
+
+```{r}
+# Ensure date_only is created from timestamp
+mc3_nodes_final$date_only <- as.Date(mc3_nodes_final$timestamp)
+
+end_date <- max(mc3_nodes_final$date_only, na.rm = TRUE)
+
+wk2_start <- end_date - 7
+wk1_start <- end_date - 14
+
+# Filter Week 1 (first 7 days)
+week1 <- mc3_nodes_final %>%
+  filter(date_only >= wk1_start & date_only < wk2_start) %>%
+  filter(type == "Event", label == "Communication")
+  
+# Filter Week 2 (next 7 days)
+week2 <- mc3_nodes_final %>%
+  filter(date_only >= wk2_start | date_only <= end_date) %>%
+  filter(type == "Event", label == "Communication")
+```
+
+### Comparison of Week 1 and Week 2 Communications
+
+```{r}
+week1_ids <- week1$timestamp
+week2_ids <- week2$timestamp
+
+edges_week1 <- edges_edges_df %>% filter(timestamp %in% week1$timestamp)
+edges_week2 <- edges_edges_df %>% filter(timestamp %in% week2$timestamp)
+
+
+edges_wk1 <- edges_week1 %>% select(from, to)
+edges_wk2 <- edges_week2 %>% select(from, to)
+
+nodes_wk1 <- data.frame(
+  id = unique(c(edges_week1$from, edges_week1$to)),
+  label = unique(c(edges_week1$from, edges_week1$to))
+)
+
+edges_wk1 <- edges_week1 %>%
+  select(from, to)
+
+nodes_wk2 <- data.frame(
+  id = unique(c(edges_week2$from, edges_week2$to)),
+  label = unique(c(edges_week2$from, edges_week2$to))
+)
+
+edges_wk2 <- edges_week2 %>%
+  select(from, to)
+
+visNetwork(nodes_wk1, edges_wk1, width = "100%", height = "400px") %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visPhysics(enabled = FALSE) %>%
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
+  visLegend()
+
+visNetwork(nodes_wk2, edges_wk2, width = "100%", height = "400px") %>%
+  visIgraphLayout(layout = "layout_with_fr") %>%
+  visPhysics(enabled = FALSE) %>%
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
+  visLegend()
+```
+:::
+
+::: panel-tabset
+## 💡 Observations from Communication Time-based Pattern shifts
+
+-   As an overall, most communication are reduced when transitioning to week 2.
+:::
+
+## Focus on a specific entity and use this information to determine who has influence over them.
+
+```{r}
+top_5_people <- edges_with_meta %>%
+  filter(sub_type == "Person") %>%
+  count(name, sort = TRUE) %>%
+  slice_head(n = 5) %>%
+  pull(name)
+
+receiver_meta <- mc3_nodes_final %>%
+  select(id, to_name = name, to_type = sub_type)
+
+edges_top5 <- edges_with_meta %>%
+  left_join(receiver_meta, by = c("to" = "id")) %>%
+  filter(name %in% top_5_people, to_name %in% top_5_people)
+
+edge_list <- edges_top5 %>%
+  group_by(name, to_name) %>%
+  summarise(value = n(), .groups = "drop") %>%
+  rename(from = name, to = to_name)
+
+nodes_list <- unique(c(edge_list$from, edge_list$to))
+
+# Create nodes dataframe
+nodes <- data.frame(
+  id = nodes_list,
+  label = nodes_list,
+  title = nodes_list,
+  group = "Person",      
+  stringsAsFactors = FALSE
+)
+
+edges <- edge_list %>%
+  mutate(
+    width = value,               # edge thickness
+    label = as.character(value)  
+  )
+
+visNetwork(nodes, edge_list, width = "100%") %>%
+  visEdges(arrows = "to") %>%
+  visOptions(highlightNearest = TRUE, nodesIdSelection = TRUE) %>%
+  visLayout(randomSeed = 123) %>%
+  visPhysics(stabilization = TRUE) %>%
+  visLegend()
+```
+
+::: panel-tabset
+## 💡 Observations from Communication network map
+
+-   `Boss` is the suspected mastermind and most suspicious as everyone is sending him all the updates and messages to him and shows that he has the most communication among the 5 people.
+:::
+
+# Question 2
+
+# Question 3
+
+# Question 4
