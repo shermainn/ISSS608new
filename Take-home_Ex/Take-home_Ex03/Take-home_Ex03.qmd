@@ -70,7 +70,7 @@ In the code chunk below, `p_load()` of **pacman** package is used to load th
 ```{r}
 pacman::p_load(tidyverse, jsonlite,
                tidygraph, ggraph,
-               SmartEDA, dplyr, visNetwork, igraph)
+               SmartEDA, dplyr, visNetwork, igraph, knitr, DT, stringr, cronologia, tidytext, dplyr)
 ```
 
 ### Import Data
@@ -680,6 +680,147 @@ visNetwork(nodes, edge_list, width = "100%") %>%
 # Question 2
 
 ## Use visual analytics to help Clepper understand and explore the interactions and relationships between vessels and people in the knowledge graph.
+
+A table is generated to see the distinct people and organization and groups as well as vessels whose radio communication Clepper has intercepted.
+
+-   ::: panel-tabset
+    ### Data Wrangling & Cleaning
+
+    ```{r}
+    all_nodes <- mc3_graph %>%
+      activate(nodes) %>%
+      as_tibble()
+
+    # Filter by sub_type
+    persons <- all_nodes %>%
+      filter(sub_type == "Person") %>%
+      select(name) %>%
+      rename(Person = name)
+
+    organizations <- all_nodes %>%
+      filter(sub_type == "Organization") %>%
+      select(name) %>%
+      rename(Organization = name)
+
+    groups <- all_nodes %>%
+      filter(sub_type == "Group") %>%
+      select(name) %>%
+      rename(Group = name)
+
+    vessels <- all_nodes %>%
+      filter(sub_type == "Vessel") %>%
+      select(name) %>%
+      rename(Vessel = name)
+
+    # Find the max number of rows across all subtypes
+    max_len <- max(nrow(persons), nrow(organizations), nrow(groups), nrow(vessels))
+
+    # Combine into one tibble
+    table_combined <- tibble(
+      Person = c(persons$Person, rep(NA, max_len - nrow(persons))),
+      Organization = c(organizations$Organization, rep(NA, max_len - nrow(organizations))),
+      Group = c(groups$Group, rep(NA, max_len - nrow(groups))),
+      Vessel = c(vessels$Vessel, rep(NA, max_len - nrow(vessels)))
+    )
+
+    # Display the table
+    datatable(table_combined)
+    ```
+
+    Next, we’ll combine all the people, groups, organizations and vessels to check what are the people/organization/groups/vessels each individual talk about or talk to:
+
+    ```{r}
+    people <- c(
+      persons$Person,
+      groups$Group,
+      organizations$Organization,
+      vessels$Vessel
+    )
+
+    # redefine persons with name and new_index
+    persons <- all_nodes %>%
+      filter(sub_type == "Person") %>%
+      select(name, new_index)
+
+    persons
+    ```
+
+    ### **1st Individual: Sam**
+
+    -   First, we’ll look for nodes that are connected to Sam.
+
+    -   Next, we’ll check the new_index in the nodes and extract its name, sub type and content
+
+    -   Next, we combine every exchanges Sam receives or sends and check for the contents of the exchanges. We can see which organization or group or individual he talks about.
+
+    -   The result is stored in name_freq_sam, where each occurrence of people/group/organization name will be counted and ordered by the highest occurance of names.
+
+    ```{r}
+
+    ```
+
+    ```{r}
+
+    ```
+
+    ### 2nd Individual Kelly
+
+    ```{r}
+
+    ```
+
+    ```{r}
+
+    ```
+
+    ### 3rd Individual: Nadia Conti
+
+    ```{r}
+
+    ```
+
+    ### 4th Individual: Elise
+
+    ```{r}
+
+    ```
+
+    ### 5th Individual: Liam Throne
+
+    ```{r}
+
+    ```
+
+    ### 6th Individual: Samantha Blake
+
+    ```{r}
+
+    ```
+
+    ### 7th Individual: Davis
+
+    ```{r}
+
+    ```
+
+    ### 8th Individual: Rodriguez
+
+    ```{r}
+
+    ```
+
+    ### 9th Individual: Sailor Shift
+
+    ```{r}
+
+    ```
+
+    ### 10th Individual: Clepper Jensen
+
+    ```{r}
+
+    ```
+    :::
 
 ## Are there groups that are more closely associated? If so, what are the topic areas that are predominant for each group?
 
