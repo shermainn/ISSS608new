@@ -15,4 +15,38 @@ format:
     code-tools: true
 ---
 
-# My Storyboard
+# Our Storyboard (Group 5)
+
+## 1. Introduction
+
+A storyboard helps break down Oceanus’s complex story into clear, visual scenes that are easy to follow. It allows viewers to understand key events, characters, and conflicts without being overwhelmed by information.
+
+The story begins with Oceanus shifting from a fishing-based economy to tourism after illegal fishing crackdowns. Tensions grow as former players reinvest and power dynamics shift, reaching a peak when pop star Sailor Shift arrives to film a music video.
+
+Our focus is on investigative journalist Clepper Jessen, who uncovers suspicious activity behind the sudden closure of Nemo Reef. By tracking intercepted communications—radio chatter, messages, and secret meetings—Clepper pieces together a web of rushed permits, hidden deals, and corruption.
+
+The storyboard will follow these communications closely, helping the audience connect the dots as the deeper story unfolds.
+
+## 2. Motivations
+
+In order to find more detailed insights, communication visualizations as well as other types of visualizations will be used to help Clepper to uncover and confirm his suspicions based on the analysis that we will be doing to identify important events and relationships between the people, organizations and vessels in the 2 week period.
+
+With the use of the storyboard, user would be able to visualize the analysis more effectively with the data set provided within the 2 weeks. Based on the communications, user can focus on the content as well as identify who are the suspicious players that play a part in the illegal fishing activities.
+
+## 3. Storyboard
+
+The storyboard aims to showcase my team's ideas on how to show and map out the user's experience.
+
+The prototype can be broadly classify into 3 key areas:
+
+-   Heat Map Analysis
+
+-   Network Graph Communication Analysis
+
+-   Timeline Analysis
+
+For enhanced user experience, the prototype will include filter components (i.e. parameter selections such as entities that we would want to select) as well as timeline slider bar that shows us the time period of events that the user would like to focus on. A legend is also shown to allow user to be identify clearly on the different types of nodes displayed on the plots.
+
+The team has conceptualized the proposed layouts and UI features as shown in one of my teammates' [Celin's page](https://isss608celin.netlify.app/take-home_ex/take-home_ex03/storyboard) to see our visual storyboard.
+
+The analysis that we will be doing as well as conclusion and the references will be detailed on one of my teammates' [Stefanie's page](https://isss608-ay2025-april.netlify.app/take-home_ex/take-home_ex03/take-home_ex03).
