@@ -48,5 +48,3 @@ The prototype can be broadly classify into 3 key areas:
 For enhanced user experience, the prototype will include filter components (i.e. parameter selections such as entities that we would want to select) as well as timeline slider bar that shows us the time period of events that the user would like to focus on. A legend is also shown to allow user to be identify clearly on the different types of nodes displayed on the plots.
 
 The team has conceptualized the proposed layouts and UI features as shown in one of my teammates' [Celin's page](https://isss608celin.netlify.app/take-home_ex/take-home_ex03/storyboard) to see our visual storyboard.
-
-The analysis that we will be doing as well as conclusion and the references will be detailed on one of my teammates' [Stefanie's page](https://isss608-ay2025-april.netlify.app/take-home_ex/take-home_ex03/take-home_ex03).
