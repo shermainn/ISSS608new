@@ -891,7 +891,7 @@ realis2018_summarised <- realis2018 %>%
             `Median Transacted Price` = median(`Transacted Price ($)`, na.rm = TRUE))
 ```
 
-## Treemap 
+## Treemap
 
 -   treemap() of **treemap** package is used to plot a treemap showing the distribution of median unit prices and total unit sold of resale condominium by geographic hierarchy
 
