@@ -1086,7 +1086,6 @@ ggplot(data=realis2018_selected,
 
 ```{r}
 options(repos = c(CRAN = "https://cran.r-project.org"))
-install.packages("devtools")
 library(devtools)
 install_github("timelyportfolio/d3treeR")
 library(d3treeR)
