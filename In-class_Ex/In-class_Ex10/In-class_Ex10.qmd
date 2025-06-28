@@ -1,0 +1,10 @@
+---
+title: "In-class_Ex10"
+author: "Shermainn"
+format: dashboard
+theme: 
+  - darkly
+execute: 
+  echo: false
+editor: visual
+---
