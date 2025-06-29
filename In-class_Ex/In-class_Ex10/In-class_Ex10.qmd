@@ -130,6 +130,7 @@ ggplotly(p)
 ```
 
 # Plotting candlestick and SMA lines using plot_ly for R
+## Row
 ```{r}
 plot_ly(data = df, 
         x = ~date, 
