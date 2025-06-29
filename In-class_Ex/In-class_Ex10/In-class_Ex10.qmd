@@ -129,9 +129,8 @@ p <- ggplot(data = df, aes(x = date, y = close)) +
 ggplotly(p)
 ```
 
-# Plotting candlestick and SMA lines using plot_ly for R
-## Row
 ```{r}
+# Plotting candlestick and SMA lines using plot_ly for R
 plot_ly(data = df, 
         x = ~date, 
         type = "candlestick",
